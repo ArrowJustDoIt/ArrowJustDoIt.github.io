@@ -20,8 +20,8 @@ url: http://杨柳青一些事.中国
 rss_url: /pages/atom.xml
 
 # gavatar头像及Favicon
-gavatar: /public/img/deer3.png
-favicon: /public/img/deer3.png
+gavatar: /public/img/cat.png
+favicon: /public/img/smallcat1.png
 
 # google analytics 设置
 ga:
