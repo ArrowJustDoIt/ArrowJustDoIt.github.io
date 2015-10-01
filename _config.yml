@@ -8,10 +8,10 @@ author:
   name: fantaster
   email: arrowylq@foxmail.com
   link: http://杨柳青一些事.中国
-  weibo: http://weibo.com/orangeissweet
-  github: http://github.com/lay1010
-  music: http://site.douban.com/linanya
-  linkedin: https://www.linkedin.com/pub/anya-lin/81/91/232
+  weibo: http://weibo.com/
+  github: http://github.com/
+  music: http://site.douban.com/
+  linkedin: https://www.linkedin.com/
 
 # 站点信息
 title: fantaster | 杨柳青
@@ -37,8 +37,6 @@ active: 技术
 
 # 首页除了最新文章外显示分类
 cates: 
-  - Optimization
-  - LaTeX
   - lalala
 # 中文本地化
 locals:
