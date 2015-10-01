@@ -21,9 +21,9 @@
 
 
 
-  /2015/10/01/test.html
-
   /2015/10/01/my-test.html
+
+  /2015/10/01/foushan.html
 
   /2015/07/05/Never-Trust-the-Word-from-Qipa.html
 
