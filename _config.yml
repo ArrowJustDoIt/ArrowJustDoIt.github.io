@@ -21,7 +21,7 @@ rss_url: /pages/atom.xml
 
 # gavatar头像及Favicon
 gavatar: /public/img/cat.png
-favicon: /public/img/smallcat1.png
+favicon: /public/img/smallcat.png
 
 # google analytics 设置
 ga:
