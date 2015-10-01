@@ -17,7 +17,11 @@
 
   /page5/index.html
 
+  /page6/index.html
 
+
+
+  /2015/10/01/test.html
 
   /2015/10/01/my-test.html
 

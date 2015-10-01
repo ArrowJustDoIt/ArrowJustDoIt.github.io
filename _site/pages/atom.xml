@@ -6,6 +6,49 @@
     <description>My personal blog</description>
     
       <item>
+        <title>语法</title>
+        <link>http://杨柳青一些事.中国/2015/10/01/test.html</link>
+        <guid isPermaLink="true">http://杨柳青一些事.中国/2015/10/01/test.html</guid>
+        <pubDate>Thu, 01 Oct 2015 00:00:00 +0800</pubDate>
+        <description>&lt;blockquote&gt;
+&lt;p&gt;“两个人吃的是饭，一个人吃的是饲料。”——日剧《最完美的离婚》&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;就算这样，那也要用心地吃饲料啊。&lt;/p&gt;
+
+&lt;h3&gt;材料&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;超市黑椒牛排&lt;/li&gt;
+&lt;li&gt;黑胡椒&lt;/li&gt;
+&lt;li&gt;橄榄油&lt;/li&gt;
+&lt;li&gt;西兰花&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3&gt;步骤&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;西兰花焯水，捞出备用。&lt;/li&gt;
+&lt;li&gt;锅内加入适量橄榄油，将准备好的西兰花加入锅内快速翻炒2分钟，装入盘内。&lt;/li&gt;
+&lt;li&gt;锅内加入适量橄榄油，大火将油加至7、8成热。&lt;/li&gt;
+&lt;li&gt;将牛排放入煎锅，以听到清脆的滋滋声为准来判断步骤3中油是否够热。&lt;/li&gt;
+&lt;li&gt;转为中火，每隔1~2分钟将牛排翻一次面，翻3~4次即可。（这一次的牛排厚度仅为13mm左右，如果牛排更厚，我觉得最多翻6次就够了。此时牛排外表焦香，里面不会渗血又够嫩。）&lt;/li&gt;
+&lt;li&gt;牛排装盘，撒上黑胡椒碎屑，不要急着切，静置2分钟，让牛肉吸足汤汁。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3&gt;完成&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/public/img/food/steak.jpg&quot; alt=&quot;1&quot;&gt;&lt;/p&gt;
+
+&lt;h3&gt;后记&lt;/h3&gt;
+
+&lt;p&gt;今天跑了12km，又搬家，又打扫卫生，直到煎好牛排全身发飘的时候才意识到：尼玛我就早上8点吃了2个手指饼啊有木有，真是饿成狗了，所以牛排做好立马风卷残云。&lt;/p&gt;
+
+&lt;p&gt;美味啊TT。&lt;/p&gt;
+</description>
+      </item>
+    
+      <item>
         <title>就只是一个测试</title>
         <link>http://杨柳青一些事.中国/2015/10/01/my-test.html</link>
         <guid isPermaLink="true">http://杨柳青一些事.中国/2015/10/01/my-test.html</guid>
@@ -1277,75 +1320,6 @@ chmod g+s,o+t test; ls -l test          # 配置权限为-rws--s--t，即加入S
 &lt;li&gt;文件所需权限：使用者在该文件至少需要有 x 的权限&lt;/li&gt;
 &lt;/ul&gt;
 </description>
-      </item>
-    
-      <item>
-        <title>Linux 2：文件权限与目录配置</title>
-        <link>http://杨柳青一些事.中国/2014/09/17/Linux2.html</link>
-        <guid isPermaLink="true">http://杨柳青一些事.中国/2014/09/17/Linux2.html</guid>
-        <pubDate>Wed, 17 Sep 2014 00:00:00 +0800</pubDate>
-        <description>&lt;p&gt;Linux最优秀的地方之一，就在于它的多用户、多任务环境。Linux一般将文件可存取访问的身份分为3个类别，分别是owner（用户）、group（用户组）、others（其他人），且3种身份都各自有自己的read，write，execute等权限。&lt;/p&gt;
-
-&lt;h3&gt;用户身份与用户组记录的文件&lt;/h3&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;\etc\passwd     #所有系统账号的相关信息
-\etc\shadow     #个人的密码
-\etc\group      #Linux所有的组名
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h3&gt;文件权限概念&lt;/h3&gt;
-
-&lt;p&gt;当屏幕前面出现“Permission deny”的时候，肯定是权限设置错误。&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;ls -al          #ls:list，列出所有文件的详细信息
-ls -l           #显示文件，属性的第一个字段是文件的权限，共10位，比如-rwxr-xr--，表示owner具有rwx权限，group具有rx权限，others只具有r权限
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h3&gt;改变文件属性与权限&lt;/h3&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;chgrp       #改变文件所属用户组，具体句法记得使用 man page 查询
-chown -R 用户账号:所在组群 文件名      #改变文件所有者
-chmod       #改变文件的权限
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;其中，chmod修改权限的方法有两种，分别是符号法与数字法，数字法中r，w，x的数值分别是4，2，1。&lt;/p&gt;
-
-&lt;p&gt;要开放“目录”（注意不是“文件”）给任何人看，应该至少同时给予r和x权限，但w权限不可随便给予。&lt;/p&gt;
-
-&lt;h3&gt;文件种类与扩展名&lt;/h3&gt;
-
-&lt;p&gt;使用&lt;code&gt;ls -l&lt;/code&gt;查看到的十个字符中，第一个字符为文件的类型：&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;-: 普通文件（regular file）&lt;/li&gt;
-&lt;li&gt;d: 目录文件（directory）&lt;/li&gt;
-&lt;li&gt;l: 连接文件，类似于windows的快捷方式（link）&lt;/li&gt;
-&lt;li&gt;b: 块设备文件（block）&lt;/li&gt;
-&lt;li&gt;c: 字符设备文件（character）&lt;/li&gt;
-&lt;li&gt;s: 套接字（sockets）&lt;/li&gt;
-&lt;li&gt;p: 管道（FIFO, pipe）&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3&gt;Linux目录配置标准：FHS&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;/public/img/linuxDIRTREE.gif&quot; alt=&quot;1&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;根据FHS的定义，最好将&lt;code&gt;/var&lt;/code&gt;独立出来，这样至少/var死掉的时候，根目录还活着，还能够进入救援模式。&lt;/p&gt;
-
-&lt;h3&gt;绝对路径与相对路径&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;cd/var/log(absolute)&lt;/li&gt;
-&lt;li&gt;cd../var/log(relative)&lt;/li&gt;
-&lt;li&gt;.: 代表当前的目录，也可以用./来表示&lt;/li&gt;
-&lt;li&gt;..: 代表上一层目录，也可以用../来表示&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3&gt;例子&lt;/h3&gt;
-
-&lt;p&gt;将install.log文件复制成为LAYtest.log，并且要给linanya这个人读写权限，可以这样做：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;[root@localhost ~]# cp install.log LAYtest.log     #若复制文件夹，用cp -r
-[root@localhost ~]# ls -al LAYtest.log 
--rw-r--r-- 1 root root 62826 9月  17 15:19 LAYtest.log     #虽然完成了复制，但仍然是root的文件
-[root@localhost ~]# chown linanya LAYtest.log 
-[root@localhost ~]# ls -al LAYtest.log       
--rw-r--r-- 1 linanya root 62826 9月  17 15:19 LAYtest.log  #文件变成linanya的
-[root@localhost ~]# 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
       </item>
     
   </channel>
