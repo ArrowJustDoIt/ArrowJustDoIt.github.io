@@ -15,4 +15,6 @@
 
   /2015/10/01/foushan.html
 
+  /2013/12/31/Change.html
+
   /2010/01/01/Book-List-2010.html
