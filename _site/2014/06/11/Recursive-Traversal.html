@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-<title>就只是一个测试 | fantaster | 杨柳青</title>
+<title>php递归遍历文件夹 | fantaster | 杨柳青</title>
 <meta name="author" content="fantaster">
 
 
@@ -76,9 +76,9 @@
               <div class="list-group">
                 <!--<h2 class="center">技术</h2>-->     <!--原来aside2上面的大标题-->
                 
-                  <a href="/2015/10/01/my-test.html" class="list-group-item-lay pjaxlink">就只是一个测试</a>
-                
                   <a href="/2015/03/12/URI-URL-URN.html" class="list-group-item-lay pjaxlink">URI、URL和URN三者之间的区别</a>
+                
+                  <a href="/2014/06/11/Recursive-Traversal.html" class="list-group-item-lay pjaxlink">php递归遍历文件夹</a>
                 
                   <a href="/2014/05/01/files-upload.html" class="list-group-item-lay pjaxlink">php文件上传</a>
                 
@@ -136,10 +136,14 @@
                   <div class="panel-heading">
                     <h4 class="panel-title">
                       <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#php">php</a>
-                      <span class="badge pull-right">1</span>
+                      <span class="badge pull-right">2</span>
                     </h4>
                   </div>
                   <div id="php" class="panel-collapse collapse">
+                    
+                      <a  href='/2014/06/11/Recursive-Traversal.html' class="list-group-item pjaxlink">
+                        php递归遍历文件夹
+                      </a>
                     
                       <a  href='/2014/05/01/files-upload.html' class="list-group-item pjaxlink">
                         php文件上传
@@ -179,22 +183,6 @@
                     
                   </div>
                 </div>
-               
-                <div class="panel panel-info">
-                  <div class="panel-heading">
-                    <h4 class="panel-title">
-                      <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#lalala">lalala</a>
-                      <span class="badge pull-right">1</span>
-                    </h4>
-                  </div>
-                  <div id="lalala" class="panel-collapse collapse">
-                    
-                      <a  href='/2015/10/01/my-test.html' class="list-group-item pjaxlink">
-                        就只是一个测试
-                      </a>
-                    
-                  </div>
-                </div>
               
             </div>
           </div>
@@ -209,28 +197,75 @@
             <div class="row">
   <div class="col-md-13 aside3-title">
     <br>
-    <h2 id="#identifier">就只是一个测试</h2>
-    2015年10月01日
+    <h2 id="#identifier">php递归遍历文件夹</h2>
+    2014年06月11日
   </div>
   <div class="col-md-13 aside3-content">
     <hr>
     <div id="content">
-      <p>今天学了点有趣的东西,准备分享一下</p>
+      <p>用递归实现遍历文件夹及其子目录</p>
 
-<h2>memcache</h2>
+<hr>
 
-<h3>什么是memcache</h3>
+<h3>什么是递归</h3>
+
+<p><strong>递归</strong>: 函数不断的调用函数,开辟内存: 是一种典型使用空间换时间的思想(突然间内存被大量占用,效率很高)。</p>
+
+<p>当一个函数是为了解决某一个问题的时候, 发现在解决的过程中, 出现了子问题与本身要解决的问题(父问题)一致: 子问题与父问题一致,只是规模比较小.</p>
+
+<p>如果碰到了相同的问题, 可以使用父问题的解决方案去解决子问题: <code>调用函数自己</code></p>
+
+<h3>递归有两个要素</h3>
+
+<p>1 <strong>递归点</strong>: 解决父问题过程中,发现了子问题与父问题一致: 递归点: 递归调用函数</p>
+
+<p>2 <strong>递归出口</strong>: 保证函数能够结束的地方就是递归出口</p>
+
+<h3>思路</h3>
 
 <ol>
-<li>
-###有啊,都是中文内容啊</li>
-<li><code>中文内容</code></li>
+<li><p>使用函数解决当前需要解决的问题: 不考虑子问题</p></li>
+<li><p>寻找递归点: 函数在解决问题的过程中,有没有碰到与父问题相似的问题: 父问题是遍历文件夹: 子问题: 遍历出来的文件刚好又是文件夹</p></li>
+<li><p>消除产生死递归的要素: .和..文件夹: 一个代表当前,一个代表上级</p></li>
+<li><p>递归调用函数: 解决子问题</p></li>
+<li><p>寻找递归出口: 整个文件夹遍历结束也没有发现文件夹:都是文件或者.和..文件夹</p></li>
+<li><p>增加子文件的缩进: 子文件夹的遍历都是由上一级发展而来: 如果能够在每一层使用scandir的地方,定义一个层级来控制: 就可以描述当前层级是属于第几级,级别代表当前所属哪层一层文件夹: 级别就代表着缩进</p></li>
 </ol>
 
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="lineno">1</span> <span class="x">echo &quot;hello&quot;;</span>
-<span class="lineno">2</span> <span class="x">foreach($lalala as $v){</span>
-<span class="lineno">3</span> <span class="x">  echo &#39;lalala&#39;;</span>
-<span class="lineno">4</span> <span class="x">}</span></code></pre></div>
+<h3>代码实现</h3>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="lineno"> 1</span> <span class="x">/*</span>
+<span class="lineno"> 2</span> <span class="x">  * 实现遍历文件夹及其子目录</span>
+<span class="lineno"> 3</span> <span class="x">  * @param1 string $dir,要获取文件的路径</span>
+<span class="lineno"> 4</span> <span class="x">  * @param1 int $level=0,缩进层级</span>
+<span class="lineno"> 5</span> <span class="x">  * @return 失败返回false 成功返回遍历结果</span>
+<span class="lineno"> 6</span> <span class="x"> */</span>
+<span class="lineno"> 7</span> <span class="x"> function myscandir($dir, $level = 0){</span>
+<span class="lineno"> 8</span> <span class="x">     //判断路径是否合法</span>
+<span class="lineno"> 9</span> <span class="x">     if(!is_dir($dir)) return false;</span>
+<span class="lineno">10</span> <span class="x">     //取出该路径下的所有文件名(以数组的形式)</span>
+<span class="lineno">11</span> <span class="x">     $files = scandir($dir);</span>
+<span class="lineno">12</span> <span class="x">     //遍历数组</span>
+<span class="lineno">13</span> <span class="x">     foreach($files as $file){</span>
+<span class="lineno">14</span> <span class="x">         //剔除.与..目录</span>
+<span class="lineno">15</span> <span class="x">         if($file != &#39;.&#39; &amp;&amp; $file != &#39;..&#39;){      </span>
+<span class="lineno">16</span> <span class="x">             //构造新路径</span>
+<span class="lineno">17</span> <span class="x">             $new_dir = $dir . &#39;/&#39; . $file;</span>
+<span class="lineno">18</span> <span class="x">             //判断输出</span>
+<span class="lineno">19</span> <span class="x">             if(is_file($new_dir)){</span>
+<span class="lineno">20</span> <span class="x">                 //是文件,则以蓝色字体输出</span>
+<span class="lineno">21</span> <span class="x">                 echo str_repeat(&#39;&amp;nbsp;&amp;nbsp&#39;, $level * 2),&quot;&lt;font color=&#39;blue&#39;&gt;$file&lt;/font&gt;&lt;br/&gt;&quot;;</span>
+<span class="lineno">22</span> <span class="x">             }else{</span>
+<span class="lineno">23</span> <span class="x">                 //是路径,则以红色字体输出并继续遍历</span>
+<span class="lineno">24</span> <span class="x">                 echo str_repeat(&#39;&amp;nbsp;&amp;nbsp&#39;, $level * 2),&quot;&lt;font color=&#39;red&#39;&gt;$file&lt;/font&gt;&lt;br/&gt;&quot;;</span>
+<span class="lineno">25</span> <span class="x">                 //递归点</span>
+<span class="lineno">26</span> <span class="x">                 myscandir($new_dir, $level + 1);</span>
+<span class="lineno">27</span> <span class="x">             }</span>
+<span class="lineno">28</span> <span class="x">         }</span>
+<span class="lineno">29</span> <span class="x">     }</span>
+<span class="lineno">30</span> <span class="x"> }</span></code></pre></div>
+
+<p>打完收工:p</p>
 
     </div>
     <hr>
