@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-<title>php文件上传 | fantaster | 杨柳青</title>
+<title>几个简单的排序算法 | fantaster | 杨柳青</title>
 <meta name="author" content="fantaster">
 
 
@@ -209,145 +209,45 @@
             <div class="row">
   <div class="col-md-13 aside3-title">
     <br>
-    <h2 id="#identifier">php文件上传</h2>
-    2014年05月01日
+    <h2 id="#identifier">几个简单的排序算法</h2>
+    2014年04月22日
   </div>
   <div class="col-md-13 aside3-content">
     <hr>
     <div id="content">
-      <p>通过 PHP，可以把文件上传到<code>服务器</code></p>
+      <p>数据结构: 数据存储的方式(存储介质)
+算法: 数据运算方式(代码)</p>
 
-<h3>什么是文件上传</h3>
+<p>常见的排序算法有四种: <code>冒泡</code>, <code>插入</code>,<code>选择</code>和<code>快速</code>排序</p>
 
-<p>把<code>浏览器</code>所在电脑的文件存放到<code>服务器</code>上, 这个过程称之为文件上传</p>
+<hr>
 
-<p>上传分为两个部分: </p>
+<h3><strong>冒泡排序</strong></h3>
 
-<ol>
-<li><p>将浏览器所在电脑的文件选中,提交给服务器,服务器要接收文件.</p></li>
-<li><p>服务器必须要接收文件: apache不能接收文件,PHP负责接收.</p></li>
-</ol>
+<p>冒泡: bubble</p>
 
-<h3>前期准备</h3>
+<p>冒泡排序: 将所有的数据比作一个一个的泡,数据大小代表泡的大小. 泡越大意味着浮力越大,就会最先升上去.</p>
 
-<h4><code>设置php.ini</code></h4>
+<p>冒泡原理: 对数组进行多次遍历, 每次遍历都能找出最大的泡(剩余部分),将最大的泡放到数组的最后.</p>
 
-<ul>
-<li>确保上传功能被打开</li>
-</ul>
-<div class="highlight"><pre><code class="language-text" data-lang="text">file_uploads = On
-</code></pre></div>
-<ul>
-<li>设置上传文件的临时存放目录</li>
-</ul>
-<div class="highlight"><pre><code class="language-text" data-lang="text">upload_tmp_dir =&quot;E:\PHP\upload&quot;      #;设置文件上传临时保存路径,默认是在c:/windows/temp
-</code></pre></div>
-<h4><code>设置文件表单域</code></h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&lt;input type=’file’ name=’myfile’&gt;
-</code></pre></div>
-<h4><code>设置post提交二进制</code></h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text">enctype=”multipart/form-data”
-</code></pre></div>
-<h4><code>$_FILES获取的数据</code></h4>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="lineno"> 1</span> <span class="cp">&lt;?php</span>
+<span class="lineno"> 2</span> 
+<span class="lineno"> 3</span>  <span class="nv">$arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">56</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">];</span>
+<span class="lineno"> 4</span>  <span class="c1">//冒泡算法</span>
+<span class="lineno"> 5</span>  <span class="c1">//外层循环,控制冒泡次数</span>
+<span class="lineno"> 6</span>  <span class="k">for</span><span class="p">(</span><span class="nv">$i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="nv">$count</span> <span class="o">=</span> <span class="nb">count</span><span class="p">(</span><span class="nv">$arr</span><span class="p">);</span><span class="nv">$i</span> <span class="o">&lt;</span> <span class="nv">$count</span><span class="p">;</span><span class="nv">$i</span><span class="o">++</span><span class="p">){</span>
+<span class="lineno"> 7</span>      <span class="c1">//内层循环:进行交换,冒出当前一轮的最大泡</span>
+<span class="lineno"> 8</span>      <span class="k">for</span><span class="p">(</span><span class="nv">$j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="nv">$j</span> <span class="o">&lt;</span> <span class="nv">$count</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="nv">$i</span><span class="p">;</span><span class="nv">$j</span><span class="o">++</span><span class="p">){</span>
+<span class="lineno"> 9</span>          <span class="k">if</span><span class="p">(</span><span class="nv">$arr</span><span class="p">[</span><span class="nv">$j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="nv">$arr</span><span class="p">[</span><span class="nv">$j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]){</span>
+<span class="lineno">10</span>              <span class="nv">$temp</span> <span class="o">=</span> <span class="nv">$arr</span><span class="p">[</span><span class="nv">$j</span><span class="p">];</span>
+<span class="lineno">11</span>              <span class="nv">$arr</span><span class="p">[</span><span class="nv">$j</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$arr</span><span class="p">[</span><span class="nv">$j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+<span class="lineno">12</span>              <span class="nv">$arr</span><span class="p">[</span><span class="nv">$j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$temp</span><span class="p">;</span>
+<span class="lineno">13</span>          <span class="p">}</span>
+<span class="lineno">14</span>      <span class="p">}</span>
+<span class="lineno">15</span>  <span class="p">}</span>
+<span class="lineno">16</span>  <span class="nb">var_dump</span><span class="p">(</span><span class="nv">$arr</span><span class="p">);</span></code></pre></div>
 
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="lineno"> 1</span> <span class="x">array(1) {</span>
-<span class="lineno"> 2</span> <span class="x">  [&quot;myfile&quot;]=&gt;</span>
-<span class="lineno"> 3</span> <span class="x">  array(5) {</span>
-<span class="lineno"> 4</span> <span class="x">    [&quot;name&quot;]=&gt;                                          #上传文件的文件名</span>
-<span class="lineno"> 5</span> <span class="x">    string(10) &quot;123123.jpg&quot;</span>
-<span class="lineno"> 6</span> <span class="x">    [&quot;type&quot;]=&gt;                                          #上传文件的类型:大类型/格式  称为MIME类型</span>
-<span class="lineno"> 7</span> <span class="x">    string(10) &quot;image/jpeg&quot;</span>
-<span class="lineno"> 8</span> <span class="x">    [&quot;tmp_name&quot;]=&gt;                                      #上传到服务器时临时存储文件路径</span>
-<span class="lineno"> 9</span> <span class="x">    string(38) &quot;E:\PHP\upload\php7FC2.tmp&quot;</span>
-<span class="lineno">10</span> <span class="x">    [&quot;error&quot;]=&gt;                                         #错误描述码</span>
-<span class="lineno">11</span> <span class="x">    int(0)</span>
-<span class="lineno">12</span> <span class="x">    [&quot;size&quot;]=&gt;                                          #上传文件大小</span>
-<span class="lineno">13</span> <span class="x">    int(6340)</span>
-<span class="lineno">14</span> <span class="x">  }</span>
-<span class="lineno">15</span> <span class="x">}</span></code></pre></div>
-
-<h3>使用的函数</h3>
-
-<ul>
-<li><code>Move_uploaded_file(文件所在目录[文件名], 文件要存储的目录[带文件名])</code>移动文件--&gt;原文件不存在</li>
-<li><code>Copy(文件所在目录,文件要存储的目录</code>复制文件--&gt;原文件存在</li>
-</ul>
-
-<h3>使用时注意的问题</h3>
-
-<ul>
-<li><code>move_uploaded_file()</code>会事先检测源文件是否通过php上传过来的，否则不予移动(<code>只能用post</code>)</li>
-<li><code>move_uploaded_file()</code>这个函数虽然<code>多次调用但是只能执行一次</code>，原因就在于<code>move_uploaded_file()</code>只支持post提交的信息，也就是用户只提交了一个post，第一次调用被执行后，之后就不是post的值也就是说不在执行了，解决办法就是<code>用copy代替move_uploaded_file()</code></li>
-</ul>
-
-<h3>封装一个上传文件函数</h3>
-
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="lineno"> 1</span> <span class="x">/*</span>
-<span class="lineno"> 2</span> <span class="x">  * 上传文件</span>
-<span class="lineno"> 3</span> <span class="x">  * @param1 array $file,要上传的文件信息</span>
-<span class="lineno"> 4</span> <span class="x">  * @param2 string $path,文件要上传的路径</span>
-<span class="lineno"> 5</span> <span class="x">  * @param3 string &amp;$error,记录错误信息</span>
-<span class="lineno"> 6</span> <span class="x">  * @return string 文件的名字(新名字)</span>
-<span class="lineno"> 7</span> <span class="x"> */</span>
-<span class="lineno"> 8</span> <span class="x"> function upload($file,$path,&amp;$error){</span>
-<span class="lineno"> 9</span> <span class="x">     //定义错误信息: 专门记录错误: 在函数外部能访问</span>
-<span class="lineno">10</span> <span class="x">     //验证$file的合法性</span>
-<span class="lineno">11</span> <span class="x">     if(!is_array($file)){</span>
-<span class="lineno">12</span> <span class="x">         //不是数组</span>
-<span class="lineno">13</span> <span class="x">         $error = &#39;上传文件不合法!&#39;;</span>
-<span class="lineno">14</span> <span class="x">         return false;</span>
-<span class="lineno">15</span> <span class="x">     }</span>
-<span class="lineno">16</span> <span class="x">     //验证系统错误处理</span>
-<span class="lineno">17</span> <span class="x">     switch($file[&#39;error&#39;]){</span>
-<span class="lineno">18</span> <span class="x">         case 1:</span>
-<span class="lineno">19</span> <span class="x">             $error = &#39;文件过大,超过服务器允许的大小!&#39;;</span>
-<span class="lineno">20</span> <span class="x">             return false;</span>
-<span class="lineno">21</span> <span class="x">         case 2:</span>
-<span class="lineno">22</span> <span class="x">             $error = &#39;文件超过浏览器允许的大小!&#39;;</span>
-<span class="lineno">23</span> <span class="x">             return false;</span>
-<span class="lineno">24</span> <span class="x">         case 3:</span>
-<span class="lineno">25</span> <span class="x">             $error = &#39;文件只上传部分!&#39;;</span>
-<span class="lineno">26</span> <span class="x">             return false;</span>
-<span class="lineno">27</span> <span class="x">         case 4:</span>
-<span class="lineno">28</span> <span class="x">             $error = &#39;用户没有选中要上传的文件!&#39;;</span>
-<span class="lineno">29</span> <span class="x">             return false;</span>
-<span class="lineno">30</span> <span class="x">         case 6:</span>
-<span class="lineno">31</span> <span class="x">         case 7:</span>
-<span class="lineno">32</span> <span class="x">             $error = &#39;服务器错误!&#39;;</span>
-<span class="lineno">33</span> <span class="x">             return false;</span>
-<span class="lineno">34</span> <span class="x">     }</span>
-<span class="lineno">35</span> <span class="x">     //都没有错误: 移动文件</span>
-<span class="lineno">36</span> <span class="x">     $filename = getRandomName($file[&#39;name&#39;]);</span>
-<span class="lineno">37</span> <span class="x">     if(@move_uploaded_file($file[&#39;tmp_name&#39;],$path . &#39;/&#39; . $filename))</span>
-<span class="lineno">38</span> <span class="x">     {</span>
-<span class="lineno">39</span> <span class="x">         //成功</span>
-<span class="lineno">40</span> <span class="x">         return $filename;</span>
-<span class="lineno">41</span> <span class="x">     }else{</span>
-<span class="lineno">42</span> <span class="x">         //失败</span>
-<span class="lineno">43</span> <span class="x">         $error = &#39;文件移动失败!&#39;;</span>
-<span class="lineno">44</span> <span class="x">         return false;</span>
-<span class="lineno">45</span> <span class="x">     }</span>
-<span class="lineno">46</span> <span class="x"> }</span>
-<span class="lineno">47</span> <span class="x"> /*</span>
-<span class="lineno">48</span> <span class="x">  * 生成文件名: YYYYmmddHHIISS + 随机6位字符串</span>
-<span class="lineno">49</span> <span class="x">  * @param1 string $name,文件原始名字: 在浏览器所在电脑的名字</span>
-<span class="lineno">50</span> <span class="x">  * @return string 新的名字</span>
-<span class="lineno">51</span> <span class="x"> */</span>
-<span class="lineno">52</span> <span class="x"> function getRandomName($name){</span>
-<span class="lineno">53</span> <span class="x">     //构造时间日期部分</span>
-<span class="lineno">54</span> <span class="x">     $newname = date(&#39;YmdHis&#39;);</span>
-<span class="lineno">55</span> <span class="x">     //获取随机部分</span>
-<span class="lineno">56</span> <span class="x">     $str = &#39;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890&#39;;</span>
-<span class="lineno">57</span> <span class="x">     //随机取6位</span>
-<span class="lineno">58</span> <span class="x">     for($i = 0; $i &lt; 6;$i++){</span>
-<span class="lineno">59</span> <span class="x">         //每次随机取一位</span>
-<span class="lineno">60</span> <span class="x">         $newname .= $str[mt_rand(0,strlen($str) - 1)];</span>
-<span class="lineno">61</span> <span class="x">     }</span>
-<span class="lineno">62</span> <span class="x">     //构造后缀名</span>
-<span class="lineno">63</span> <span class="x">     $newname .= strrchr($name,&#39;.&#39;);</span>
-<span class="lineno">64</span> <span class="x">     //返回</span>
-<span class="lineno">65</span> <span class="x">     return $newname;</span>
-<span class="lineno">66</span> <span class="x"> }</span></code></pre></div>
+<p>分析: 因为后面的是j+1，所以j的比较次数需要总元素个数-1，才能保证j+1不超出下标范围，而已经浮出水面的泡不必再比较，所以需要减掉$i.</p>
 
     </div>
     <hr>
