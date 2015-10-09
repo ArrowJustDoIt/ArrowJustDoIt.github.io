@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-<title>php递归遍历文件夹 | fantaster | 杨柳青</title>
+<title>几个简单的排序算法 | fantaster | 杨柳青</title>
 <meta name="author" content="fantaster">
 
 
@@ -78,11 +78,11 @@
                 
                   <a href="/2015/03/12/URI-URL-URN.html" class="list-group-item-lay pjaxlink">URI、URL和URN三者之间的区别</a>
                 
-                  <a href="/2014/06/11/Recursive-Traversal.html" class="list-group-item-lay pjaxlink">php递归遍历文件夹</a>
+                  <a href="/2014/06/11/Simple%20Algorithm.html" class="list-group-item-lay pjaxlink">几个简单的排序算法</a>
                 
                   <a href="/2014/05/01/files-upload.html" class="list-group-item-lay pjaxlink">php文件上传</a>
                 
-                  <a href="/2014/04/22/Simple%20Algorithm.html" class="list-group-item-lay pjaxlink">几个简单的排序算法</a>
+                  <a href="/2014/04/22/Recursive-Traversal.html" class="list-group-item-lay pjaxlink">php递归遍历文件夹</a>
                 
               </div>
             </div>
@@ -119,14 +119,18 @@
                 <div class="panel panel-info">
                   <div class="panel-heading">
                     <h4 class="panel-title">
-                      <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#算法">算法</a>
-                      <span class="badge pull-right">1</span>
+                      <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#php">php</a>
+                      <span class="badge pull-right">2</span>
                     </h4>
                   </div>
-                  <div id="算法" class="panel-collapse collapse">
+                  <div id="php" class="panel-collapse collapse">
                     
-                      <a  href='/2014/04/22/Simple%20Algorithm.html' class="list-group-item pjaxlink">
-                        几个简单的排序算法
+                      <a  href='/2014/05/01/files-upload.html' class="list-group-item pjaxlink">
+                        php文件上传
+                      </a>
+                    
+                      <a  href='/2014/04/22/Recursive-Traversal.html' class="list-group-item pjaxlink">
+                        php递归遍历文件夹
                       </a>
                     
                   </div>
@@ -135,18 +139,14 @@
                 <div class="panel panel-info">
                   <div class="panel-heading">
                     <h4 class="panel-title">
-                      <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#php">php</a>
-                      <span class="badge pull-right">2</span>
+                      <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#算法">算法</a>
+                      <span class="badge pull-right">1</span>
                     </h4>
                   </div>
-                  <div id="php" class="panel-collapse collapse">
+                  <div id="算法" class="panel-collapse collapse">
                     
-                      <a  href='/2014/06/11/Recursive-Traversal.html' class="list-group-item pjaxlink">
-                        php递归遍历文件夹
-                      </a>
-                    
-                      <a  href='/2014/05/01/files-upload.html' class="list-group-item pjaxlink">
-                        php文件上传
+                      <a  href='/2014/06/11/Simple%20Algorithm.html' class="list-group-item pjaxlink">
+                        几个简单的排序算法
                       </a>
                     
                   </div>
@@ -197,75 +197,86 @@
             <div class="row">
   <div class="col-md-13 aside3-title">
     <br>
-    <h2 id="#identifier">php递归遍历文件夹</h2>
+    <h2 id="#identifier">几个简单的排序算法</h2>
     2014年06月11日
   </div>
   <div class="col-md-13 aside3-content">
     <hr>
     <div id="content">
-      <p>用递归实现遍历文件夹及其子目录</p>
+      <p>数据结构: 数据存储的方式(存储介质)
+算法: 数据运算方式(代码)</p>
+
+<p>常见的排序算法有四种: <code>冒泡</code>, <code>插入</code>,<code>选择</code>和<code>快速</code>排序</p>
 
 <hr>
 
-<h3>什么是递归</h3>
+<h3><strong>冒泡排序</strong></h3>
 
-<p><strong>递归</strong>: 函数不断的调用函数,开辟内存: 是一种典型使用空间换时间的思想(突然间内存被大量占用,效率很高)。</p>
+<p>冒泡: bubble</p>
 
-<p>当一个函数是为了解决某一个问题的时候, 发现在解决的过程中, 出现了子问题与本身要解决的问题(父问题)一致: 子问题与父问题一致,只是规模比较小.</p>
+<p>冒泡排序: 将所有的数据比作一个一个的泡,数据大小代表泡的大小. 泡越大意味着浮力越大,就会最先升上去.</p>
 
-<p>如果碰到了相同的问题, 可以使用父问题的解决方案去解决子问题: <code>调用函数自己</code></p>
+<p>冒泡原理: 对数组进行多次遍历, 每次遍历都能找出最大的泡(剩余部分),将最大的泡放到数组的最后.</p>
 
-<h3>递归有两个要素</h3>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="lineno"> 1</span> <span class="cp">&lt;?php</span>
+<span class="lineno"> 2</span> 
+<span class="lineno"> 3</span>  <span class="nv">$arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">56</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">];</span>
+<span class="lineno"> 4</span>  <span class="c1">//冒泡算法</span>
+<span class="lineno"> 5</span>  <span class="c1">//外层循环,控制冒泡次数</span>
+<span class="lineno"> 6</span>  <span class="k">for</span><span class="p">(</span><span class="nv">$i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="nv">$count</span> <span class="o">=</span> <span class="nb">count</span><span class="p">(</span><span class="nv">$arr</span><span class="p">);</span><span class="nv">$i</span> <span class="o">&lt;</span> <span class="nv">$count</span><span class="p">;</span><span class="nv">$i</span><span class="o">++</span><span class="p">){</span>
+<span class="lineno"> 7</span>      <span class="c1">//内层循环:进行交换,冒出当前一轮的最大泡</span>
+<span class="lineno"> 8</span>      <span class="k">for</span><span class="p">(</span><span class="nv">$j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="nv">$j</span> <span class="o">&lt;</span> <span class="nv">$count</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="nv">$i</span><span class="p">;</span><span class="nv">$j</span><span class="o">++</span><span class="p">){</span>
+<span class="lineno"> 9</span>          <span class="k">if</span><span class="p">(</span><span class="nv">$arr</span><span class="p">[</span><span class="nv">$j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="nv">$arr</span><span class="p">[</span><span class="nv">$j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]){</span>
+<span class="lineno">10</span>              <span class="nv">$temp</span> <span class="o">=</span> <span class="nv">$arr</span><span class="p">[</span><span class="nv">$j</span><span class="p">];</span>
+<span class="lineno">11</span>              <span class="nv">$arr</span><span class="p">[</span><span class="nv">$j</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$arr</span><span class="p">[</span><span class="nv">$j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+<span class="lineno">12</span>              <span class="nv">$arr</span><span class="p">[</span><span class="nv">$j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$temp</span><span class="p">;</span>
+<span class="lineno">13</span>          <span class="p">}</span>
+<span class="lineno">14</span>      <span class="p">}</span>
+<span class="lineno">15</span>  <span class="p">}</span>
+<span class="lineno">16</span>  <span class="nb">var_dump</span><span class="p">(</span><span class="nv">$arr</span><span class="p">);</span></code></pre></div>
 
-<p>1 <strong>递归点</strong>: 解决父问题过程中,发现了子问题与父问题一致: 递归点: 递归调用函数</p>
+<p>分析: 因为后面的是j+1，所以j的比较次数需要总元素个数-1，才能保证j+1不超出下标范围，而已经浮出水面的泡不必再比较，所以需要减掉$i.</p>
 
-<p>2 <strong>递归出口</strong>: 保证函数能够结束的地方就是递归出口</p>
+<h3><strong>快速排序</strong></h3>
 
-<h3>思路</h3>
+<p>快速排序: 排序的速度快,利用递归实现</p>
+
+<p>递归是用空间换时间(短时间内使用较多的内存来进行运算),更多递归知识见<a href="http://arrowjustdoit.github.io/2014/06/11/Recursive-Traversal.html">php递归遍历文件夹</a></p>
+
+<h3>快速排序原理</h3>
 
 <ol>
-<li><p>使用函数解决当前需要解决的问题: 不考虑子问题</p></li>
-<li><p>寻找递归点: 函数在解决问题的过程中,有没有碰到与父问题相似的问题: 父问题是遍历文件夹: 子问题: 遍历出来的文件刚好又是文件夹</p></li>
-<li><p>消除产生死递归的要素: .和..文件夹: 一个代表当前,一个代表上级</p></li>
-<li><p>递归调用函数: 解决子问题</p></li>
-<li><p>寻找递归出口: 整个文件夹遍历结束也没有发现文件夹:都是文件或者.和..文件夹</p></li>
-<li><p>增加子文件的缩进: 子文件夹的遍历都是由上一级发展而来: 如果能够在每一层使用scandir的地方,定义一个层级来控制: 就可以描述当前层级是属于第几级,级别代表当前所属哪层一层文件夹: 级别就代表着缩进</p></li>
+<li><p>从一个数组中取出一个元素</p></li>
+<li><p>将剩余的其他元素挨个与取出的元素进行比较: 如果比当前元素小,存放到一个数组;如果比它大,存放到另外一个数组. 结束以后, 当前的中间元素已经确定其位置.</p></li>
+<li><p>但是剩下的两个数组有可能没有排好序: 也需要排序,与父问题一样: 递归点</p></li>
+<li><p>如果数组只有一个元素,说明一定已经排好序,就不需要再调用函数排序: 递归出口</p></li>
 </ol>
 
-<h3>代码实现</h3>
-
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="lineno"> 1</span> <span class="x">/*</span>
-<span class="lineno"> 2</span> <span class="x">  * 实现遍历文件夹及其子目录</span>
-<span class="lineno"> 3</span> <span class="x">  * @param1 string $dir,要获取文件的路径</span>
-<span class="lineno"> 4</span> <span class="x">  * @param1 int $level=0,缩进层级</span>
-<span class="lineno"> 5</span> <span class="x">  * @return 失败返回false 成功返回遍历结果</span>
-<span class="lineno"> 6</span> <span class="x"> */</span>
-<span class="lineno"> 7</span> <span class="x"> function myscandir($dir, $level = 0){</span>
-<span class="lineno"> 8</span> <span class="x">     //判断路径是否合法</span>
-<span class="lineno"> 9</span> <span class="x">     if(!is_dir($dir)) return false;</span>
-<span class="lineno">10</span> <span class="x">     //取出该路径下的所有文件名(以数组的形式)</span>
-<span class="lineno">11</span> <span class="x">     $files = scandir($dir);</span>
-<span class="lineno">12</span> <span class="x">     //遍历数组</span>
-<span class="lineno">13</span> <span class="x">     foreach($files as $file){</span>
-<span class="lineno">14</span> <span class="x">         //剔除.与..目录</span>
-<span class="lineno">15</span> <span class="x">         if($file != &#39;.&#39; &amp;&amp; $file != &#39;..&#39;){      </span>
-<span class="lineno">16</span> <span class="x">             //构造新路径</span>
-<span class="lineno">17</span> <span class="x">             $new_dir = $dir . &#39;/&#39; . $file;</span>
-<span class="lineno">18</span> <span class="x">             //判断输出</span>
-<span class="lineno">19</span> <span class="x">             if(is_file($new_dir)){</span>
-<span class="lineno">20</span> <span class="x">                 //是文件,则以蓝色字体输出</span>
-<span class="lineno">21</span> <span class="x">                 echo str_repeat(&#39;&amp;nbsp;&amp;nbsp&#39;, $level * 2),&quot;&lt;font color=&#39;blue&#39;&gt;$file&lt;/font&gt;&lt;br/&gt;&quot;;</span>
-<span class="lineno">22</span> <span class="x">             }else{</span>
-<span class="lineno">23</span> <span class="x">                 //是路径,则以红色字体输出并继续遍历</span>
-<span class="lineno">24</span> <span class="x">                 echo str_repeat(&#39;&amp;nbsp;&amp;nbsp&#39;, $level * 2),&quot;&lt;font color=&#39;red&#39;&gt;$file&lt;/font&gt;&lt;br/&gt;&quot;;</span>
-<span class="lineno">25</span> <span class="x">                 //递归点</span>
-<span class="lineno">26</span> <span class="x">                 myscandir($new_dir, $level + 1);</span>
-<span class="lineno">27</span> <span class="x">             }</span>
-<span class="lineno">28</span> <span class="x">         }</span>
-<span class="lineno">29</span> <span class="x">     }</span>
-<span class="lineno">30</span> <span class="x"> }</span></code></pre></div>
-
-<p>打完收工:p</p>
+<span class="lineno"> 2</span> <span class="x"> * @param1 array $arr 待排序的数组</span>
+<span class="lineno"> 3</span> <span class="x"> * @return array 排序好的数组</span>
+<span class="lineno"> 4</span> <span class="x">*/</span>
+<span class="lineno"> 5</span> <span class="x">function quick_sort($arr){</span>
+<span class="lineno"> 6</span> <span class="x">     //取出数组长度,如果小于等于1则排好序(递归出口)</span>
+<span class="lineno"> 7</span> <span class="x">     $len = count($arr);</span>
+<span class="lineno"> 8</span> <span class="x">     if($len &lt;= 1)return $arr;</span>
+<span class="lineno"> 9</span> <span class="x">     //取出比较数据</span>
+<span class="lineno">10</span> <span class="x">     $data = $arr[0];</span>
+<span class="lineno">11</span> <span class="x">     //比较,小于$data的数据放左边数组,大于的放右边数组</span>
+<span class="lineno">12</span> <span class="x">     $left = $right = array();</span>
+<span class="lineno">13</span> <span class="x">     for($i = 1;$i &lt; $len;$i++){</span>
+<span class="lineno">14</span> <span class="x">         if($arr[$i] &lt; $data){</span>
+<span class="lineno">15</span> <span class="x">             $left[] = $arr[$i];</span>
+<span class="lineno">16</span> <span class="x">         }else{</span>
+<span class="lineno">17</span> <span class="x">             $right[] = $arr[$i];</span>
+<span class="lineno">18</span> <span class="x">         }</span>
+<span class="lineno">19</span> <span class="x">     }</span>
+<span class="lineno">20</span> <span class="x">     //递归点(可能左边和右边数组未排好序,则递归~)</span>
+<span class="lineno">21</span> <span class="x">     $left = quick_sort($left);</span>
+<span class="lineno">22</span> <span class="x">     $right = quick_sort($right);</span>
+<span class="lineno">23</span> <span class="x">     //合并数组</span>
+<span class="lineno">24</span> <span class="x">     return array_merge($left, array($data), $right);</span>
+<span class="lineno">25</span> <span class="x"> }</span></code></pre></div>
 
     </div>
     <hr>

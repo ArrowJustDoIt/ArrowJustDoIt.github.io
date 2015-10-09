@@ -94,73 +94,84 @@
       </item>
     
       <item>
-        <title>php递归遍历文件夹</title>
-        <link>http://杨柳青一些事.中国/2014/06/11/Recursive-Traversal.html</link>
-        <guid isPermaLink="true">http://杨柳青一些事.中国/2014/06/11/Recursive-Traversal.html</guid>
+        <title>几个简单的排序算法</title>
+        <link>http://杨柳青一些事.中国/2014/06/11/Simple%20Algorithm.html</link>
+        <guid isPermaLink="true">http://杨柳青一些事.中国/2014/06/11/Simple%20Algorithm.html</guid>
         <pubDate>Wed, 11 Jun 2014 00:00:00 +0800</pubDate>
-        <description>&lt;p&gt;用递归实现遍历文件夹及其子目录&lt;/p&gt;
+        <description>&lt;p&gt;数据结构: 数据存储的方式(存储介质)
+算法: 数据运算方式(代码)&lt;/p&gt;
+
+&lt;p&gt;常见的排序算法有四种: &lt;code&gt;冒泡&lt;/code&gt;, &lt;code&gt;插入&lt;/code&gt;,&lt;code&gt;选择&lt;/code&gt;和&lt;code&gt;快速&lt;/code&gt;排序&lt;/p&gt;
 
 &lt;hr&gt;
 
-&lt;h3&gt;什么是递归&lt;/h3&gt;
+&lt;h3&gt;&lt;strong&gt;冒泡排序&lt;/strong&gt;&lt;/h3&gt;
 
-&lt;p&gt;&lt;strong&gt;递归&lt;/strong&gt;: 函数不断的调用函数,开辟内存: 是一种典型使用空间换时间的思想(突然间内存被大量占用,效率很高)。&lt;/p&gt;
+&lt;p&gt;冒泡: bubble&lt;/p&gt;
 
-&lt;p&gt;当一个函数是为了解决某一个问题的时候, 发现在解决的过程中, 出现了子问题与本身要解决的问题(父问题)一致: 子问题与父问题一致,只是规模比较小.&lt;/p&gt;
+&lt;p&gt;冒泡排序: 将所有的数据比作一个一个的泡,数据大小代表泡的大小. 泡越大意味着浮力越大,就会最先升上去.&lt;/p&gt;
 
-&lt;p&gt;如果碰到了相同的问题, 可以使用父问题的解决方案去解决子问题: &lt;code&gt;调用函数自己&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;冒泡原理: 对数组进行多次遍历, 每次遍历都能找出最大的泡(剩余部分),将最大的泡放到数组的最后.&lt;/p&gt;
 
-&lt;h3&gt;递归有两个要素&lt;/h3&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;lineno&quot;&gt; 1&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 2&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt; 3&lt;/span&gt;  &lt;span class=&quot;nv&quot;&gt;$arr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;56&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 4&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;//冒泡算法&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 5&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;//外层循环,控制冒泡次数&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 6&lt;/span&gt;  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 7&lt;/span&gt;      &lt;span class=&quot;c1&quot;&gt;//内层循环:进行交换,冒出当前一轮的最大泡&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 8&lt;/span&gt;      &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 9&lt;/span&gt;          &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]){&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;10&lt;/span&gt;              &lt;span class=&quot;nv&quot;&gt;$temp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;11&lt;/span&gt;              &lt;span class=&quot;nv&quot;&gt;$arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;12&lt;/span&gt;              &lt;span class=&quot;nv&quot;&gt;$arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$temp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;13&lt;/span&gt;          &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;14&lt;/span&gt;      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;15&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;16&lt;/span&gt;  &lt;span class=&quot;nb&quot;&gt;var_dump&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;1 &lt;strong&gt;递归点&lt;/strong&gt;: 解决父问题过程中,发现了子问题与父问题一致: 递归点: 递归调用函数&lt;/p&gt;
+&lt;p&gt;分析: 因为后面的是j+1，所以j的比较次数需要总元素个数-1，才能保证j+1不超出下标范围，而已经浮出水面的泡不必再比较，所以需要减掉$i.&lt;/p&gt;
 
-&lt;p&gt;2 &lt;strong&gt;递归出口&lt;/strong&gt;: 保证函数能够结束的地方就是递归出口&lt;/p&gt;
+&lt;h3&gt;&lt;strong&gt;快速排序&lt;/strong&gt;&lt;/h3&gt;
 
-&lt;h3&gt;思路&lt;/h3&gt;
+&lt;p&gt;快速排序: 排序的速度快,利用递归实现&lt;/p&gt;
+
+&lt;p&gt;递归是用空间换时间(短时间内使用较多的内存来进行运算),更多递归知识见&lt;a href=&quot;http://arrowjustdoit.github.io/2014/06/11/Recursive-Traversal.html&quot;&gt;php递归遍历文件夹&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3&gt;快速排序原理&lt;/h3&gt;
 
 &lt;ol&gt;
-&lt;li&gt;&lt;p&gt;使用函数解决当前需要解决的问题: 不考虑子问题&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;寻找递归点: 函数在解决问题的过程中,有没有碰到与父问题相似的问题: 父问题是遍历文件夹: 子问题: 遍历出来的文件刚好又是文件夹&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;消除产生死递归的要素: .和..文件夹: 一个代表当前,一个代表上级&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;递归调用函数: 解决子问题&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;寻找递归出口: 整个文件夹遍历结束也没有发现文件夹:都是文件或者.和..文件夹&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;增加子文件的缩进: 子文件夹的遍历都是由上一级发展而来: 如果能够在每一层使用scandir的地方,定义一个层级来控制: 就可以描述当前层级是属于第几级,级别代表当前所属哪层一层文件夹: 级别就代表着缩进&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;从一个数组中取出一个元素&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;将剩余的其他元素挨个与取出的元素进行比较: 如果比当前元素小,存放到一个数组;如果比它大,存放到另外一个数组. 结束以后, 当前的中间元素已经确定其位置.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;但是剩下的两个数组有可能没有排好序: 也需要排序,与父问题一样: 递归点&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;如果数组只有一个元素,说明一定已经排好序,就不需要再调用函数排序: 递归出口&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h3&gt;代码实现&lt;/h3&gt;
-
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;lineno&quot;&gt; 1&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;/*&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 2&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;  * 实现遍历文件夹及其子目录&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 3&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;  * @param1 string $dir,要获取文件的路径&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 4&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;  * @param1 int $level=0,缩进层级&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 5&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;  * @return 失败返回false 成功返回遍历结果&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 6&lt;/span&gt; &lt;span class=&quot;x&quot;&gt; */&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 7&lt;/span&gt; &lt;span class=&quot;x&quot;&gt; function myscandir($dir, $level = 0){&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 8&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     //判断路径是否合法&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 9&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     if(!is_dir($dir)) return false;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     //取出该路径下的所有文件名(以数组的形式)&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;11&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     $files = scandir($dir);&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;12&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     //遍历数组&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;13&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     foreach($files as $file){&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;14&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;         //剔除.与..目录&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;15&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;         if($file != &amp;#39;.&amp;#39; &amp;amp;&amp;amp; $file != &amp;#39;..&amp;#39;){      &lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;16&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;             //构造新路径&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;17&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;             $new_dir = $dir . &amp;#39;/&amp;#39; . $file;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;18&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;             //判断输出&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;19&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;             if(is_file($new_dir)){&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;                 //是文件,则以蓝色字体输出&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;21&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;                 echo str_repeat(&amp;#39;&amp;amp;nbsp;&amp;amp;nbsp&amp;#39;, $level * 2),&amp;quot;&amp;lt;font color=&amp;#39;blue&amp;#39;&amp;gt;$file&amp;lt;/font&amp;gt;&amp;lt;br/&amp;gt;&amp;quot;;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;22&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;             }else{&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;23&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;                 //是路径,则以红色字体输出并继续遍历&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;24&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;                 echo str_repeat(&amp;#39;&amp;amp;nbsp;&amp;amp;nbsp&amp;#39;, $level * 2),&amp;quot;&amp;lt;font color=&amp;#39;red&amp;#39;&amp;gt;$file&amp;lt;/font&amp;gt;&amp;lt;br/&amp;gt;&amp;quot;;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;                 //递归点&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;26&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;                 myscandir($new_dir, $level + 1);&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;27&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;             }&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;28&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;         }&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;29&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     }&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;30&lt;/span&gt; &lt;span class=&quot;x&quot;&gt; }&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;打完收工:p&lt;/p&gt;
+&lt;span class=&quot;lineno&quot;&gt; 2&lt;/span&gt; &lt;span class=&quot;x&quot;&gt; * @param1 array $arr 待排序的数组&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 3&lt;/span&gt; &lt;span class=&quot;x&quot;&gt; * @return array 排序好的数组&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 4&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;*/&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 5&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;function quick_sort($arr){&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 6&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     //取出数组长度,如果小于等于1则排好序(递归出口)&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 7&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     $len = count($arr);&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 8&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     if($len &amp;lt;= 1)return $arr;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 9&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     //取出比较数据&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     $data = $arr[0];&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;11&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     //比较,小于$data的数据放左边数组,大于的放右边数组&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;12&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     $left = $right = array();&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;13&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     for($i = 1;$i &amp;lt; $len;$i++){&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;14&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;         if($arr[$i] &amp;lt; $data){&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;15&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;             $left[] = $arr[$i];&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;16&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;         }else{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;17&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;             $right[] = $arr[$i];&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;18&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;         }&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;19&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     }&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     //递归点(可能左边和右边数组未排好序,则递归~)&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;21&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     $left = quick_sort($left);&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;22&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     $right = quick_sort($right);&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;23&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     //合并数组&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;24&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     return array_merge($left, array($data), $right);&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;x&quot;&gt; }&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 </description>
       </item>
     
@@ -306,43 +317,73 @@
       </item>
     
       <item>
-        <title>几个简单的排序算法</title>
-        <link>http://杨柳青一些事.中国/2014/04/22/Simple%20Algorithm.html</link>
-        <guid isPermaLink="true">http://杨柳青一些事.中国/2014/04/22/Simple%20Algorithm.html</guid>
+        <title>php递归遍历文件夹</title>
+        <link>http://杨柳青一些事.中国/2014/04/22/Recursive-Traversal.html</link>
+        <guid isPermaLink="true">http://杨柳青一些事.中国/2014/04/22/Recursive-Traversal.html</guid>
         <pubDate>Tue, 22 Apr 2014 00:00:00 +0800</pubDate>
-        <description>&lt;p&gt;数据结构: 数据存储的方式(存储介质)
-算法: 数据运算方式(代码)&lt;/p&gt;
-
-&lt;p&gt;常见的排序算法有四种: &lt;code&gt;冒泡&lt;/code&gt;, &lt;code&gt;插入&lt;/code&gt;,&lt;code&gt;选择&lt;/code&gt;和&lt;code&gt;快速&lt;/code&gt;排序&lt;/p&gt;
+        <description>&lt;p&gt;用递归实现遍历文件夹及其子目录&lt;/p&gt;
 
 &lt;hr&gt;
 
-&lt;h3&gt;&lt;strong&gt;冒泡排序&lt;/strong&gt;&lt;/h3&gt;
+&lt;h3&gt;什么是递归&lt;/h3&gt;
 
-&lt;p&gt;冒泡: bubble&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;递归&lt;/strong&gt;: 函数不断的调用函数,开辟内存: 是一种典型使用空间换时间的思想(突然间内存被大量占用,效率很高)。&lt;/p&gt;
 
-&lt;p&gt;冒泡排序: 将所有的数据比作一个一个的泡,数据大小代表泡的大小. 泡越大意味着浮力越大,就会最先升上去.&lt;/p&gt;
+&lt;p&gt;当一个函数是为了解决某一个问题的时候, 发现在解决的过程中, 出现了子问题与本身要解决的问题(父问题)一致: 子问题与父问题一致,只是规模比较小.&lt;/p&gt;
 
-&lt;p&gt;冒泡原理: 对数组进行多次遍历, 每次遍历都能找出最大的泡(剩余部分),将最大的泡放到数组的最后.&lt;/p&gt;
+&lt;p&gt;如果碰到了相同的问题, 可以使用父问题的解决方案去解决子问题: &lt;code&gt;调用函数自己&lt;/code&gt;&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;lineno&quot;&gt; 1&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 2&lt;/span&gt; 
-&lt;span class=&quot;lineno&quot;&gt; 3&lt;/span&gt;  &lt;span class=&quot;nv&quot;&gt;$arr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;56&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 4&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;//冒泡算法&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 5&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;//外层循环,控制冒泡次数&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 6&lt;/span&gt;  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 7&lt;/span&gt;      &lt;span class=&quot;c1&quot;&gt;//内层循环:进行交换,冒出当前一轮的最大泡&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 8&lt;/span&gt;      &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 9&lt;/span&gt;          &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]){&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;10&lt;/span&gt;              &lt;span class=&quot;nv&quot;&gt;$temp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;11&lt;/span&gt;              &lt;span class=&quot;nv&quot;&gt;$arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;12&lt;/span&gt;              &lt;span class=&quot;nv&quot;&gt;$arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$temp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;13&lt;/span&gt;          &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;14&lt;/span&gt;      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;15&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;16&lt;/span&gt;  &lt;span class=&quot;nb&quot;&gt;var_dump&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;递归有两个要素&lt;/h3&gt;
 
-&lt;p&gt;分析: 因为后面的是j+1，所以j的比较次数需要总元素个数-1，才能保证j+1不超出下标范围，而已经浮出水面的泡不必再比较，所以需要减掉$i.&lt;/p&gt;
+&lt;p&gt;1 &lt;strong&gt;递归点&lt;/strong&gt;: 解决父问题过程中,发现了子问题与父问题一致: 递归点: 递归调用函数&lt;/p&gt;
+
+&lt;p&gt;2 &lt;strong&gt;递归出口&lt;/strong&gt;: 保证函数能够结束的地方就是递归出口&lt;/p&gt;
+
+&lt;h3&gt;思路&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;使用函数解决当前需要解决的问题: 不考虑子问题&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;寻找递归点: 函数在解决问题的过程中,有没有碰到与父问题相似的问题: 父问题是遍历文件夹: 子问题: 遍历出来的文件刚好又是文件夹&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;消除产生死递归的要素: .和..文件夹: 一个代表当前,一个代表上级&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;递归调用函数: 解决子问题&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;寻找递归出口: 整个文件夹遍历结束也没有发现文件夹:都是文件或者.和..文件夹&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;增加子文件的缩进: 子文件夹的遍历都是由上一级发展而来: 如果能够在每一层使用scandir的地方,定义一个层级来控制: 就可以描述当前层级是属于第几级,级别代表当前所属哪层一层文件夹: 级别就代表着缩进&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3&gt;代码实现&lt;/h3&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;lineno&quot;&gt; 1&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;/*&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 2&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;  * 实现遍历文件夹及其子目录&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 3&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;  * @param1 string $dir,要获取文件的路径&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 4&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;  * @param1 int $level=0,缩进层级&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 5&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;  * @return 失败返回false 成功返回遍历结果&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 6&lt;/span&gt; &lt;span class=&quot;x&quot;&gt; */&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 7&lt;/span&gt; &lt;span class=&quot;x&quot;&gt; function myscandir($dir, $level = 0){&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 8&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     //判断路径是否合法&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 9&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     if(!is_dir($dir)) return false;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     //取出该路径下的所有文件名(以数组的形式)&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;11&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     $files = scandir($dir);&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;12&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     //遍历数组&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;13&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     foreach($files as $file){&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;14&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;         //剔除.与..目录&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;15&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;         if($file != &amp;#39;.&amp;#39; &amp;amp;&amp;amp; $file != &amp;#39;..&amp;#39;){      &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;16&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;             //构造新路径&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;17&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;             $new_dir = $dir . &amp;#39;/&amp;#39; . $file;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;18&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;             //判断输出&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;19&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;             if(is_file($new_dir)){&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;                 //是文件,则以蓝色字体输出&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;21&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;                 echo str_repeat(&amp;#39;&amp;amp;nbsp;&amp;amp;nbsp&amp;#39;, $level * 2),&amp;quot;&amp;lt;font color=&amp;#39;blue&amp;#39;&amp;gt;$file&amp;lt;/font&amp;gt;&amp;lt;br/&amp;gt;&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;22&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;             }else{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;23&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;                 //是路径,则以红色字体输出并继续遍历&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;24&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;                 echo str_repeat(&amp;#39;&amp;amp;nbsp;&amp;amp;nbsp&amp;#39;, $level * 2),&amp;quot;&amp;lt;font color=&amp;#39;red&amp;#39;&amp;gt;$file&amp;lt;/font&amp;gt;&amp;lt;br/&amp;gt;&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;                 //递归点&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;26&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;                 myscandir($new_dir, $level + 1);&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;27&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;             }&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;28&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;         }&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;29&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;     }&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;30&lt;/span&gt; &lt;span class=&quot;x&quot;&gt; }&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;打完收工:p&lt;/p&gt;
 </description>
       </item>
     

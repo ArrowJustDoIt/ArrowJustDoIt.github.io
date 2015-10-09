@@ -15,11 +15,11 @@
 
   /2015/03/12/URI-URL-URN.html
 
-  /2014/06/11/Recursive-Traversal.html
+  /2014/06/11/Simple%20Algorithm.html
 
   /2014/05/01/files-upload.html
 
-  /2014/04/22/Simple%20Algorithm.html
+  /2014/04/22/Recursive-Traversal.html
 
   /2013/12/31/Change.html
 
