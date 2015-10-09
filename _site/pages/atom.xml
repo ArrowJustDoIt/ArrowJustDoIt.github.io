@@ -98,7 +98,11 @@
         <link>http://杨柳青一些事.中国/2014/06/11/Simple%20Algorithm.html</link>
         <guid isPermaLink="true">http://杨柳青一些事.中国/2014/06/11/Simple%20Algorithm.html</guid>
         <pubDate>Wed, 11 Jun 2014 00:00:00 +0800</pubDate>
-        <description>&lt;p&gt;数据结构: 数据存储的方式(存储介质)
+        <description>&lt;blockquote&gt;
+&lt;p&gt;&amp;quot;内心强大才是真的强大&amp;quot;---子应该没有曰过 -,-&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;数据结构: 数据存储的方式(存储介质)
 算法: 数据运算方式(代码)&lt;/p&gt;
 
 &lt;p&gt;常见的排序算法有四种: &lt;code&gt;冒泡&lt;/code&gt;, &lt;code&gt;插入&lt;/code&gt;,&lt;code&gt;选择&lt;/code&gt;和&lt;code&gt;快速&lt;/code&gt;排序&lt;/p&gt;
