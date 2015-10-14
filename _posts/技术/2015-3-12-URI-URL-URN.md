@@ -21,7 +21,7 @@ description:
 
 换言之，URL和URN都是URI，但是URI不一定是URL或者URN。为了更好的理解这个概念，看下面这张图片。
 
-![1](/public/img/technology/1.png)
+![1](/public/img/technology/URI-URL-URN.png)
 
 通过下面的例子（源自 Wikipedia），我们可以很好地理解URN 和 URL之间的区别。如果是一个人，我们会想到他的姓名和住址。
 

@@ -9,13 +9,25 @@
 
   /sitemap.txt
 
+  /page2/index.html
+
 
 
   /2015/10/01/foushan.html
 
   /2015/03/12/URI-URL-URN.html
 
+  /2015/01/16/Nginx.html
+
+  /2014/08/21/Replication.html
+
   /2014/06/11/Simple%20Algorithm.html
+
+  /2014/06/07/Cookie-and-Session-advance.html
+
+  /2014/05/30/Cookie-and-Session-principle.html
+
+  /2014/05/25/Cookie-and-Session.html
 
   /2014/05/01/files-upload.html
 

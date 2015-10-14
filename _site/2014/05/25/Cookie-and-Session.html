@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-<title>归档 | fantaster | 杨柳青</title>
+<title>Cookie与Session | fantaster | 杨柳青</title>
 <meta name="author" content="fantaster">
 
 
@@ -251,229 +251,186 @@
             <div class="row">
   <div class="col-md-13 aside3-title">
     <br>
-    <h2 id="#identifier"><i class="fa fa-archive fa-lg"></i></h2>
+    <h2 id="#identifier">Cookie与Session</h2>
+    2014年05月25日
   </div>
   <div class="col-md-13 aside3-content">
-    <div id="page-content">
-      
-    
-    
-    
-    
-  
-    
-      <legend id="2015-10">2015年-10月</legend>
-      <ul>
-    
-    <li><span>2015年-10月-01日</span> &raquo; 
-      <a class="pjaxlink" href="/2015/10/01/foushan.html">佛山</a>
-    </li>
-  
-    
-          
-        
-        </ul>
-        <legend id="2015-03">2015年-03月</legend>
-        <ul>
-        
-      
-    
+    <hr>
+    <div id="content">
+      <p>最近忙着期末考试,也没有什么时间研究技术了-,- 所以自己整理下平时对session和cookie的理解</p>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2015年-03月-12日</span> &raquo; 
-      <a class="pjaxlink" href="/2015/03/12/URI-URL-URN.html">URI、URL和URN三者之间的区别</a>
-    </li>
-  
-    
-          
-        
-        </ul>
-        <legend id="2015-01">2015年-01月</legend>
-        <ul>
-        
-      
-    
+<hr>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2015年-01月-16日</span> &raquo; 
-      <a class="pjaxlink" href="/2015/01/16/Nginx.html">Nginx</a>
-    </li>
-  
-    
-      
-        </ul>
-        <legend id="2014-08">2014年-08月</legend>
-        <ul>
-      
-    
+<h3><strong>会话技术</strong></h3>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2014年-08月-21日</span> &raquo; 
-      <a class="pjaxlink" href="/2014/08/21/Replication.html">Mysql主从复制</a>
-    </li>
-  
-    
-          
-        
-        </ul>
-        <legend id="2014-06">2014年-06月</legend>
-        <ul>
-        
-      
-    
+<p><strong>会话技术</strong>: 在一次浏览器打开后,多次访问同一个网站的时候, 都认为当前浏览器是已经访问网站的(服务器记住浏览器): 从而实现跨脚本的共享数据.</p>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2014年-06月-11日</span> &raquo; 
-      <a class="pjaxlink" href="/2014/06/11/Simple%20Algorithm.html">几个简单的排序算法</a>
-    </li>
-  
-    
-          
-        
-      
-    
+<p>会话技术包含两种: cookie和session技术</p>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2014年-06月-07日</span> &raquo; 
-      <a class="pjaxlink" href="/2014/06/07/Cookie-and-Session-advance.html">Cookie禁用了，Session还能用吗？</a>
-    </li>
-  
-    
-          
-        
-        </ul>
-        <legend id="2014-05">2014年-05月</legend>
-        <ul>
-        
-      
-    
+<p><strong>Cookie技术</strong>: 
+是一种服务器通过http协议将数据保存到浏览器端, 然后浏览器又通过http协议将数据携带给服务器的技术. 从而实现服务器识别浏览器的功能.</p>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2014年-05月-30日</span> &raquo; 
-      <a class="pjaxlink" href="/2014/05/30/Cookie-and-Session-principle.html">Cookie与Session -- 原理</a>
-    </li>
-  
-    
-          
-        
-      
-    
+<p><strong>Session技术</strong>: 
+session是一种将数据保存在服务器端的技术, 通过将”信物”通过http协议(cookie)保存到浏览器端, 浏览器通过cookie将”信物”携带给服务器, 服务器通过”信服”找到对应的数据, 从而实现跨脚本共享数据.</p>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2014年-05月-25日</span> &raquo; 
-      <a class="pjaxlink" href="/2014/05/25/Cookie-and-Session.html">Cookie与Session</a>
-    </li>
-  
-    
-          
-        
-      
-    
+<h3><strong>Cookie技术</strong></h3>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2014年-05月-01日</span> &raquo; 
-      <a class="pjaxlink" href="/2014/05/01/files-upload.html">php文件上传</a>
-    </li>
-  
-    
-          
-        
-        </ul>
-        <legend id="2014-04">2014年-04月</legend>
-        <ul>
-        
-      
-    
+<p>Cookie: 服务器将数据通过HTTP协议保存到浏览器, 然后浏览器在下次访问(HTTP协议)的时候将数据携带给服务器, 实现服务器识别浏览器的目的(数据共享).</p>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2014年-04月-22日</span> &raquo; 
-      <a class="pjaxlink" href="/2014/04/22/Recursive-Traversal.html">php递归遍历文件夹</a>
-    </li>
-  
-    
-      
-        </ul>
-        <legend id="2013-12">2013年-12月</legend>
-        <ul>
-      
-    
+<p>Cookie技术是会话技术的鼻祖</p>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2013年-12月-31日</span> &raquo; 
-      <a class="pjaxlink" href="/2013/12/31/Change.html">改变</a>
-    </li>
-  
-    
-      
-        </ul>
-        <legend id="2010-01">2010年-01月</legend>
-        <ul>
-      
-    
+<p>Cookie技术实现是基于HTTP协议中的两个协议项:</p>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2010年-01月-01日</span> &raquo; 
-      <a class="pjaxlink" href="/2010/01/01/Book-List-2010.html">2010年阅读书单</a>
-    </li>
-  
-    
-      </ul>
-    
+<ul>
+<li><p>响应头: set-cookie ,服务器设置数据给浏览器</p></li>
+<li><p>请求头: cookie, 浏览器携带数据给服务器</p></li>
+</ul>
+
+<h3>如何设置cookie</h3>
+
+<ul>
+<li><strong>header实现Cookie</strong>:修改响应头将数据传递给浏览器</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Header(‘set-cookie: 名字 = 值’);
+</code></pre></div>
+<ul>
+<li><strong>Setcookie函数</strong>:一个专门用于设置cookie的函数</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Setcookie(名字,值，参数3，参数4，参数5);
+Setcookie(&#39;age&#39;,18);                           //参数1：cookie的名字。参数2：cookie的值
+Setcookie(&#39;age&#39;,18,time()+10);                 //参数3：Cookie生命周期--&gt;当前时间再过10秒后失效
+Setcookie(&#39;age&#39;,18,time()+10,&#39;/&#39;)；            //参数4：Cookie作用范围--&gt;‘/’表示整个网站下都能访问
+Setcookie(&#39;age&#39;,18,time()+10,&#39;/&#39;,&#39;lalala.com&#39;);//参数5：Cookie跨域--&gt;默认的,cookie是不能跨域的,这样设置的话只要以lalala.com结束的域名都可以访问
+</code></pre></div>
+<h3>如何接收cookie</h3>
+
+<p>PHP使用一个超全局预定义变量$_COOKIE自动接收所有的cookie数据</p>
+
+<p>要想接收数组可以通过设置cookie的时候借助于[]实现</p>
+
+<h3>Cookie总结</h3>
+
+<ol>
+<li> Cookie不安全: 谁都可以访问(js),通常不会使用cookie来保存重要的数据</li>
+<li> Cookie适合保存不重要而且数据量大的东西.(视频网站)</li>
+<li> Cookie保存在浏览器端</li>
+</ol>
+
+<h3><strong>Session技术</strong></h3>
+
+<p>Session: 将数据保存在服务器端的技术. 是一种将数据保存到服务器上的文件中.</p>
+
+<p>Session技术是基于cookie技术实现.</p>
+
+<p>Session是通过产生sessionID(cookie), 去创建对应的文件,然后将数据保存到文件中, 将sessionid发送给浏览器. 浏览器携带sessionid,服务器能够接收id并且找到文件取出数据.</p>
+
+<p>核心的工作: 都是由session_start()完成</p>
+
+<h3>如何设置Session</h3>
+
+<p>Session技术有两种实现方式(类似mysql中的事务处理): <code>手动session</code>和<code>自动session</code></p>
+
+<p>Session在PHP系统中有一套完整的机制(用户不需要管内部实现), 对外提供了一些可以操作的接口(应用接口: 函数)</p>
+
+<h3>手动session</h3>
+
+<ul>
+<li>激活session系统: 让session系统开始工作</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Session_start(): #开启session机制, 任何要使用session之前都必须开启session机制
+</code></pre></div>
+<p>PHPSESSID这个cookie由session_start()函数产生,就是session数据的”钥匙”</p>
+
+<ul>
+<li>存储数据到session中: 使用$_SESSION存储数据</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Session_start();
+$_SESSION[‘name’] = ‘mark’;
+</code></pre></div>
+<ul>
+<li>在新的脚本中读取session数据: 任何想使用session的时候都必须开启session</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Session_start();
+Var_dump($_SESSION);
+</code></pre></div>
+<h3>自动session</h3>
+
+<p>自动session: session机制一直是打开的,根本不需要用户去开启session.</p>
+
+<p>用户要做的事情是: 存储数据($<em>SESSION),使用数据($</em>SESSION)</p>
+
+<p>要实现自动session: 必须修改配置文件自动开启</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">;session自动开启
+;session.auto_start = 1
+</code></pre></div>
+<p>通常不会使用自动session.=.=</p>
+
+<h3>如何删除Session</h3>
+
+<p>删除session文件: 在开启session之后,session_destroy();</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Session_start();
+Session_destroy();
+</code></pre></div>
+<p>Session文件的删除是根据sessionID删除: 一个浏览器的一次请求永远只能删除对应的sessionid的session文件.</p>
+
+<h3>如何配置Session</h3>
+
+<p>Session数据的存储方式: 默认是文件</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">修改session数据的存储方式--&gt;存储到文件里面
+session.save_handler = files
+</code></pre></div>
+<p>Session的存储路径: 默认的是操作系统的临时文件夹</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">;设置session数据的存储位置--&gt;存到文件中
+session.save_path = &quot;F:\Program Files (x86)\server\TEMP&quot;
+</code></pre></div>
+<p>Session是基于cookie: 使用cookie保存sessionid</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">session.use_cookies = 1
+</code></pre></div>
+<p>Session只允许使用cookie保存sessionid</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">session.use_only_cookies = 1
+</code></pre></div>
+<p>Session名称: cookie中sessionid的名字</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">session.name = PHPSESSID
+</code></pre></div>
+<p>Session默认不是自动开启</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">session.auto_start = 0
+</code></pre></div>
+<p>Session过期: 因为sessionid的cookie生命周期: 浏览器关闭</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">session.cookie_lifetime = 0
+</code></pre></div>
+<p>Sessionid的cookie作用范围是整站共享</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">session.cookie_path = /
+</code></pre></div>
+<p>Session数据保存是使用php自己的序列化方式(序列化不是对$<em>SESSION序列化,而是对$</em>SESSION里面的数据进行序列[下标不序列化])</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">session.serialize_handler = php
+</code></pre></div>
+<p>Session垃圾回收机制</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">session.gc_probability = 1
+session.gc_divisor = 1000           #session_start开启1000次有一次可能触发垃圾回收机制,一次性回收所有垃圾文件
+session.gc_maxlifetime = 1440       #session文件的生命周期是24分钟
+</code></pre></div>
+<p>Session默认不允许将sessionid存储到a标签里面的href中</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">session.use_trans_sid = 0
+</code></pre></div>
+<h3>Session分层</h3>
+
+<p>有可能网站的瞬时访问量很大, 会产生很多的session文件: 因为操作系统寻找文件是逐个匹配: 效率特别低.</p>
+
+<ul>
+<li>解决方案1: 将session文件放到不同的文件夹下: 以sessionID的首字母为文件夹</li>
+</ul>
+
+<p><code>使用分层的缺点1</code>: 需要手动创建文件夹(系统不会自动创建)</p>
+
+<p>为了保证安全性: 必须手动创建36个(26个字母+10个数字)文件夹,如果分成两层: 36 * 36个文件</p>
+
+<p><code>使用分层的缺点2</code>: 文件读取有i/o限制(并发问题)</p>
+
+<ul>
+<li>解决方案2:将session保存到数据库(数据库的并发量比文件要高的多:  数据库可以是非关系型数据库[内存])</li>
+</ul>
+
+<p>打完收工:p</p>
 
     </div>
     <hr>
@@ -484,7 +441,14 @@
 </div>
 
   </div>
+  <!-- 目录 -->
+  <div id="content_table" style="position:fixed;right:20px;top:120px;display:none;">
+    <div class="panel panel-success">
+      <div class="panel-body" id="nav"></div>
+    </div>
+  </div>
 </div>
+
 
           </div>
         </div>

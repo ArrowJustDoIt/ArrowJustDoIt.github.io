@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-<title>归档 | fantaster | 杨柳青</title>
+<title>Cookie与Session -- 原理 | fantaster | 杨柳青</title>
 <meta name="author" content="fantaster">
 
 
@@ -251,229 +251,54 @@
             <div class="row">
   <div class="col-md-13 aside3-title">
     <br>
-    <h2 id="#identifier"><i class="fa fa-archive fa-lg"></i></h2>
+    <h2 id="#identifier">Cookie与Session -- 原理</h2>
+    2014年05月30日
   </div>
   <div class="col-md-13 aside3-content">
-    <div id="page-content">
-      
-    
-    
-    
-    
-  
-    
-      <legend id="2015-10">2015年-10月</legend>
-      <ul>
-    
-    <li><span>2015年-10月-01日</span> &raquo; 
-      <a class="pjaxlink" href="/2015/10/01/foushan.html">佛山</a>
-    </li>
-  
-    
-          
-        
-        </ul>
-        <legend id="2015-03">2015年-03月</legend>
-        <ul>
-        
-      
-    
+    <hr>
+    <div id="content">
+      <p>之前有写过一篇<a href="http://arrowjustdoit.github.io/2014/05/25/Cookie-and-Session.html">Cookie与Session</a>更多是在讲解写简单的实际操作,今天在网上看到一些通俗易懂的原理,分享下</p>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2015年-03月-12日</span> &raquo; 
-      <a class="pjaxlink" href="/2015/03/12/URI-URL-URN.html">URI、URL和URN三者之间的区别</a>
-    </li>
-  
-    
-          
-        
-        </ul>
-        <legend id="2015-01">2015年-01月</legend>
-        <ul>
-        
-      
-    
+<hr>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2015年-01月-16日</span> &raquo; 
-      <a class="pjaxlink" href="/2015/01/16/Nginx.html">Nginx</a>
-    </li>
-  
-    
-      
-        </ul>
-        <legend id="2014-08">2014年-08月</legend>
-        <ul>
-      
-    
+<h3><strong>作用</strong></h3>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2014年-08月-21日</span> &raquo; 
-      <a class="pjaxlink" href="/2014/08/21/Replication.html">Mysql主从复制</a>
-    </li>
-  
-    
-          
-        
-        </ul>
-        <legend id="2014-06">2014年-06月</legend>
-        <ul>
-        
-      
-    
+<p>　　服务器可以<code>利用Cookies或Session包含信息的任意性来筛选并经常性维护这些信息</code>，以判断在HTTP传输中的状态。它们最典型的应用是<code>判定注册用户是否已经登录网站</code>，用户可能会得到提示，是否在下一次进入此网站时保留用户信息以便简化登录手续。另一个重要应用场合是<code>“购物车”</code>之类处理。用户可能会在一段时间内在同一家网站的不同页面中选择不同的商品，这些信息都会写入Cookies或Session，以便在最后付款时提取信息。总而言之，cookies和session就是能够<code>记录顾客状态</code>的技术，尽管二者属于不同的技术，但只要cookies能做到的，session也能做到</p>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2014年-06月-11日</span> &raquo; 
-      <a class="pjaxlink" href="/2014/06/11/Simple%20Algorithm.html">几个简单的排序算法</a>
-    </li>
-  
-    
-          
-        
-      
-    
+<h3><strong>打个比方</strong></h3>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2014年-06月-07日</span> &raquo; 
-      <a class="pjaxlink" href="/2014/06/07/Cookie-and-Session-advance.html">Cookie禁用了，Session还能用吗？</a>
-    </li>
-  
-    
-          
-        
-        </ul>
-        <legend id="2014-05">2014年-05月</legend>
-        <ul>
-        
-      
-    
+<p>　　我常到一家熟食店买馋嘴鸭，该店老板为了促进销售，特发布“每购满10只即可免费赠送一只”的优惠措施。除了家里有什么红白喜事要飨客之外，应该不会有人一次性购买10只烤鸭吧？所以老板得想个法子来记录顾客的消费数量，这里总共有三种方案：</p>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2014年-05月-30日</span> &raquo; 
-      <a class="pjaxlink" href="/2014/05/30/Cookie-and-Session-principle.html">Cookie与Session -- 原理</a>
-    </li>
-  
-    
-          
-        
-      
-    
+<p>Ⅰ、老板<code>记住每一个顾客的消费数量</code>，等到顾客消费满10只的时候自动奉送一只。这好比HTTP协议本身是有状态的，可以记住顾客的活动行为。但遗憾的是，出于种种考虑<code>http协议本身是不能有状态的</code>，老板自个也没有这么超常的记忆力，故这种方案行不通！</p>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2014年-05月-25日</span> &raquo; 
-      <a class="pjaxlink" href="/2014/05/25/Cookie-and-Session.html">Cookie与Session</a>
-    </li>
-  
-    
-          
-        
-      
-    
+<p>Ⅱ、老板发给顾客一张<code>积分卡</code>，上面记录着消费的数量，一般还有个有效期限。每次买烤鸭时，如果顾客出示这张卡片，老板就知道这位顾客曾经光顾过小店。这种做法就是在<code>客户端保持状态</code>，好比是cookie技术。打开（windows系统）C:\Documents and Settings\用户名\Cookies，你会发现一些*.txt格式的小文件，这就是你浏览某些网站，它们发给你的“积分卡”(cookies)。</p>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2014年-05月-01日</span> &raquo; 
-      <a class="pjaxlink" href="/2014/05/01/files-upload.html">php文件上传</a>
-    </li>
-  
-    
-          
-        
-        </ul>
-        <legend id="2014-04">2014年-04月</legend>
-        <ul>
-        
-      
-    
+<p>Ⅲ、老板发给顾客一张<code>会员卡</code>，<code>除了卡号之外什么信息也不纪录</code>，每次买烤鸭时，如果顾客出示该卡片，则老板搬出店里的划名册，找到你的卡号并加1个积分。这种做法就是在<code>服务器端保持状态</code>。好比是session技术。</p>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2014年-04月-22日</span> &raquo; 
-      <a class="pjaxlink" href="/2014/04/22/Recursive-Traversal.html">php递归遍历文件夹</a>
-    </li>
-  
-    
-      
-        </ul>
-        <legend id="2013-12">2013年-12月</legend>
-        <ul>
-      
-    
+<h3><strong>区别和联系</strong></h3>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2013年-12月-31日</span> &raquo; 
-      <a class="pjaxlink" href="/2013/12/31/Change.html">改变</a>
-    </li>
-  
-    
-      
-        </ul>
-        <legend id="2010-01">2010年-01月</legend>
-        <ul>
-      
-    
+<p>cookie和session最大的区别在于： </p>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2010年-01月-01日</span> &raquo; 
-      <a class="pjaxlink" href="/2010/01/01/Book-List-2010.html">2010年阅读书单</a>
-    </li>
-  
-    
-      </ul>
-    
+<ul>
+<li><p>cookie是把<code>积分卡</code>发给顾客，上面<code>记录了顾客所有的消费信息</code>。Session则是把只有<code>卡号</code>(session id)的积分卡发给顾客，<code>自家记录了顾客所有的消费信息</code>。</p></li>
+<li><p>Cookie是保存在<code>客户端</code>的；session是保存在<code>服务器端</code>，而session id则是保存在<code>客户端</code>，通常也是一个cookie小文件，由于这个小文件除了session id(好比卡号)外什么也没有，因此比cookie安全多了。</p></li>
+</ul>
+
+<p>具体来说cookie机制采用的是在<code>客户端保持状态</code>的方案，而session机制采用的是在<code>服务器端保持状态</code>的方案。同时我们也看到，由于采用服务器端保持状态的方案在客户端也需要保存一个标识，所以session机制可能需要借助于cookie机制来达到保存标识的目的，但实际上它还有其他选择。</p>
+
+<h3><strong>原理</strong></h3>
+
+<h3>cookie机制</h3>
+
+<p>　　正统的cookie分发是通过扩展HTTP协议来实现的，服务器通过在HTTP的响应头中加上一行特殊的指示以提示浏览器按照指示生成相应的cookie。然而纯粹的客户端脚本如JavaScript或者VBScript也可以生成cookie。而cookie的使用是由浏览器按照一定的原则在后台自动发送给服务器的。浏览器检查所有存储的cookie，如果某个cookie所声明的作用范围大于等于将要请求的资源所在的位置，则把该cookie附在请求资源的HTTP请求头上发送给服务器。</p>
+
+<p>cookie的内容主要包括：名字，值，过期时间，路径和域。路径与域一起构成cookie的作用范围。若不设置过期时间，则表示这个cookie的生命期为浏览器会话期间，关闭浏览器窗口，cookie就消失。这种生命期为浏览器会话期的cookie被称为<code>会话cookie</code>。会话cookie一般不存储在硬盘上而是保存在内存里，当然这种行为并不是规范规定的。若设置了过期时间，浏览器就会把cookie保存到硬盘上，关闭后再次打开浏览器，这些cookie仍然有效直到超过设定的过期时间。存储在硬盘上的cookie可以在不同的浏览器进程间共享，比如两个IE窗口。而对于保存在内存里的cookie，不同的浏览器有不同的处理方式</p>
+
+<h3>session机制</h3>
+
+<p>　　session机制是一种服务器端的机制，服务器使用一种类似于散列表的结构（也可能就是使用散列表）来保存信息。当程序需要为某个客户端的请求创建一个session时，服务器首先检查这个客户端的请求里是否已包含了一个session标识（称为session id），如果已包含则说明以前已经为此客户端创建过session，服务器就按照session id把这个session检索出来使用（检索不到，会新建一个），如果客户端请求不包含session id，则为此客户端创建一个session并且生成一个与此session相关联的session id，session id的值应该是一个既不会重复，又不容易被找到规律以仿造的字符串，这个session id将被在本次响应中返回给客户端保存。 保存这个session id的方式可以采用cookie，这样在交互过程中浏览器可以自动的按照规则把这个标识发挥给服务器。一般这个cookie的名字都是类似于SEEESIONID。但cookie可以被人为的禁止，则必须有其他机制以便在cookie被禁止时仍然能够把session id传递回服务器。 </p>
+
+<p>打完收工:p</p>
 
     </div>
     <hr>
@@ -484,7 +309,14 @@
 </div>
 
   </div>
+  <!-- 目录 -->
+  <div id="content_table" style="position:fixed;right:20px;top:120px;display:none;">
+    <div class="panel panel-success">
+      <div class="panel-body" id="nav"></div>
+    </div>
+  </div>
 </div>
+
 
           </div>
         </div>

@@ -1,0 +1,458 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+<title>Cookie禁用了，Session还能用吗？ | fantaster | 杨柳青</title>
+<meta name="author" content="fantaster">
+
+
+<link rel="shortcut icon" href="/public/img/smallcat.png" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/public/css/bootstrap.css">
+<link rel="stylesheet" href="/public/css/font-awesome.css">
+<link rel="stylesheet" href="/public/js/prettify/prettify.css">
+<link rel="stylesheet" href="/public/css/base.css">
+<link href="/pages/atom.xml" rel="alternate" title="fantaster | 杨柳青" type="application/atom+xml">
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 col-lg-3 col-sm-13 col-xs-13 aside visible-md visible-lg">
+  <div class="row">
+    <div class="col-md-2 col-xs-2 aside1">
+      <br>
+      <a class="pjaxlink" href="/"><img src="/public/img/cat.png" class="img-ronuded avatar" style="border-width:0px; border-color:#000"></a>
+      <br><br><br><br>
+      <ul class="nav nav-pills nav-stacked">
+             <!-- 这里是aside1的读书、生活、科研、技术、绘画-->
+         <li><a href="#读书" data-toggle="tab">读书</a></li>
+             <!-- 这里是aside1的读书、生活、科研、技术、绘画-->
+         <li><a href="#生活" data-toggle="tab">生活</a></li>
+             <!-- 这里是aside1的读书、生活、科研、技术、绘画-->
+         <li><a href="#技术" data-toggle="tab">技术</a></li>
+             <!-- 这里是aside1的读书、生活、科研、技术、绘画-->
+         <li><a href="#游记" data-toggle="tab">游记</a></li>
+        
+        <li><a href="#tags" data-toggle="tab">标签</a></li>  
+        <li><a class="pjaxlink" href="/pages/archive.html">归档</a></li>
+        <li><a class="pjaxlink" href="/pages/about.html">关于</a></li>  
+        <!-- <li><a href="#tags" data-toggle="tab"><i class="fa fa-tags fa-lg"></i></a></li>
+        <li><a class="pjaxlink" href="/pages/archive.html"><i class="fa fa-archive fa-lg"></i></a></li>
+        <li><a class="pjaxlink" href="/pages/about.html"><i class="fa fa-user fa-lg"></i></a></li>
+        这是原来现实汉字的代码，我改为了图标 -->
+      </ul>
+      <div class="aside1_bottom">
+        <table class="table table-condensed">
+          <tr>
+            <td><a href="/pages/atom.xml" target="_blank"><i class="fa fa-rss fa-lg" style="color:#fff;"></i></a></td>
+            <td><a href="mailto:arrowylq@foxmail.com"><i class="fa fa-envelope-o fa-lg" style="color:#fff;"></i></a></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-10 col-xs-10 aside2">
+      <div class="row">
+        <div class="tab-content"> 
+           
+            <div class="tab-pane" id="读书">
+              <div class="list-group">
+                <!--<h2 class="center">读书</h2>-->     <!--原来aside2上面的大标题-->
+                
+                  <a href="/2010/01/01/Book-List-2010.html" class="list-group-item-lay pjaxlink">2010年阅读书单</a>
+                
+              </div>
+            </div>
+           
+            <div class="tab-pane" id="生活">
+              <div class="list-group">
+                <!--<h2 class="center">生活</h2>-->     <!--原来aside2上面的大标题-->
+                
+                  <a href="/2013/12/31/Change.html" class="list-group-item-lay pjaxlink">改变</a>
+                
+              </div>
+            </div>
+           
+            <div class="tab-pane" id="技术">
+              <div class="list-group">
+                <!--<h2 class="center">技术</h2>-->     <!--原来aside2上面的大标题-->
+                
+                  <a href="/2015/03/12/URI-URL-URN.html" class="list-group-item-lay pjaxlink">URI、URL和URN三者之间的区别</a>
+                
+                  <a href="/2015/01/16/Nginx.html" class="list-group-item-lay pjaxlink">Nginx</a>
+                
+                  <a href="/2014/08/21/Replication.html" class="list-group-item-lay pjaxlink">Mysql主从复制</a>
+                
+                  <a href="/2014/06/11/Simple%20Algorithm.html" class="list-group-item-lay pjaxlink">几个简单的排序算法</a>
+                
+                  <a href="/2014/06/07/Cookie-and-Session-advance.html" class="list-group-item-lay pjaxlink">Cookie禁用了，Session还能用吗？</a>
+                
+                  <a href="/2014/05/30/Cookie-and-Session-principle.html" class="list-group-item-lay pjaxlink">Cookie与Session -- 原理</a>
+                
+                  <a href="/2014/05/25/Cookie-and-Session.html" class="list-group-item-lay pjaxlink">Cookie与Session</a>
+                
+                  <a href="/2014/05/01/files-upload.html" class="list-group-item-lay pjaxlink">php文件上传</a>
+                
+                  <a href="/2014/04/22/Recursive-Traversal.html" class="list-group-item-lay pjaxlink">php递归遍历文件夹</a>
+                
+              </div>
+            </div>
+           
+            <div class="tab-pane" id="游记">
+              <div class="list-group">
+                <!--<h2 class="center">游记</h2>-->     <!--原来aside2上面的大标题-->
+                
+                  <a href="/2015/10/01/foushan.html" class="list-group-item-lay pjaxlink">佛山</a>
+                
+              </div>
+            </div>
+                
+          <div class="tab-pane" id="tags">
+            <div class="panel-group" id="accordion">
+              <!--<h2 class="center">标签</h2>-->
+               
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#随感">随感</a>
+                      <span class="badge pull-right">1</span>
+                    </h4>
+                  </div>
+                  <div id="随感" class="panel-collapse collapse">
+                    
+                      <a  href='/2013/12/31/Change.html' class="list-group-item pjaxlink">
+                        改变
+                      </a>
+                    
+                  </div>
+                </div>
+               
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#php">php</a>
+                      <span class="badge pull-right">5</span>
+                    </h4>
+                  </div>
+                  <div id="php" class="panel-collapse collapse">
+                    
+                      <a  href='/2014/06/07/Cookie-and-Session-advance.html' class="list-group-item pjaxlink">
+                        Cookie禁用了，Session还能用吗？
+                      </a>
+                    
+                      <a  href='/2014/05/30/Cookie-and-Session-principle.html' class="list-group-item pjaxlink">
+                        Cookie与Session -- 原理
+                      </a>
+                    
+                      <a  href='/2014/05/25/Cookie-and-Session.html' class="list-group-item pjaxlink">
+                        Cookie与Session
+                      </a>
+                    
+                      <a  href='/2014/05/01/files-upload.html' class="list-group-item pjaxlink">
+                        php文件上传
+                      </a>
+                    
+                      <a  href='/2014/04/22/Recursive-Traversal.html' class="list-group-item pjaxlink">
+                        php递归遍历文件夹
+                      </a>
+                    
+                  </div>
+                </div>
+               
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#算法">算法</a>
+                      <span class="badge pull-right">1</span>
+                    </h4>
+                  </div>
+                  <div id="算法" class="panel-collapse collapse">
+                    
+                      <a  href='/2014/06/11/Simple%20Algorithm.html' class="list-group-item pjaxlink">
+                        几个简单的排序算法
+                      </a>
+                    
+                  </div>
+                </div>
+               
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#mysql">mysql</a>
+                      <span class="badge pull-right">1</span>
+                    </h4>
+                  </div>
+                  <div id="mysql" class="panel-collapse collapse">
+                    
+                      <a  href='/2014/08/21/Replication.html' class="list-group-item pjaxlink">
+                        Mysql主从复制
+                      </a>
+                    
+                  </div>
+                </div>
+               
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#Nginx">Nginx</a>
+                      <span class="badge pull-right">1</span>
+                    </h4>
+                  </div>
+                  <div id="Nginx" class="panel-collapse collapse">
+                    
+                      <a  href='/2015/01/16/Nginx.html' class="list-group-item pjaxlink">
+                        Nginx
+                      </a>
+                    
+                  </div>
+                </div>
+               
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#前端">前端</a>
+                      <span class="badge pull-right">1</span>
+                    </h4>
+                  </div>
+                  <div id="前端" class="panel-collapse collapse">
+                    
+                      <a  href='/2015/03/12/URI-URL-URN.html' class="list-group-item pjaxlink">
+                        URI、URL和URN三者之间的区别
+                      </a>
+                    
+                  </div>
+                </div>
+               
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#游记">游记</a>
+                      <span class="badge pull-right">1</span>
+                    </h4>
+                  </div>
+                  <div id="游记" class="panel-collapse collapse">
+                    
+                      <a  href='/2015/10/01/foushan.html' class="list-group-item pjaxlink">
+                        佛山
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="col-md-13 col-lg-13 col-sm-13 col-xs-13 aside3">
+        <div id="container">
+          <div id="pjax">
+            <div class="row">
+  <div class="col-md-13 aside3-title">
+    <br>
+    <h2 id="#identifier">Cookie禁用了，Session还能用吗？</h2>
+    2014年06月07日
+  </div>
+  <div class="col-md-13 aside3-content">
+    <hr>
+    <div id="content">
+      <p>很必要的一个问题,因为有一部分童鞋觉得cookie不安全,于是就禁用cookie,结果session就哭了-,-</p>
+
+<hr>
+
+<h3>session哭了</h3>
+
+<p>　　Cookie与 Session，一般认为是两个独立的东西，Session采用的是在服务器端保持状态的方案，而Cookie采用的是在客户端保持状态的方案。但为什么禁用Cookie就不能得到Session呢？因为Session是用<code>Session ID</code>来确定当前对话所对应的服务器Session，而<code>Session ID是通过Cookie来传递</code>的，禁用Cookie相当于失去了Session ID，也就得不到Session了。</p>
+
+<h3>session不哭,站起来撸</h3>
+
+<p>　　Session，储存于服务器端（默认以文件方式存储Session），<code>根据客户端提供的Session ID来得到用户的文件，取得变量的值</code>，Session ID可以使用客户端的Cookie或者Http1.1协议的Query_String（就是访问的URL的“?”后面的部分）来传送给服务器，然后服务器读取Session的目录……。也就是说，<code>Session ID是取得存储在服务上的Session变量的身份证</code>。</p>
+
+<p>　　当代码session<em>start();运行的时候，就在服务器上<code>产生了一个Session文件，随之也产生了与之唯一对应的一个Session ID</code>，定义Session变量以一定形式存储刚才产生的Session文件。通过Session ID，可以取出定义的变量。跨页后，为了使用Session，你必须又执行session</em>start();将<code>又会产生一个Session文件，与之对应产生相应的Session ID</code>，用这个session id是取不出前面提到的第一个Session文件中的变量的，因为这个Session ID不是打开它的“钥匙”。<code>如果在session_start();之前加代码session_id($session id);将不产生新的Session文件，直接读取与这个id对应的Session文件</code>。</p>
+
+<p>我们可以抛开Cookie使用Session，即假定用户关闭Cookie的情况下使用Session，其实现途径有以下几种：</p>
+
+<ul>
+<li>设置php.ini配置文件中的<code>session.use_trans_sid = 1</code>，或者编译时打开打开了<code>--enable-trans-sid</code>选项，让PHP自动跨页传递Session ID。</li>
+</ul>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="lineno"> 1</span> <span class="x">-------------------------------------------------------------------------------------------------------------------</span>
+<span class="lineno"> 2</span> <span class="x">       </span><span class="cp">&lt;?php</span>
+<span class="lineno"> 3</span>            <span class="c1">// s1.php</span>
+<span class="lineno"> 4</span>            <span class="nb">session_start</span><span class="p">();</span>
+<span class="lineno"> 5</span>            <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;lalala&#39;</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;papapa&quot;</span><span class="p">;</span>
+<span class="lineno"> 6</span>            <span class="nv">$url</span><span class="o">=</span><span class="s2">&quot;&lt;a href=&#39;s2.php&#39;&gt;下一页&lt;/a&gt;&quot;</span><span class="p">;</span>
+<span class="lineno"> 7</span>            <span class="k">echo</span> <span class="nv">$url</span><span class="p">;</span>
+<span class="lineno"> 8</span>        <span class="cp">?&gt;</span><span class="x"></span>
+<span class="lineno"> 9</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
+<span class="lineno">10</span> 
+<span class="lineno">11</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
+<span class="lineno">12</span> <span class="x">       </span><span class="cp">&lt;?php</span>
+<span class="lineno">13</span>            <span class="c1">// s2.php</span>
+<span class="lineno">14</span>            <span class="nb">session_start</span><span class="p">();</span>
+<span class="lineno">15</span>            <span class="k">echo</span> <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;lalala&#39;</span><span class="p">];</span>
+<span class="lineno">16</span>        <span class="cp">?&gt;</span><span class="x"></span>
+<span class="lineno">17</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span></code></pre></div>
+
+<p>运行以上代码，在客户端cookie正常的情况下，应该可以得到结果&quot;papapa&quot;。
+现在你手动关闭客户端的cookie，再运行，可能得不到结果了吧。如果得不到结果，再设置php.ini文件中的<code>session.use_trans_sid = 1</code>，或者编译时打开打开了<code>--enable-trans-sid选项</code>，又得到结果“papapa”。 </p>
+
+<ul>
+<li>手动通过URL传值、隐藏表单传递Session ID。</li>
+</ul>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="lineno"> 1</span> <span class="x">-------------------------------------------------------------------------------------------------------------------</span>
+<span class="lineno"> 2</span> <span class="x">       </span><span class="cp">&lt;?php</span>
+<span class="lineno"> 3</span>            <span class="c1">// s1.php</span>
+<span class="lineno"> 4</span>            <span class="nb">session_start</span><span class="p">();</span>
+<span class="lineno"> 5</span>            <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;lalala&#39;</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;papapa&quot;</span><span class="p">;</span>
+<span class="lineno"> 6</span>            <span class="nv">$sn</span> <span class="o">=</span> <span class="nb">session_id</span><span class="p">();</span>
+<span class="lineno"> 7</span>            <span class="nv">$url</span><span class="o">=</span><span class="s2">&quot;&lt;a href=&#39;s2.php?sn=&quot;</span><span class="o">.</span><span class="nv">$sn</span><span class="o">.</span><span class="s2">&quot;&#39;&gt;下一页&lt;/a&gt;&quot;</span><span class="p">;</span>
+<span class="lineno"> 8</span>            <span class="k">echo</span> <span class="nv">$url</span><span class="p">;</span>
+<span class="lineno"> 9</span>        <span class="cp">?&gt;</span><span class="x"></span>
+<span class="lineno">10</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
+<span class="lineno">11</span> 
+<span class="lineno">12</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
+<span class="lineno">13</span> <span class="x">       </span><span class="cp">&lt;?php</span>
+<span class="lineno">14</span>            <span class="c1">// s2.php</span>
+<span class="lineno">15</span>            <span class="nb">session_id</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;sn&#39;</span><span class="p">]);</span>
+<span class="lineno">16</span>            <span class="nb">session_start</span><span class="p">();</span>
+<span class="lineno">17</span>            <span class="k">echo</span> <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;lalala&#39;</span><span class="p">];</span>
+<span class="lineno">18</span>        <span class="cp">?&gt;</span><span class="x"> </span>
+<span class="lineno">19</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span></code></pre></div>
+
+<ul>
+<li>用文件、数据库等形式保存Session ID，在跨页过程中手动调用。</li>
+</ul>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="lineno"> 1</span> <span class="x">-------------------------------------------------------------------------------------------------------------------</span>
+<span class="lineno"> 2</span> <span class="x">       login.html</span>
+<span class="lineno"> 3</span> <span class="x">       &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt; </span>
+<span class="lineno"> 4</span> <span class="x">       &lt;html&gt; </span>
+<span class="lineno"> 5</span> <span class="x">       &lt;head&gt; </span>
+<span class="lineno"> 6</span> <span class="x">       &lt;title&gt;Login&lt;/title&gt; </span>
+<span class="lineno"> 7</span> <span class="x">       &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=gb2312&quot;&gt;</span>
+<span class="lineno"> 8</span> <span class="x">       &lt;/head&gt; </span>
+<span class="lineno"> 9</span> <span class="x">       &lt;body&gt; </span>
+<span class="lineno">10</span> <span class="x">       请登录： </span>
+<span class="lineno">11</span> <span class="x">       &lt;form name=&quot;login&quot; method=&quot;post&quot; action=&quot;mylogin1.php&quot;&gt; </span>
+<span class="lineno">12</span> <span class="x">       用户名:&lt;input type=&quot;text&quot; name=&quot;name&quot;&gt;&lt;br&gt; </span>
+<span class="lineno">13</span> <span class="x">       口　令:&lt;input type=&quot;password&quot; name=&quot;pass&quot;&gt;&lt;br&gt; </span>
+<span class="lineno">14</span> <span class="x">       &lt;input type=&quot;submit&quot; value=&quot;登录&quot;&gt; </span>
+<span class="lineno">15</span> <span class="x">       &lt;/form&gt; </span>
+<span class="lineno">16</span> <span class="x">       &lt;/body&gt; </span>
+<span class="lineno">17</span> <span class="x">       &lt;/html&gt; </span>
+<span class="lineno">18</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
+<span class="lineno">19</span> 
+<span class="lineno">20</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
+<span class="lineno">21</span> <span class="x">       mylogin1.php</span>
+<span class="lineno">22</span> <span class="x">       </span><span class="cp">&lt;?php</span>
+<span class="lineno">23</span>        <span class="nv">$name</span><span class="o">=</span><span class="nv">$_POST</span><span class="p">[</span><span class="nx">’name’</span><span class="p">];</span>
+<span class="lineno">24</span>        <span class="nv">$pass</span><span class="o">=</span><span class="nv">$_POST</span><span class="p">[</span><span class="nx">’pass’</span><span class="p">];</span>
+<span class="lineno">25</span>        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nv">$name</span> <span class="o">||</span> <span class="o">!</span><span class="nv">$pass</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">26</span>            <span class="k">echo</span> <span class="s2">&quot;用户名或密码为空，请&lt;a href=&#39;login.html&#39;&gt;重新登录&lt;/a&gt;&quot;</span><span class="p">;</span>
+<span class="lineno">27</span>            <span class="k">die</span><span class="p">();</span>
+<span class="lineno">28</span>        <span class="p">}</span>
+<span class="lineno">29</span>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="nv">$name</span><span class="o">==</span><span class="s2">&quot;lalala&quot;</span> <span class="o">&amp;&amp;</span> <span class="nv">$pass</span><span class="o">==</span><span class="s2">&quot;papapa&quot;</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">30</span>            <span class="k">echo</span> <span class="s2">&quot;用户名或密码不正确，请&lt;a href=&#39;login.html&#39;&gt;重新登录&lt;/a&gt;&quot;</span><span class="p">;</span> <span class="c1">#随便测试写,不要注意这些细节-,-</span>
+<span class="lineno">31</span>            <span class="k">die</span><span class="p">();</span>
+<span class="lineno">32</span>        <span class="p">}</span>
+<span class="lineno">33</span>        <span class="c1">//注册用户</span>
+<span class="lineno">34</span>        <span class="nb">ob_start</span><span class="p">();</span>                                <span class="c1">#ob缓存</span>
+<span class="lineno">35</span>        <span class="nb">session_start</span><span class="p">();</span>                           <span class="c1">#session开启</span>
+<span class="lineno">36</span>        <span class="nv">$_SESSION</span><span class="p">[</span><span class="nx">’user’</span><span class="p">]</span><span class="o">=</span> <span class="nv">$name</span><span class="p">;</span>             <span class="c1">#设置session</span>
+<span class="lineno">37</span>        <span class="nv">$psid</span><span class="o">=</span><span class="nb">session_id</span><span class="p">();</span>                     <span class="c1">#保存session id</span>
+<span class="lineno">38</span>        <span class="nv">$fp</span><span class="o">=</span><span class="nb">fopen</span><span class="p">(</span><span class="s2">&quot;D:</span><span class="se">\t</span><span class="s2">mp\phpsid.txt&quot;</span><span class="p">,</span><span class="s2">&quot;w+&quot;</span><span class="p">);</span>      <span class="c1">#打开文件</span>
+<span class="lineno">39</span>        <span class="nb">fwrite</span><span class="p">(</span><span class="nv">$fp</span><span class="p">,</span><span class="nv">$psid</span><span class="p">);</span>                       <span class="c1">#把session id写入文件</span>
+<span class="lineno">40</span>        <span class="nb">fclose</span><span class="p">(</span><span class="nv">$fp</span><span class="p">);</span>                                <span class="c1">#关闭文件</span>
+<span class="lineno">41</span>        <span class="c1">//身份验证成功，进行相关操作</span>
+<span class="lineno">42</span>        <span class="k">echo</span> <span class="s2">&quot;已登录&lt;br&gt;&quot;</span><span class="p">;</span>
+<span class="lineno">43</span>        <span class="k">echo</span> <span class="s2">&quot;&lt;a href=&#39;mylogin2.php&#39;&gt;下一页&lt;/a&gt;&quot;</span><span class="p">;</span>
+<span class="lineno">44</span>        <span class="cp">?&gt;</span><span class="x"></span>
+<span class="lineno">45</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
+<span class="lineno">46</span> 
+<span class="lineno">47</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
+<span class="lineno">48</span> <span class="x">       mylogin2.php</span>
+<span class="lineno">49</span> <span class="x">       </span><span class="cp">&lt;?php</span>
+<span class="lineno">50</span>        <span class="nv">$fp</span><span class="o">=</span><span class="nb">fopen</span><span class="p">(</span><span class="s2">&quot;D:</span><span class="se">\t</span><span class="s2">mp\phpsid.txt&quot;</span><span class="p">,</span><span class="s2">&quot;r&quot;</span><span class="p">);</span>       <span class="c1">#打开文件</span>
+<span class="lineno">51</span>        <span class="nv">$sid</span><span class="o">=</span><span class="nb">fread</span><span class="p">(</span><span class="nv">$fp</span><span class="p">,</span><span class="mi">1024</span><span class="p">);</span>                 <span class="c1">#取出session id</span>
+<span class="lineno">52</span>        <span class="nb">fclose</span><span class="p">(</span><span class="nv">$fp</span><span class="p">);</span>                                <span class="c1">#关闭文件</span>
+<span class="lineno">53</span>        <span class="nb">session_id</span><span class="p">(</span><span class="nv">$sid</span><span class="p">);</span>                       <span class="c1">#设置session id</span>
+<span class="lineno">54</span>        <span class="nb">session_start</span><span class="p">();</span>                           <span class="c1">#开启session</span>
+<span class="lineno">55</span>        <span class="k">if</span><span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_SESSION</span><span class="p">[</span><span class="nx">’user’</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="nv">$_SESSION</span><span class="p">[</span><span class="nx">’user’</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;laigw&quot;</span> <span class="p">{</span>
+<span class="lineno">56</span>            <span class="k">echo</span> <span class="s2">&quot;已登录!&quot;</span><span class="p">;</span>
+<span class="lineno">57</span>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+<span class="lineno">58</span>            <span class="c1">//成功登录进行相关操作</span>
+<span class="lineno">59</span>            <span class="k">echo</span> <span class="s2">&quot;未登录，无权访问&quot;</span><span class="p">;</span>
+<span class="lineno">60</span>            <span class="k">echo</span> <span class="s2">&quot;请&lt;a href=&quot;</span><span class="nx">login</span><span class="o">.</span><span class="nx">html</span><span class="s2">&quot;&gt;登录&lt;/a&gt;后浏览&quot;</span><span class="p">;</span>
+<span class="lineno">61</span>            <span class="k">die</span><span class="p">();</span>
+<span class="lineno">62</span>        <span class="p">}</span>
+<span class="lineno">63</span>        <span class="cp">?&gt;</span><span class="x"></span>
+<span class="lineno">64</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span></code></pre></div>
+
+<p>同样请关闭Cookie测试，用户名：lalala；密码：lalala；这是通过文件保存Session ID的，文件是：D:/tmp/phpsid.txt，请根据自己的系统决定文件名或路径。 </p>
+
+<p>总结一下，上面的方法有一个共同点，就是在前一页取得Session ID，然后想办法传递到下一页，在下一页的session_start();代码之前加代码Session ID(传过来的Session ID)。</p>
+
+<p>打完收工:p</p>
+
+    </div>
+    <hr>
+    <div id="disqus_thread">
+  <button type="button" name="fantaster" class="btn btn-default show-commend">	
+  	<i class="fa fa-comment-o fa-lg" style="color: #16a095;"></i>     <!-- 修改显示评论按钮图标-->
+  </button>
+</div>
+
+  </div>
+  <!-- 目录 -->
+  <div id="content_table" style="position:fixed;right:20px;top:120px;display:none;">
+    <div class="panel panel-success">
+      <div class="panel-body" id="nav"></div>
+    </div>
+  </div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="position:fixed;right:15px;top:62px;">
+  <button id="content_btn" class="btn btn-primary" style="width:43px; height:34px;">
+    <i class="fa fa-lg fa-plus"></i>
+  </button>
+</div>
+<div style="position:fixed;right:15px;top:20px;">
+  <button id="nav_btn" class="btn btn-primary">
+    <i class="fa fa-lg fa-navicon"></i>
+  </button>
+</div>
+<script type="text/javascript" src="/public/js/jquery.js"></script>
+<script type="text/javascript" src="/public/js/bootstrap.js"></script>
+<script src="/public/js/jquery.pjax.js"></script>
+<script src="/public/js/prettify/prettify.js"></script>
+<script src="/public/js/base.js"></script>
+<!--
+<script src="/public/js/jquery.scrollUp.js"></script>
+-->
+<script>
+    $('a[href="#技术"]').tab('show');
+</script>
+
+
+<!--button是右上方导航和显示目录的按钮-->
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-54262064-1', 'painterlin.com');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>

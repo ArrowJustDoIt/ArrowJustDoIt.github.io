@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-<title>归档 | fantaster | 杨柳青</title>
+<title>Mysql主从复制 | fantaster | 杨柳青</title>
 <meta name="author" content="fantaster">
 
 
@@ -251,229 +251,148 @@
             <div class="row">
   <div class="col-md-13 aside3-title">
     <br>
-    <h2 id="#identifier"><i class="fa fa-archive fa-lg"></i></h2>
+    <h2 id="#identifier">Mysql主从复制</h2>
+    2014年08月21日
   </div>
   <div class="col-md-13 aside3-content">
-    <div id="page-content">
-      
-    
-    
-    
-    
-  
-    
-      <legend id="2015-10">2015年-10月</legend>
-      <ul>
-    
-    <li><span>2015年-10月-01日</span> &raquo; 
-      <a class="pjaxlink" href="/2015/10/01/foushan.html">佛山</a>
-    </li>
-  
-    
-          
-        
-        </ul>
-        <legend id="2015-03">2015年-03月</legend>
-        <ul>
-        
-      
-    
+    <hr>
+    <div id="content">
+      <p>为了减少数据库的压力,我们通常配置多个数据库,把增删改语句放在主数据库中操作,查询放在从数据库中操作</p>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2015年-03月-12日</span> &raquo; 
-      <a class="pjaxlink" href="/2015/03/12/URI-URL-URN.html">URI、URL和URN三者之间的区别</a>
-    </li>
-  
-    
-          
-        
-        </ul>
-        <legend id="2015-01">2015年-01月</legend>
-        <ul>
-        
-      
-    
+<h3><strong>什么是主从复制</strong></h3>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2015年-01月-16日</span> &raquo; 
-      <a class="pjaxlink" href="/2015/01/16/Nginx.html">Nginx</a>
-    </li>
-  
-    
-      
-        </ul>
-        <legend id="2014-08">2014年-08月</legend>
-        <ul>
-      
-    
+<h3><strong>主从复制实现原理</strong></h3>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2014年-08月-21日</span> &raquo; 
-      <a class="pjaxlink" href="/2014/08/21/Replication.html">Mysql主从复制</a>
-    </li>
-  
-    
-          
-        
-        </ul>
-        <legend id="2014-06">2014年-06月</legend>
-        <ul>
-        
-      
-    
+<p><strong>原理</strong>:mysql有一种日志,叫做<code>log-bin</code>日志(二进制日志),它会记录下所有修改过数据库的sql语句,<strong>主从复制</strong>实际上是多台服务器都开启log-bin日志,主服务器会把sql语句保存到log-bin日志中,主服务器更新log-bin日志后会告知从服务器,从服务器通过主服务器grant授权的用户查询主服务器的log-bin日志,并把日志文件里的sql语句执行一遍,则实现了数据同步</p>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2014年-06月-11日</span> &raquo; 
-      <a class="pjaxlink" href="/2014/06/11/Simple%20Algorithm.html">几个简单的排序算法</a>
-    </li>
-  
-    
-          
-        
-      
-    
+<h3><strong>如何授权一个用户</strong></h3>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2014年-06月-07日</span> &raquo; 
-      <a class="pjaxlink" href="/2014/06/07/Cookie-and-Session-advance.html">Cookie禁用了，Session还能用吗？</a>
-    </li>
-  
-    
-          
-        
-        </ul>
-        <legend id="2014-05">2014年-05月</legend>
-        <ul>
-        
-      
-    
+<h4><code>mysql添加账号</code></h4>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2014年-05月-30日</span> &raquo; 
-      <a class="pjaxlink" href="/2014/05/30/Cookie-and-Session-principle.html">Cookie与Session -- 原理</a>
-    </li>
-  
-    
-          
-        
-      
-    
+<p>语法：grant 权限  on  指定数据库和表   to “用户名”@’可以登录主机的ip地址’  identified by ‘密码’</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">grant all  on *.* to ‘lalala’@’%’  identified by ‘papapa’;
+</code></pre></div>
+<h4><code>mysql删除账号</code></h4>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2014年-05月-25日</span> &raquo; 
-      <a class="pjaxlink" href="/2014/05/25/Cookie-and-Session.html">Cookie与Session</a>
-    </li>
-  
-    
-          
-        
-      
-    
+<p>语法：drop user ‘用户名’@’授权登录主机的ip地址’</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">drop user ‘lalala’@’%’
+</code></pre></div>
+<h3><strong>log-bin日志</strong></h3>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2014年-05月-01日</span> &raquo; 
-      <a class="pjaxlink" href="/2014/05/01/files-upload.html">php文件上传</a>
-    </li>
-  
-    
-          
-        
-        </ul>
-        <legend id="2014-04">2014年-04月</legend>
-        <ul>
-        
-      
-    
+<h4><code>1 开启log-bin日志</code></h4>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2014年-04月-22日</span> &raquo; 
-      <a class="pjaxlink" href="/2014/04/22/Recursive-Traversal.html">php递归遍历文件夹</a>
-    </li>
-  
-    
-      
-        </ul>
-        <legend id="2013-12">2013年-12月</legend>
-        <ul>
-      
-    
+<p>打开mysql的配置文件：my.ini(window)     my.cnf  (linux)</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"># 数据库主从复制,mysql-bin 是二进制日志文件的名称,默认是存储数据库文件同一级目录,可以自己指定,比如log-bin=f:/lalala.txt
+log-bin=mysql-bin
+</code></pre></div>
+<p>之后重启mysql服务，会产生新的一个日志文件(<code>每次重启都会产生新的</code>)</p>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2013年-12月-31日</span> &raquo; 
-      <a class="pjaxlink" href="/2013/12/31/Change.html">改变</a>
-    </li>
-  
-    
-      
-        </ul>
-        <legend id="2010-01">2010年-01月</legend>
-        <ul>
-      
-    
+<h4><code>2 和log-bin日志相关的几个函数</code></h4>
 
-    
-    
-    
-    
-  
-    
-    <li><span>2010年-01月-01日</span> &raquo; 
-      <a class="pjaxlink" href="/2010/01/01/Book-List-2010.html">2010年阅读书单</a>
-    </li>
-  
-    
-      </ul>
-    
+<ol>
+<li><p>reset master<br>
+清空所有的 log-bin日志，并产生一个新的log-bin日志文件。</p></li>
+<li><p>flush logs<br>
+产生新的一个log-bin日志文件。</p></li>
+<li><p>show master status<br>
+查看最新的一个log-bin日志的文件名称，并包含pos位置(<code>记录sql语句在log-bin日志文件中的位置</code>)</p></li>
+</ol>
+
+<p><img src="/public/img/technology/Replication.png" alt="1"></p>
+
+<p>上图的数字就是pos代表的位置</p>
+
+<h4><code>3 查看log-bin日志文件里面的内容</code></h4>
+
+<p>使用在mysql的安装目录的bin目录下面的mysqlbinlog.exe命令来完成查看</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">mysqlbinlog   --no-defaults    日志文件的名称（包含全路径）
+</code></pre></div>
+<h4><code>4 完成log-bin日志恢复数据</code></h4>
+
+<p>只需要把日志文件里面的sql语句执行一遍，即可完成数据恢复</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">mysqlbinlog --no-defaults 日志文件的名称（路径）| mysql –u用户名 –p密码 数据库的名称
+</code></pre></div>
+<p>如果想恢复具体位置的sql数据,只需查找记录增删改sql语句在log-bin日志文件中的pos 开始位置和结束位置</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">mysqlbinlog --no-defaults --start-position=”开始位置” --stop-position=”结束的位置” 日志文件的名称（路径）| mysql –u用户名 –p密码 数据库的名称 
+</code></pre></div>
+<h3><strong>主从配置</strong></h3>
+
+<h3>主服务器配置流程</h3>
+
+<h4><code>1 修改my.ini,添加如下语句</code></h4>
+<div class="highlight"><pre><code class="language-text" data-lang="text">log-bin=mysql-bin
+
+server-id=1
+</code></pre></div>
+<h4><code>2 重启mysql服务器</code></h4>
+
+<h4><code>3 授权从服务器读取log-bin日志信息用户</code></h4>
+<div class="highlight"><pre><code class="language-text" data-lang="text">grant replication slave on *.* to &#39;lalala&#39;@&#39;%&#39; identified by &#39;lalala&#39;;#replication slave 分配复制的权限
+</code></pre></div>
+<h4><code>4 查看主服务器最新的log-bin日志信息</code></h4>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Show master status;
+</code></pre></div>
+<h3>从服务器配置流程</h3>
+
+<h4><code>1 修改my.ini,增加如下配置：</code></h4>
+<div class="highlight"><pre><code class="language-text" data-lang="text">log-bin=mysql-bin   #二进制日志文件
+server-id=2         #每台服务器id不能一样
+</code></pre></div>
+<h4><code>2 重启mysql服务器</code></h4>
+
+<h4><code>3 进入到mysql命令行后执行下面命令：</code></h4>
+<div class="highlight"><pre><code class="language-text" data-lang="text">    stop slave;         #关闭从服务
+    reset slave all;        #删除从服务器的配置
+    change master to master_host=&quot;192.168.28.65&quot;,master_user=&quot;lalala&quot;,master_password =&quot;lalala&quot; ,master_log_file=&quot;mysql-bin.000002&quot;,master_log_pos=107； #配置与主服务器的链接
+    start slave;            #开启从服务
+    show slave status;      #查看主从服务状态是否成功
+</code></pre></div>
+<p><code>Slave_IO_Running:Yes</code></p>
+
+<p>此进程负责从服务器从主服务器上读取binlog 日志，并写入从服务器上的中继日志</p>
+
+<p><code>Slave_SQL_Running:Yes</code></p>
+
+<p>此进程负责读取并且执行中继日志中的binlog日志</p>
+
+<p>注：以上两个都为yes则表明成功，只要其中一个进程的状态是no，则表示复制进程停止，错误原因可以从<code>last_error</code>字段的值中看到。
+通过在主服务器上面创建一个新的数据库，并创建一张新表，并添加记录，查看从服务器是否同步来完成测试。
+配置完成后，要禁止对从服务器执行增删改的操作。</p>
+
+<h3>如何撤销从服务器</h3>
+
+<p>在从服务器上面执行：</p>
+
+<p>停止从服务器：<code>stop slave;</code></p>
+
+<p>删除从服务器的一些配置：<code>reset slave all;</code></p>
+
+<h3>在项目中如何使用主从配置，完成读写分离</h3>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="lineno">1</span> <span class="x">class  mysql{</span>
+<span class="lineno">2</span> <span class="x">  $dbm=主服务器 </span>
+<span class="lineno">3</span> <span class="x">  $dbs1=从服务器 </span>
+<span class="lineno">4</span> <span class="x">  $dbs2=从服务器 </span>
+<span class="lineno">5</span> <span class="x">  public function query(){</span>
+<span class="lineno">6</span> <span class="x">  #在query里面进行语句判断，分析连接不同的mysql服务器。如果是增删改的操作，就连接主服务器，如果是查询操作，则随机连接从服务器。</span>
+<span class="lineno">7</span> <span class="x">  }</span>
+<span class="lineno">8</span> <span class="x">}</span></code></pre></div>
+
+<h3>读写分离在TP框架里面实现</h3>
+
+<p>修改TP框架项目的配置文件：</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="lineno"> 1</span> <span class="x">&#39;DB_DEPLOY_TYPE&#39;=&gt;1,//分布式数据库支持</span>
+<span class="lineno"> 2</span> <span class="x">&#39;DB_TYPE&#39;               =&gt; &#39;mysql&#39;,     // 数据库类型</span>
+<span class="lineno"> 3</span> <span class="x">&#39;DB_HOST&#39;               =&gt; &#39;localhost,192.168.1.1&#39;, // 服务器地址，多个用逗号隔开，默认第一个是主服务器，其余是从服务器。</span>
+<span class="lineno"> 4</span> <span class="x">&#39;DB_NAME&#39;               =&gt; &#39;php,php&#39;,          // 数据库名</span>
+<span class="lineno"> 5</span> <span class="x">&#39;DB_USER&#39;               =&gt; &#39;root,lalala&#39;,      // 用户名</span>
+<span class="lineno"> 6</span> <span class="x">&#39;DB_PWD&#39;                =&gt; &#39;root,lalala&#39;,          // 密码</span>
+<span class="lineno"> 7</span> <span class="x">&#39;DB_PORT&#39;               =&gt; &#39;3306&#39;,        // 端口</span>
+<span class="lineno"> 8</span> <span class="x">&#39;DB_PREFIX&#39;             =&gt; &#39;&#39;,</span>
+<span class="lineno"> 9</span> <span class="x">&#39;DB_RW_SEPARATE&#39;=&gt;true,//支持读写分离 </span>
+<span class="lineno">10</span> <span class="x">&#39;DB_MASTER_NUM&#39;         =&gt;  1, // 读写分离后 主服务器数量</span>
+<span class="lineno">11</span> <span class="x">&#39;DB_SLAVE_NO&#39;       =&gt;  &#39;&#39;, // 指定从服务器序号，如果为空，则随机连接从服务器。</span></code></pre></div>
 
     </div>
     <hr>
@@ -484,7 +403,14 @@
 </div>
 
   </div>
+  <!-- 目录 -->
+  <div id="content_table" style="position:fixed;right:20px;top:120px;display:none;">
+    <div class="panel panel-success">
+      <div class="panel-body" id="nav"></div>
+    </div>
+  </div>
 </div>
+
 
           </div>
         </div>
