@@ -6,11 +6,920 @@
     <description>My personal blog</description>
     
       <item>
-        <title>佛山</title>
-        <link>http://杨柳青一些事.中国/2015/10/01/foushan.html</link>
-        <guid isPermaLink="true">http://杨柳青一些事.中国/2015/10/01/foushan.html</guid>
-        <pubDate>Thu, 01 Oct 2015 00:00:00 +0800</pubDate>
-        <description>&lt;p&gt;趁着假期,和几个小伙伴去同学家玩耍,应该会挺有趣&lt;/p&gt;
+        <title>memcache实现高可用方案</title>
+        <link>http://杨柳青一些事.中国/2015/08/16/Linux%20-%20memcache.html</link>
+        <guid isPermaLink="true">http://杨柳青一些事.中国/2015/08/16/Linux%20-%20memcache.html</guid>
+        <pubDate>Sun, 16 Aug 2015 00:00:00 +0800</pubDate>
+        <description>&lt;h1&gt;memcache实现高可用方案&lt;/h1&gt;
+
+&lt;p&gt;源码：&lt;a href=&quot;http://yunpan.cn/cHqfqdQagStBV&quot;&gt;http://yunpan.cn/cHqfqdQagStBV&lt;/a&gt;  访问密码 cb6f&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;实现方案&lt;/strong&gt;：使用&lt;code&gt;repcached&lt;/code&gt;实现高可用&lt;br/&gt;
+repcached：全称 replication cached是由日本人发明的memcached的高可用性技术，简称&lt;code&gt;复制缓冲区技术&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;使用场景&lt;/strong&gt;：它是一个&lt;strong&gt;单master&lt;/strong&gt; &lt;strong&gt;单slave&lt;/strong&gt;的方案，但它的 master/slave都是可读写的，而且可以相互同步，如果 master 宕机， slave侦测后，它会自动 listen成为 master；而如果 slave坏掉， master也会侦测到连接断，它就会重新 listen等待新的 slave加入。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;实现步骤&lt;/strong&gt;：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;环境搭建
+&lt;code&gt;&amp;gt; yum -y install gcc gcc-c++ libevent-devel&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;下载 memcached-1.2.8-repcached-2.2.tar.gz
+&lt;code&gt;&amp;gt; wget http://downloads.sourceforge.net/repcached/memcached-1.2.8-repcached-2.2.tar.gz&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;解压配置repcached
+&lt;code&gt;&amp;gt; tar zxvf memcached-1.2.8-repcached-2.2.tar.gz&lt;/code&gt;
+&lt;code&gt;&amp;gt; ./configure --enable-replication --program-transform-name=s/memcached/repcached/&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;编译安装 
+&lt;code&gt;&amp;gt; make &amp;amp;&amp;amp; make install&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;启动repcached (&lt;strong&gt;注意不要使用 root 来启动服务&lt;/strong&gt;)&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;启动主服务
+&lt;code&gt;&amp;gt;  /usr/local/bin/repcached -p 11211 -v -d&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;启动从服务
+&lt;code&gt;&amp;gt;  /usr/local/bin/repcached -p 11212 -x localhost -v -d&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;注意：可以使用 &lt;code&gt;ps aux | grep repcached&lt;/code&gt;  命令来查看进程&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;参数解释
+-d ： 后台运行memcached进程
+-p ： 默认监听端口11211  11212
+-x ： 监听高可用机器，如果是监听默认端口不用写端口号，localhost就是监听本机,作用：第二个repcached监听第一个repcached如果有问题就接管&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;测试
+先链接 11211 这个端口的服务，设置name 的值是  asion
+&lt;code&gt;&amp;gt; telnet localhost 11211&lt;/code&gt;
+&lt;code&gt;&amp;gt; set name 0 0 5&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;注意：在telnet 使用 quit 回车退出&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;然后使用 11212 这个端口的服务
+    &lt;code&gt;&amp;gt; telnet localhost 11212&lt;/code&gt;
+    &lt;code&gt;&amp;gt; get name&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;同样的测试可以反之在进行&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;实验完成!&lt;/strong&gt;&lt;/p&gt;
+</description>
+      </item>
+    
+      <item>
+        <title>大型网站提速方案</title>
+        <link>http://杨柳青一些事.中国/2015/08/01/http.html</link>
+        <guid isPermaLink="true">http://杨柳青一些事.中国/2015/08/01/http.html</guid>
+        <pubDate>Sat, 01 Aug 2015 00:00:00 +0800</pubDate>
+        <description>&lt;h2&gt;如何判定一个网站是大型网站&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;高访问就是大网站？还是大流量是大型网站？&lt;/strong&gt;
+可以通过如下工具网站来查看一个网站的一些参数情况
+&lt;a href=&quot;http://www.aizhan.com/&quot;&gt;爱站&lt;/a&gt;   &lt;a href=&quot;http://tool.chinaz.com/&quot;&gt;站长工具&lt;/a&gt; &lt;a href=&quot;https://www.hao123.com&quot;&gt;高访问网站&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;通过几个参数来判定一个大型网站&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;PV(page views) ：一个网站内所有页面，24小时内访问次数的总和。一般在100w，1000w以上&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;UV(unique visitor)：一个网站24小时内的独立访问用户。一般几十万以上&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;IP(独立IP)：一个网站24小时内访问的IP数，在考虑校园网、局域网的时候，UV数一般略大于IP数(局域网通过一个网关上网，多个用户只会记录一个独立IP)&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;总结：PV UV IP&lt;/p&gt;
+
+&lt;h2&gt;大型网站带来的问题&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;高并发：一般是1s内同时访问一个网站的数量&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;大流量：大量的用户访问网站，流量会变得很大&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;大数据：在访问量巨大的同时，带来的就是大量数据（G、T级别）的检索问题，如何在众多数据中检索出需要的数据&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;解决方案&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;高并发可以使用 分层来解决(负载均衡)&lt;/strong&gt;
+&amp;gt; 硬件：f5（优点：立竿见影；缺点：价格昂贵，20w左右）
+&amp;gt; 软件：nginx(web服务器，负载均衡器),lvs
+nginx: http://www.nginx.cn/   http://tengine.taobao.org/   http://nginx.org/
+lvs（章文嵩）: http://zh.linuxvirtualserver.org/
+&amp;gt; 负载均衡的策略：1. 轮询  2. NAT  3. 智能DNS&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;注意：对Apache实现了分流，但对Mysql，如何解决？同时，如何保证Apache，负载均衡器的高可用？&lt;/strong&gt;
+高可用可以使用冗余技术实现，添加一个监控服务器软件：&lt;strong&gt;keepalive&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;大流量可以使用如下方案解决&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;1. 代码压缩 查看HTTP请求，Apache对主体数据进行压缩，开启Apache的deflate模块
+    &amp;gt; http://blog.csdn.net/cctv_hu/article/details/6018942
+    &amp;gt; http://www.webkaka.com/tutorial/server/2015/021013/
+
+2. 合并文件，减少HTTP请求（js、 css），css图片背景的图片精灵(减少请求)
+    &amp;gt; 合并工具： http://tool.oschina.net/jscompress?type=3
+
+3. 使用CDN技术加载静态资源
+    &amp;gt; 加速CDN服务： http://www.bootcdn.cn/
+
+4. 将服务分散，图片服务器，电脑模块。将不同的模块部署到不同的服务器上面 (上传插件配置上传服务器地址)
+    &amp;gt; PHP FTP 函数：http://www.w3school.com.cn/php/php_ref_ftp.asp
+
+5. 升级带宽(100M带宽一年40w左右)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;大数据可以使用缓存技术实现&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;1. 磁盘缓存（静态化）：
+    &amp;gt; 1. 真静态：在效率上，生成真实的html文件，将数据从数据库取出之后，生成的静态html保存到磁盘上面，直接访问静态页面就好。不用访问数据库，减轻数据库的压力
+    &amp;gt; 2. 伪静态：在形式上，利用Apache的重写模块来实现 动态的url 转换成静态的url，便于seo（搜索引擎优化），可以防止sql注入
+    例如：
+    动态网站：`http://www.php.com?new.php&amp;amp;type=sport&amp;amp;id=12`
+    对应的静态网站：`http://www.php.com?new-sport-id12.html`
+
+2. 内存缓存（Nosql技术，memcache、redis、mongodb）：将Mysql取出的数据保存在内存服务器里面，下次请求的时候直接访问内存服务器
+
+3. 数据库优化：
+
+    1. 设计上满足三范式 
+    2. 字段上使用合适的属性 
+    3. 合适的使用索引 
+    4. 分区和分表
+    5. 主从复制(读写分离)
+    6. 硬件升级（scale up、还有scale out）
+    7. sphinx存储引擎的使用
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+      </item>
+    
+      <item>
+        <title>Linux 4：磁盘与文件系统管理</title>
+        <link>http://杨柳青一些事.中国/2015/07/06/Linux4.html</link>
+        <guid isPermaLink="true">http://杨柳青一些事.中国/2015/07/06/Linux4.html</guid>
+        <pubDate>Mon, 06 Jul 2015 00:00:00 +0800</pubDate>
+        <description>&lt;h3&gt;认识EXT2文件系统&lt;/h3&gt;
+
+&lt;p&gt;每种操作系统能够使用的文件系统并不相同。 举例来说，windows 98以前的微软操作系统主要利用的文件系统是&lt;code&gt;FAT(或FAT16)&lt;/code&gt;，windows 2000以后的版本有所谓的&lt;code&gt;NTFS&lt;/code&gt;文件系统，至于Linux的正统文件系统则为&lt;code&gt;Ext2&lt;/code&gt;(Linux second extended file system, ext2fs)这一个。此外，在默认的情况下，windows操作系统是不会认识Linux的Ext2的。&lt;/p&gt;
+
+&lt;p&gt;那么文件系统是如何运行的呢？这与操作系统的文件数据有关。较新的操作系统的文件数据除了文件实际内容外，通常含有非常多的属性，例如Linux操作系统的文件权限(rwx)与文件属性(拥有者、群组、时间参数等)。 文件系统通常会将这两部份的数据分别存放在不同的区块，权限与属性放置到&lt;code&gt;inode&lt;/code&gt;中，至于实际数据则放置到&lt;code&gt;data block&lt;/code&gt;区块中。 另外，还有一个超级区块(&lt;code&gt;superblock&lt;/code&gt;)会记录整个文件系统的整体信息，包括inode与block的总量、使用量、剩余量等。&lt;/p&gt;
+
+&lt;h3&gt;文件系统的简单操作&lt;/h3&gt;
+
+&lt;h3&gt;磁盘的分割、格式化、检验与挂载&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;磁盘分区： fdisk, partprobe&lt;/li&gt;
+&lt;li&gt;磁盘格式化： mkfs, mke2fs&lt;/li&gt;
+&lt;li&gt;磁盘检验： fsck, badblocks&lt;/li&gt;
+&lt;li&gt;磁盘挂载与卸除： mount, umount&lt;/li&gt;
+&lt;li&gt;磁盘参数修订： mknod, e2label, tune2fs, hdparm&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;配置启动挂载&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;启动挂载 /etc/fstab 及 /etc/mtab&lt;/li&gt;
+&lt;li&gt;特殊装置 loop 挂载(映象档不刻录就挂载使用)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;内存置换空间(swap)之建置&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;使用实体分割槽建置swap&lt;/li&gt;
+&lt;li&gt;使用文件建置swap&lt;/li&gt;
+&lt;li&gt;swap使用上的限制&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;文件系统的特殊观察与操作&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;boot sector 与 superblock 的关系&lt;/li&gt;
+&lt;li&gt;磁盘空间之浪费问题&lt;/li&gt;
+&lt;li&gt;利用 GNU 的 parted 进行分割行为&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;重点回顾&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;基本上 Linux 的正统文件系统为 Ext2 ，该文件系统内的信息主要有：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;superblock：记录此 filesystem 的整体信息，包括inode/block的总量、使用量、剩余量， 以及文件系统的格式与相关信息等；&lt;/li&gt;
+&lt;li&gt;inode：记录文件的属性，一个文件占用一个inode，同时记录此文件的数据所在的 block 号码；&lt;/li&gt;
+&lt;li&gt;block：实际记录文件的内容，若文件太大时，会占用多个 block 。&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Ext2 文件系统的数据存取为索引式文件系统(indexed allocation)&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;需要碎片整理的原因就是文件写入的 block 太过于离散了，此时文件读取的效能将会变的很差所致。 这个时候可以透过碎片整理将同一个文件所属的 blocks 汇整在一起。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Ext2文件系统主要有：boot sector, superblock, inode bitmap, block bitmap, inode table, data block 等六大部分。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;data block 是用来放置文件内容数据地方，在 Ext2 文件系统中所支持的 block 大小有 1K, 2K 及 4K 三种而已&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;inode 记录文件的属性/权限等数据，其他重要项目为： 每个 inode 大小均固定为 128 bytes； 每个文件都仅会占用一个 inode 而已； 因此文件系统能够创建的文件数量与 inode 的数量有关；&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;文件的 block 在记录文件的实际数据，目录的 block 则在记录该目录底下文件名与其 inode 号码的对照表；&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;日志式文件系统 (journal) 会多出一块记录区，随时记载文件系统的主要活动，可加快系统复原时间；&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Linux 文件系统为添加效能，会让主存储器作为大量的磁盘高速缓存；&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;实体链接只是多了一个文件名对该 inode 号码的链接而已；&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;符号链接就类似Windows的快捷方式功能。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;磁盘的使用必需要经过：分割、格式化与挂载，分别惯用的命令为：fdisk, mkfs, mount三个命令&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;启动自动挂载可参考/etc/fstab之配置，配置完毕务必使用 mount -a 测试语法正确否；&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;参考资料&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://vbird.dic.ksu.edu.tw/linux_basic/0230filesystem.php#harddisk&quot;&gt;鸟哥的Linux私房菜 第八章&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+      </item>
+    
+      <item>
+        <title>Linux 3：文件与目录管理</title>
+        <link>http://杨柳青一些事.中国/2015/07/05/Linux3.html</link>
+        <guid isPermaLink="true">http://杨柳青一些事.中国/2015/07/05/Linux3.html</guid>
+        <pubDate>Sun, 05 Jul 2015 00:00:00 +0800</pubDate>
+        <description>&lt;h3&gt;目录的相关操作&lt;/h3&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;.         # 代表此层目录
+..        # 代表上一层目录
+-         # 代表前一个工作目录
+~         # 代表『目前使用者身份』所在的家目录
+~account  # 代表 account 这个使用者的家目录(account是个帐号名称)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;在所有目录底下都会存在的两个目录，分别是&lt;code&gt;.&lt;/code&gt;与&lt;code&gt;..&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;根目录的上一层&lt;code&gt;(..)&lt;/code&gt;与根目录自己&lt;code&gt;(.)&lt;/code&gt;是同一个目录&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4&gt;几个常见的处理目录的命令&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;cd：变换目录，cd是Change Directory的缩写&lt;/li&gt;
+&lt;li&gt;pwd：显示目前的目录，pwd是Print Working Directory的缩写&lt;/li&gt;
+&lt;li&gt;mkdir：创建一个新的目录&lt;/li&gt;
+&lt;li&gt;rmdir：删除一个空的目录&lt;/li&gt;
+&lt;li&gt;mv：移动文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;pwd -P                   # -P：代表显示正确的完整路径，而不是连接路径
+mkdir -m xxx             # -m：直接配置文件的权限
+mkdir -p test1/test2     # -p：直接将所需要的目录(包含上一级目录)递回创建起来！
+PATH=&amp;quot;$PATH&amp;quot;:/root       # 将/root路径加入PATH环境变量中
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;文件与目录管理&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;文件与目录的检视： ls&lt;/li&gt;
+&lt;li&gt;复制、删除与移动： cp, rm, mv&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;cp -a        # 将文件的所有特性都一起复制过来
+cp -p        # 连同文件的属性一起复制过去，而非使用默认属性(备份常用)
+cp -r        # 可以复制目录，但是，文件与目录的权限可能会被改变
+rm -i        # 互动模式，在删除前会询问使用者是否动作
+rm -r        # 连目录下的东西一起删掉，并且不会询问，慎用
+mv -f        # force强制移动，如果目标文件已经存在，不会询问而直接覆盖
+mv -i        # 若目标文件 (destination) 已经存在时，就会询问是否覆盖
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;文件内容查询&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;直接检视文件内容： cat, tac, nl （常用）&lt;/li&gt;
+&lt;li&gt;可翻页检视： more, less （常用）&lt;/li&gt;
+&lt;li&gt;数据撷取： head, tail&lt;/li&gt;
+&lt;li&gt;非纯文字档： od&lt;/li&gt;
+&lt;li&gt;修改文件时间与建置新档： touch&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;cat [-AbEnTv] filename # 由第一行开始显示文件内容。-b列出非空白行行号；-n列出所有行号。
+tac                    # 从最后一行开始显示文件内容，tac就是cat倒着写！
+nl                     # 显示文件内容，顺便输出行号
+more                   # 一页一页地显示文件内容
+less                   # 与more类似，但可以往前翻页
+head [-n number]       # 只看文件头几行，默认是10行，number是自定义行数
+tail                   # 只看文件尾几行，文件很大的时候常用
+od                     # 以二进制方式读取文件内容
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;文件与目录的默认权限与隐藏权限&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;文件默认权限：umask&lt;/li&gt;
+&lt;li&gt;文件隐藏属性： chattr, lsattr&lt;/li&gt;
+&lt;li&gt;文件特殊权限：SUID, SGID, SBIT, 权限配置&lt;/li&gt;
+&lt;li&gt;观察文件类型：file&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;umask           # 后三位数是被拿走的权限分数，比如0022，u没有被拿走权限，g和o被拿走了w权限
+umask -S        # 以符号类型来显示权限
+umask number    # 配置自己需要的权限
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;在默认的情况中，root的umask会拿掉比较多的属性，root的umask默认是&lt;code&gt;022&lt;/code&gt;， 这是基於安全的考量啦～至於一般身份使用者，通常他们的 umask 为&lt;code&gt;002&lt;/code&gt; ，亦即保留同群组的写入权力。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;特殊权限&lt;code&gt;s&lt;/code&gt;和&lt;code&gt;t&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Set UID，简称SUID，当s标志在文件拥有者的x项目为SUID，对目录无效&lt;/li&gt;
+&lt;li&gt;Set GID，简称SGID，当s标志在群组的x项目为SGID，对目录有效&lt;/li&gt;
+&lt;li&gt;Sticky Bit, 简称SBIT，目前只针对目录有效，对於文件已经没有效果了&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;配置SUID,SGID,SBIT权限&lt;/h3&gt;
+
+&lt;p&gt;在原有的权限数字前面加上需要配置的权限数字。
+比如&lt;code&gt;755&lt;/code&gt;-&amp;gt;&lt;code&gt;4755&lt;/code&gt; ，就意味着&lt;code&gt;-rwxr-xr-x&lt;/code&gt;变为了&lt;code&gt;-rwsr-xr-x&lt;/code&gt;。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;4 为 SUID&lt;/li&gt;
+&lt;li&gt;2 为 SGID&lt;/li&gt;
+&lt;li&gt;1 为 SBIT&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;chmod 4755 filename
+chmod u=rwxs,go=x test; ls -l test      # 配置权限为-rws--x--x的模样
+chmod g+s,o+t test; ls -l test          # 配置权限为-rws--s--t，即加入SGID,SBIT权限
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;命令与文件的搜寻&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;命令档名的搜寻：which&lt;/li&gt;
+&lt;li&gt;文件档名的搜寻：whereis, locate, find&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;权限与命令的关系&lt;/h3&gt;
+
+&lt;h4&gt;一、让使用者能进入某目录成为『可工作目录』的基本权限为何：&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;可使用的命令：例如 cd 等变换工作目录的命令；&lt;/li&gt;
+&lt;li&gt;目录所需权限：使用者对这个目录至少需要具有 x 的权限&lt;/li&gt;
+&lt;li&gt;额外需求：如果使用者想要在这个目录内利用 ls 查阅档名，则使用者对此目录还需要 r 的权限。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4&gt;二、使用者在某个目录内读取一个文件的基本权限为何？&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;可使用的命令：例如本章谈到的 cat, more, less等等&lt;/li&gt;
+&lt;li&gt;目录所需权限：使用者对这个目录至少需要具有 x 权限；&lt;/li&gt;
+&lt;li&gt;文件所需权限：使用者对文件至少需要具有 r 的权限才行！&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4&gt;三、让使用者可以修改一个文件的基本权限为何？&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;可使用的命令：例如 nano 或未来要介绍的 vi 编辑器等；&lt;/li&gt;
+&lt;li&gt;目录所需权限：使用者在该文件所在的目录至少要有 x 权限；&lt;/li&gt;
+&lt;li&gt;文件所需权限：使用者对该文件至少要有 r, w 权限&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4&gt;四、让一个使用者可以创建一个文件的基本权限为何？&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;目录所需权限：使用者在该目录要具有 w,x 的权限，重点在 w 啦！&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4&gt;五、让使用者进入某目录并运行该目录下的某个命令之基本权限为何？&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;目录所需权限：使用者在该目录至少要有 x 的权限；&lt;/li&gt;
+&lt;li&gt;文件所需权限：使用者在该文件至少需要有 x 的权限&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+      </item>
+    
+      <item>
+        <title>Linux 2：文件权限与目录配置</title>
+        <link>http://杨柳青一些事.中国/2015/07/04/Linux2.html</link>
+        <guid isPermaLink="true">http://杨柳青一些事.中国/2015/07/04/Linux2.html</guid>
+        <pubDate>Sat, 04 Jul 2015 00:00:00 +0800</pubDate>
+        <description>&lt;p&gt;Linux最优秀的地方之一，就在于它的多用户、多任务环境。Linux一般将文件可存取访问的身份分为3个类别，分别是owner（用户）、group（用户组）、others（其他人），且3种身份都各自有自己的read，write，execute等权限。&lt;/p&gt;
+
+&lt;h3&gt;用户身份与用户组记录的文件&lt;/h3&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;\etc\passwd     #所有系统账号的相关信息
+\etc\shadow     #个人的密码
+\etc\group      #Linux所有的组名
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;文件权限概念&lt;/h3&gt;
+
+&lt;p&gt;当屏幕前面出现“Permission deny”的时候，肯定是权限设置错误。&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;ls -al          #ls:list，列出所有文件的详细信息
+ls -l           #显示文件，属性的第一个字段是文件的权限，共10位，比如-rwxr-xr--，表示owner具有rwx权限，group具有rx权限，others只具有r权限
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;改变文件属性与权限&lt;/h3&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;chgrp       #改变文件所属用户组，具体句法记得使用 man page 查询
+chown -R 用户账号:所在组群 文件名      #改变文件所有者
+chmod       #改变文件的权限
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;其中，chmod修改权限的方法有两种，分别是符号法与数字法，数字法中r，w，x的数值分别是4，2，1。&lt;/p&gt;
+
+&lt;p&gt;要开放“目录”（注意不是“文件”）给任何人看，应该至少同时给予r和x权限，但w权限不可随便给予。&lt;/p&gt;
+
+&lt;h3&gt;文件种类与扩展名&lt;/h3&gt;
+
+&lt;p&gt;使用&lt;code&gt;ls -l&lt;/code&gt;查看到的十个字符中，第一个字符为文件的类型：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;-: 普通文件（regular file）&lt;/li&gt;
+&lt;li&gt;d: 目录文件（directory）&lt;/li&gt;
+&lt;li&gt;l: 连接文件，类似于windows的快捷方式（link）&lt;/li&gt;
+&lt;li&gt;b: 块设备文件（block）&lt;/li&gt;
+&lt;li&gt;c: 字符设备文件（character）&lt;/li&gt;
+&lt;li&gt;s: 套接字（sockets）&lt;/li&gt;
+&lt;li&gt;p: 管道（FIFO, pipe）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;Linux目录配置标准：FHS&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/public/img/linuxDIRTREE.gif&quot; alt=&quot;1&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;根据FHS的定义，最好将&lt;code&gt;/var&lt;/code&gt;独立出来，这样至少/var死掉的时候，根目录还活着，还能够进入救援模式。&lt;/p&gt;
+
+&lt;h3&gt;绝对路径与相对路径&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;cd/var/log(absolute)&lt;/li&gt;
+&lt;li&gt;cd../var/log(relative)&lt;/li&gt;
+&lt;li&gt;.: 代表当前的目录，也可以用./来表示&lt;/li&gt;
+&lt;li&gt;..: 代表上一层目录，也可以用../来表示&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;例子&lt;/h3&gt;
+
+&lt;p&gt;将install.log文件复制成为LAYtest.log，并且要给linanya这个人读写权限，可以这样做：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;[root@localhost ~]# cp install.log LAYtest.log     #若复制文件夹，用cp -r
+[root@localhost ~]# ls -al LAYtest.log 
+-rw-r--r-- 1 root root 62826 9月  17 15:19 LAYtest.log     #虽然完成了复制，但仍然是root的文件
+[root@localhost ~]# chown linanya LAYtest.log 
+[root@localhost ~]# ls -al LAYtest.log       
+-rw-r--r-- 1 linanya root 62826 9月  17 15:19 LAYtest.log  #文件变成linanya的
+[root@localhost ~]# 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+      </item>
+    
+      <item>
+        <title>Linux 1：登陆与在线求助man page</title>
+        <link>http://杨柳青一些事.中国/2015/07/03/Linux.html</link>
+        <guid isPermaLink="true">http://杨柳青一些事.中国/2015/07/03/Linux.html</guid>
+        <pubDate>Fri, 03 Jul 2015 00:00:00 +0800</pubDate>
+        <description>&lt;h3&gt;查看内核版本&lt;/h3&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;uname -r
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;稳定版本的偶数版，如2.6.x，适合于商业与家用环境使用；开发中版本，如2.5.x，适合开发特殊功能的环境。&lt;/p&gt;
+
+&lt;h3&gt;登陆&lt;/h3&gt;
+
+&lt;p&gt;Mac：（若以root身份登陆，将username改为root）&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;ssh username@IPaddress
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Linux：(若以root身份登陆，将username删掉）Linux默认root的提示符为#,而一般身份用户的提示符为$。&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;su - username
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;注销Linux&lt;/h3&gt;
+
+&lt;p&gt;注销Linux并不意味着关机，只是用户离开系统。&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;exit
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;基础命令的操作&lt;/h3&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;command [-options] parameter1 parameter2 ···
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;echo $LANG   #显示目前支持的语言
+LANG=en_US   #将语言改为英文系
+date         #显示日期与实践
+cal 10 2014  #显示日历
+bc           #计算器
+quit         #退出
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;重要的热键&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;[tab]&lt;/code&gt;：连按两次，具有“命令补全”和“文件补齐”的作用。
+&lt;code&gt;[control]+c&lt;/code&gt;：中断目前程序。
+&lt;code&gt;[control]+d&lt;/code&gt;：键盘输入结束；直接离开文字界面（相当于`&lt;code&gt;exit&lt;/code&gt;）。&lt;/p&gt;
+
+&lt;h3&gt;在线求助 man page&lt;/h3&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;man command  #command是要查询的命令名称
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;进入man命令后，可按&lt;code&gt;空格&lt;/code&gt;往下翻页，按&lt;code&gt;q&lt;/code&gt;键离开。
+在man page中，可以在任何时候输入&lt;code&gt;/keyword&lt;/code&gt;来查询关键字，比如/date.&lt;/p&gt;
+
+&lt;h3&gt;正确的关机方法&lt;/h3&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;who         #查看目前有谁在线
+netstat -a  #查看网络的联机状态
+ps -aux     #查看后台执行的程序
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;数据同步写入磁盘：为了防止不正常关机导致的内存数据没有来得及写入磁盘，在文字界面输入&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;sync 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;惯用的关机命令：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;shutdown -h now     #立刻关机
+shutdown -h 20:25   #晚上8点25分关机
+shutdown -h +10     #过十分钟后关机
+shutdown -r now     #立刻重启
+shutdown -r +30 ‘The system will be reboot’    #再过30分钟关机，并显示后面的消息给所有在线用户
+shutdown -k now ‘The system will be reboot’    #仅发出警告，系统并不会真正关机
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;重启、关机：reboot，halt，poweroff。务必用man去查询一下。&lt;/p&gt;
+</description>
+      </item>
+    
+      <item>
+        <title>Linux 0：实际问题</title>
+        <link>http://杨柳青一些事.中国/2015/07/02/Linux-Problems.html</link>
+        <guid isPermaLink="true">http://杨柳青一些事.中国/2015/07/02/Linux-Problems.html</guid>
+        <pubDate>Thu, 02 Jul 2015 00:00:00 +0800</pubDate>
+        <description>&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://book.douban.com/subject/4889838/&quot;&gt;《鸟哥的Linux私房菜——基础学习篇》&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://book.douban.com/subject/2338464/&quot;&gt;《鸟哥的Linux私房菜——服务器架设篇》&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;本系列文章分为两部分：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;系统学习上面两本书的笔记。&lt;/li&gt;
+&lt;li&gt;实际中遇到的问题及解决方案，即本文内容。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;实际问题&lt;/h2&gt;
+
+&lt;h2&gt;1. 建立网络映射&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Mac：&lt;code&gt;Finder&lt;/code&gt;-&amp;gt;&lt;code&gt;前往&lt;/code&gt;-&amp;gt;&lt;code&gt;连接服务器&lt;/code&gt;-&amp;gt;输入&lt;code&gt;smb://IPaddress/samba&lt;/code&gt;-&amp;gt;&lt;code&gt;连接&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Linux：&lt;code&gt;位置&lt;/code&gt;-&amp;gt;&lt;code&gt;连接服务器&lt;/code&gt;-&amp;gt;“服务类型”选择&lt;code&gt;自定义位置&lt;/code&gt;-&amp;gt;输入&lt;code&gt;smb://IPaddress/samba&lt;/code&gt;-&amp;gt;&lt;code&gt;连接&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;2. ssh登陆失败&lt;/h2&gt;
+
+&lt;p&gt;以root身份远程登陆服务器，密码正确，却显示如下警告：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+Someone could be eavesdropping on you right now &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;man-in-the-middle attack&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;!
+It is also possible that a host key has just been changed.
+The fingerprint &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; the RSA key sent by the remote host is
+3a:17:4b:6e:62:e6:94:df:09:78:99:90:51:68:18:62.
+Please contact your system administrator.
+Add correct host key in /Users/AnyaLin/.ssh/known_hosts to get rid of this message.
+Offending RSA key in /Users/AnyaLin/.ssh/known_hosts:4
+RSA host key &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; 222.195.93.129 has changed and you have requested strict checking.
+Host key verification failed.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;解决方法：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;vi ~/.ssh/known_hosts     &lt;span class=&quot;c&quot;&gt;#选中最后一条登陆记录，双击`d`删除，按“：”进入末行编辑模式，输入“x”，回车&lt;/span&gt;
+ssh root@222.195.93.129   &lt;span class=&quot;c&quot;&gt;#再次登陆&lt;/span&gt;
+The authenticity of host &lt;span class=&quot;s1&quot;&gt;&amp;#39;222.195.93.129 (222.195.93.129)&amp;#39;&lt;/span&gt; can&lt;span class=&quot;err&quot;&gt;&amp;#39;&lt;/span&gt;t be established.
+RSA key fingerprint is 3a:17:4b:6e:62:e6:94:df:09:78:99:90:51:68:18:62.
+Are you sure you want to &lt;span class=&quot;k&quot;&gt;continue&lt;/span&gt; connecting &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;yes/no&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;?    &lt;span class=&quot;c&quot;&gt;#输入yes&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;3. tar.gz 文件解压&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;打开终端&lt;/li&gt;
+&lt;li&gt;进入需要解压的xxxx.tar.gz文件所在目录&lt;/li&gt;
+&lt;li&gt;$ tar xvfz xxxx.tar.gz&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt; HEAD&lt;/p&gt;
+
+&lt;h2&gt;4. 新建文件命令&lt;/h2&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;touch a.txt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;=======&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;blockquote&gt;
+&lt;blockquote&gt;
+&lt;blockquote&gt;
+&lt;blockquote&gt;
+&lt;blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;cc60f2ed32a5f9727a68a2eb7f2f6a8a1eeac51a&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/blockquote&gt;
+&lt;/blockquote&gt;
+&lt;/blockquote&gt;
+&lt;/blockquote&gt;
+&lt;/blockquote&gt;
+&lt;/blockquote&gt;
+</description>
+      </item>
+    
+      <item>
+        <title>Linux环境下redis的搭建</title>
+        <link>http://杨柳青一些事.中国/2015/05/16/linux-redis.html</link>
+        <guid isPermaLink="true">http://杨柳青一些事.中国/2015/05/16/linux-redis.html</guid>
+        <pubDate>Sat, 16 May 2015 00:00:00 +0800</pubDate>
+        <description>&lt;h1&gt;本文主要介绍Linux环境下redis的搭建&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://yunpan.cn/cHqjyAVnp8hps&quot;&gt;redis 源码包&lt;/a&gt;  访问密码 e97d&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;操作系统环境&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;[root@asion ~]#   lsb_release  -a
+LSB-Version:core-4.0-ia32:core-4.0-noarch:graphics-4.0-ia32:gr  aphics-4.0-noarch:printing-4.0-ia32:printing-4.0-noarch
+Distributor ID:  CentOS
+Description:    CentOS release 5.5 (Final)
+Release:        5.
+Codename:      Final&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;编译环境准备&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;yum -y install make apr* autoconf automake curl-devel gcc gcc-c++ zlib-devel openssl openssl-devel pcre-devel gd kernel keyutils patch perl kernel-headers compat* mpfr cpp glibc libgomp libstdc++-devel ppl cloog-ppl keyutils-libs-devel libcom_err-devel libsepol-devel libselinux-devel krb5-devel zlib-devel libXpm* freetype libjpeg* libpng* php-common php-gd ncurses* libtool* libxml2 libxml2-devel patch cmake&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;安装TCL，不然 redis 的 make test 不会通过。也可以先安装 redis 再回过头来装 TCL (这步可忽略)
+&lt;a href=&quot;http://sourceforge.net/projects/tcl/files/Tcl/&quot;&gt;下载地址&lt;/a&gt; 
+编译安装：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;tar xvzf tcl8.6.1-src.tar.gz
+cd tcl8.6.1/unix/
+./configure
+make
+make test
+make install&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://redis.io/&quot;&gt;下载redis源码&lt;/a&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;wget  http://download.redis.io/releases/redis-3.0.4.tar.gz&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ol&gt;
+&lt;li&gt;解压下载的文件(无须configure，在make install 的时候指定安装地址，PREFIX 需要大写)
+&amp;gt; tar -zxvf redis-3.0.4.tar.gz&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;编译安装&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;cd redis-3.0.4
+make
+make PREFIX=/usr/local/redis install
+cp redis.conf /usr/local/redis/redis.conf &lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;注意：
+如果在执行 make 的时候遇到以下错误(比如本人的 32 位的 CentOS5.5 就碰到了)：&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;zmalloc.o: In function zmalloc&lt;em&gt;used&lt;/em&gt;memory:
+/home/defonds/redis/redis-2.8.10/src/zmalloc.c:223: undefined reference to `_&lt;em&gt;sync&lt;/em&gt;add&lt;em&gt;and&lt;/em&gt;fetch_4&amp;#39;
+collect2: ld returned 1 exit status
+make[1]: *** [redis-server] Error 1
+make[1]: Leaving directory /home/defonds/redis/redis-2.8.10/src
+make: *** [all] Error 2&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;解决方案：在执行 make 时加上参数 CFLAGS=&amp;quot;-march=i686&amp;quot; 就可以了：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;make CFLAGS=&amp;quot;-march=i686&amp;quot;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;修改redis.conf 配置文件（daemonize yes  后台启动）
+&amp;gt; vim redis.conf
+&amp;gt; daemonize yes 
+&amp;gt; ./bin/redis-server ./redis.conf&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;ps aux | grep redis
+./bin/redis-cli INFO&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;可以对redis 进行检测
+&amp;gt; cd /usr/local/redis/bin
+&amp;gt; ./redis-benchmark -t GET,SET&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;当然，也可以添加 -q 对输出结果进行精简&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;./redis-benchmark -q -t GET,SET&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;编译安装完成&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;安装PHP对redis的扩展 （Cannot find config.m4. 解决方案：进入扩展目录）
+下载地址：http://pecl.php.net/package/redis&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;解压文件&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;cd phpredis-2.2.4
+/usr/local/php/bin/phpize
+./configure --with-php-config=/usr/local/php/bin/php-config
+make
+make install&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;将生成的 memcache.so 动态库的目录添加到php.ini文件里面&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;vim /usr/local/php/etc/php.ini
+extension_dir = &amp;quot;/usr/local/php/lib/php/extensions/no-debug-non-zts-20090626&amp;quot;
+extension=redis.so&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;到网站根目录添加测试文件 redis.php&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;cd /var/www/html
+vim redis.php&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;lineno&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;?&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;php&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;2&lt;/span&gt;         &lt;span class=&quot;nv&quot;&gt;$redis&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Redis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;3&lt;/span&gt;         &lt;span class=&quot;nv&quot;&gt;$redis&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;connect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;localhost&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6379&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;4&lt;/span&gt;         &lt;span class=&quot;nv&quot;&gt;$redis&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;test&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;hello world&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;5&lt;/span&gt;         &lt;span class=&quot;k&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$redis&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;test&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;6&lt;/span&gt;     &lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;在浏览器的地址栏输入 http://localhost/memcache.php输入上述地址后 浏览器页面 输出 hello world ，则成功&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+      </item>
+    
+      <item>
+        <title>lamp环境的搭建</title>
+        <link>http://杨柳青一些事.中国/2015/03/25/linux-lamp.html</link>
+        <guid isPermaLink="true">http://杨柳青一些事.中国/2015/03/25/linux-lamp.html</guid>
+        <pubDate>Wed, 25 Mar 2015 00:00:00 +0800</pubDate>
+        <description>&lt;h1&gt;lamp环境的搭建&lt;/h1&gt;
+
+&lt;p&gt;lamp源码包：&lt;a href=&quot;http://yunpan.cn/cHqsvIUPRgEgN&quot;&gt;http://yunpan.cn/cHqsvIUPRgEgN&lt;/a&gt;  访问密码 ca46 &lt;br/&gt;
+linux操作系统：&lt;a href=&quot;http://yunpan.cn/cHqsNzJpiSfQf&quot;&gt;http://yunpan.cn/cHqsNzJpiSfQf&lt;/a&gt;  访问密码 9412 &lt;br/&gt;
+mysql源码：&lt;a href=&quot;http://mirrors.sohu.com/mysql/&quot;&gt;http://mirrors.sohu.com/mysql/&lt;/a&gt;&lt;br/&gt;
+httpd源码：&lt;a href=&quot;http://mirrors.sohu.com/mysql/&quot;&gt;http://apache.fayea.com/httpd/&lt;/a&gt;&lt;br/&gt;
+PHP源码：&lt;a href=&quot;http://php.net/releases/&quot;&gt;http://php.net/releases/&lt;/a&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;h2&gt;系统环境查看&lt;/h2&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&amp;gt; [root@asion ~]#   lsb_release  -a
+LSB-Version:core-4.0-ia32:core-4.0-noarch:graphics-4.0-ia32:gr  aphics-4.0-noarch:printing-4.0-ia32:printing-4.0-noarch
+Distributor ID:  CentOS
+Description:    CentOS release 5.5 (Final)
+Release:        5.5
+Codename:      Final
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;编译环境的准备 (在编译之前，先安装好相应的编译器和库文件等)&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;yum -y install make apr* autoconf automake curl-devel gcc gcc-c++ zlib-devel openssl openssl-devel pcre-devel gd kernel keyutils patch perl kernel-headers compat* mpfr cpp glibc libgomp libstdc++-devel ppl cloog-ppl keyutils-libs-devel libcom_err-devel libsepol-devel libselinux-devel krb5-devel zlib-devel libXpm* freetype libjpeg* libpng* php-common php-gd ncurses* libtool* libxml2 libxml2-devel patch cmake&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;ftp环境的搭建（使用  非root  用户后，在ftp客户端上传相关的源码）
+    &amp;gt; yum install -y vsftpd
+    &amp;gt; useradd asion
+    &amp;gt; service vsftpd status&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;下载相关的源码包(将源码cp到/usr/local/src/下，并进入)
+    &amp;gt; cd /usr/local/src/
+    &amp;gt; pwd&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;解压相关源码文件
+    &amp;gt; tar -zxvf xxx.tar.gz&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;进入解压后的文件夹
+    &amp;gt; cd xxx
+    &amp;gt; ./configure --help
+    &amp;gt; make
+    &amp;gt; make install&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;安装成功后，在网站目录创建index.php文件，写入phpinfo()测试
+    &amp;gt; touch index.php
+    &amp;gt; echo &amp;#39;&amp;lt;?php phpinfo();&amp;gt;&amp;#39;  &amp;gt; index.php&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;具体安装&lt;/p&gt;
+
+&lt;p&gt;a. libxml2 安装（xml和html文件相关依赖的库）
+    &amp;gt; tar -zxvf libxml2-2.6.30
+    &amp;gt; cd libxml2-2.6.30
+    &amp;gt; ./configure --prefix=/usr/local/libxml2
+    &amp;gt; make &amp;amp;&amp;amp; make install&lt;/p&gt;
+
+&lt;p&gt;b. libmcrypt-2.5.8 安装（加密库）
+    &amp;gt; cd /lamp/libmcrypt-2.5.8
+    &amp;gt; ./configure --prefix=/usr/local/libmcrypt/
+    &amp;gt; make 
+    &amp;gt; make install&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;== 进入libmcrypt-2.5.8文件夹内的 libltdl
+&amp;gt; cd ./libmcrypt-2.5.8/libltdl
+&amp;gt; ./configure --enable-ltdl-install
+&amp;gt; make
+&amp;gt; make install
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;c. zlib库安装（不需要指定安装路径）
+    &amp;gt; ./configure
+    &amp;gt; make
+    &amp;gt; make install &lt;/p&gt;
+
+&lt;p&gt;d. png图片库安装
+    &amp;gt; ./configure --prefix=/usr/local/libpng/
+    &amp;gt; make
+    &amp;gt; make install&lt;/p&gt;
+
+&lt;p&gt;e. jpeg图片库安装（需要自己创建jpeg6）
+    &amp;gt; mkdir /usr/local/jpeg6
+    &amp;gt; mkdir /usr/local/jpeg6/bin
+    &amp;gt; mkdir /usr/local/jpeg6/lib
+    &amp;gt; mkdir /usr/local/jpeg6/include
+    &amp;gt; mkdir -p /usr/local/jpeg6/man/man1
+    &amp;gt; cd /lamp/jpeg-6b
+    &amp;gt; ./configure --prefix=/usr/local/jpeg6/ --enable-shared --enable-static
+    &amp;gt; make
+    &amp;gt; make install&lt;/p&gt;
+
+&lt;p&gt;f. freetype字体库安装
+    &amp;gt; ./configure --prefix=/usr/local/freetype/
+    &amp;gt; make
+    &amp;gt; make install&lt;/p&gt;
+
+&lt;p&gt;g. autoconfig生成makefile安装（不需要指定安装路径）
+    &amp;gt; ./configure
+    &amp;gt; make 
+    &amp;gt; make install&lt;/p&gt;
+
+&lt;p&gt;h. GD 库的安装
+    &amp;gt; ./configure --prefix=/usr/local/gd2/ --with-jpeg=/usr/local/jpeg6/ --with-freetype=/usr/local/freetype/ --enable-m4&lt;em&gt;pattern&lt;/em&gt;allow 
+    &amp;gt; make
+    &amp;gt; make install&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;注意：当make的时候，出现以下错误 
+configure.ac:64: error: possibly undefined macro: AM_ICONV 
+If this token and others are legitimate, please use m4_pattern_allow. 
+See the Autoconf documentation. 
+make: *** [configure] Error 1 
+
+解决方案：
+解决办法 ，编译加m4_pattern_allow参数 
+即：./configure --enable-m4_pattern_allow 
+便能顺利编译安装
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;i. apache安装&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;./configure --prefix=/usr/local/apache2  --sysconfdir=/etc/httpd/ --enable-rewrite --enable-so --enable-headers --enable-expires  --enable-modules=most --enable-deflate&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;j. ncurses安装(Mysql安装前必须安装这个字符库)源码安装才需要)&lt;/p&gt;
+
+&lt;p&gt;k. 安装mysql通用二进制包
+    &amp;gt;  groupadd mysql
+    &amp;gt;  useradd -g mysql mysql&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&amp;gt;  cd /usr/local/mysql-5.5.44-linux2.6-i686/
+&amp;gt;  chown -R msyql.mysql  .
+&amp;gt;  scripts/mysql_install_db --basedir=/usr/local/mysql  --user=mysql
+&amp;gt;  chown -R root .
+&amp;gt;  cp support-files/mysql.server /etc/init.d/mysqld
+
+&amp;gt;  chkconfig --add mysqld
+&amp;gt;  chkconfig mysqld on
+&amp;gt;  cp support-files/my-medium.cnf /etc/my.cnf
+
+&amp;gt;  service mysqld start
+&amp;gt;  ps aux | grep mysqld  
+
+注意：/usr/local/mysql/bin/mysqld: error while loading shared libraries: libaio.so.1: cannot open shared object file: No such file or directory
+
+解决方案：libaio.i386 0:0.3.106-5
+&amp;gt; yum install libaio
+
+注意： selinux 必须关闭
+&amp;gt; sestatus -v
+&amp;gt; getenforce
+
+&amp;gt; 临时关闭
+&amp;gt; setenforce 0
+
+&amp;gt; 修改配置文件需要重启机器：
+&amp;gt; 修改/etc/selinux/config 文件
+&amp;gt; 将SELINUX=enforcing改为SELINUX=disabled
+&amp;gt; 重启机器即可 
+
+注意：
+[root@localhost mysql]# service mysql start
+Starting MySQL.. ERROR! The server quit without updating PID file (/var/lib/mysql/localhost.localdomain.pid).
+
+解决方案：
+    1. 注释/etc/my.cnf里的skip-federated注释掉即#skip-federated；
+    2. my.cnf文件配置过高，重新定义其中的参数（根据服务器情况定义）；
+    3. 杀掉mysql_safe和mysqld进程，然后再重启；
+    4. 当前日志文件过大，超出了my.cnf中定义的大小（默认为64M），删除日志文件再重启；
+    5. 其他情况，查看日志文件（本人是/usr/local/data/bogon.error，具体因人而异），然后具体分析；
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;l. 安装PHP
+      &amp;gt; cd /usr/local/src/php-5.3.28
+      &amp;gt; ./configure --prefix=/usr/local/php/ --with-config-file-path=/usr/local/php/etc/ --with-apxs2=/usr/local/apache2/bin/apxs --with-mysql=/usr/local/mysql/ --with-libxml-dir=/usr/local/libxml2/ --with-jpeg-dir=/usr/local/jpeg6/ --with-freetype-dir=/usr/local/freetype/ --with-gd=/usr/local/gd2/ --with-mcrypt=/usr/local/libmcrypt/ --with-mysqli=/usr/local/mysql/bin/mysql_config --enable-soap --enable-mbstring=all --enable-sockets 
+      &amp;gt;  make
+      &amp;gt;  make install
+      &amp;gt;  cp php.ini-dist /usr/local/php/etc/php.ini&lt;/p&gt;
+
+&lt;p&gt;m. 打开Apache的配置文件（添加AddType这两行）&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;cd /etc/httpd/
+vim httpd.conf
+AddType application/x-httpd-php .php
+AddType application/x-httpd-source .phps&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;n. 更改php.ini里面的时区（设置为亚洲/上海）
+    &amp;gt; cd /usr/local/php/etc/
+    &amp;gt; vim php.ini
+    &amp;gt; date.timezone = Asia/Shanghai&lt;/p&gt;
+
+&lt;p&gt;o. 在网站根目录建立测试文件
+    &amp;gt; cd /var/www/html
+    &amp;gt; vim index.php
+    &amp;gt; phpinfo()&lt;/p&gt;
+
+&lt;p&gt;p. 在浏览器地址栏输入 http://localhost/index.php&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
 </description>
       </item>
     
@@ -90,6 +999,261 @@
 &lt;p&gt;就是这样。现在你应该能够辨别出URL和URN之间的不同。&lt;/p&gt;
 
 &lt;p&gt;如果你忘记了这篇文章的内容，至少要记住一件事：&lt;code&gt;URI可以被分为URL、URN或两者的组合&lt;/code&gt;。如果你一直使用URI这个术语，就不会有错。&lt;/p&gt;
+</description>
+      </item>
+    
+      <item>
+        <title>Linux下 nginx安装 + php-fpm安装</title>
+        <link>http://杨柳青一些事.中国/2015/03/11/Lnmp.html</link>
+        <guid isPermaLink="true">http://杨柳青一些事.中国/2015/03/11/Lnmp.html</guid>
+        <pubDate>Wed, 11 Mar 2015 00:00:00 +0800</pubDate>
+        <description>&lt;h1&gt;Linux下 nginx安装 + php-fpm安装&lt;/h1&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;编译环境准备&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;yum -y install gcc automake autoconf libtool make  gcc  gcc-c++&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;一般都需要先装pcre、 zlib，前者为了重写rewrite，后者为了gzip压缩
+源代码目录：/usr/local/src&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;安装pcre 和 zlib 和 ssl&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;cd /usr/local/src
+wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.34.tar.gz 
+tar -zxvf pcre-8.34.tar.gz
+cd pcre-8.34
+./configure
+make
+make install&lt;/p&gt;
+
+&lt;p&gt;cd /usr/local/src
+wget http://zlib.net/zlib-1.2.8.tar.gz
+tar -zxvf zlib-1.2.8.tar.gz
+cd zlib-1.2.8
+./configure
+make
+make install&lt;/p&gt;
+
+&lt;p&gt;cd /usr/local/src
+wget http://www.openssl.org/source/openssl-1.0.1c.tar.gz
+tar -zxvf openssl-1.0.1c.tar.gz&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;nginx 安装&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;cd /usr/local/src
+wget http://nginx.org/download/nginx-1.4.2.tar.gz
+tar -zxvf nginx-1.4.2.tar.gz
+cd nginx-1.4.2&lt;/p&gt;
+
+&lt;p&gt;./configure --sbin-path=/usr/local/nginx/nginx  \
+--conf-path=/usr/local/nginx/nginx.conf  \
+--pid-path=/usr/local/nginx/nginx.pid&lt;/p&gt;
+
+&lt;p&gt;make
+make install&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;安装成功后，/usr/local/nginx 目录下如下
+fastcgi.conf            koi-win             nginx.conf.default
+fastcgi.conf.default    logs                scgi&lt;em&gt;params
+fastcgi&lt;/em&gt;params          mime.types          scgi&lt;em&gt;params.default
+fastcgi&lt;/em&gt;params.default  mime.types.default  uwsgi&lt;em&gt;params
+html                    nginx               uwsgi&lt;/em&gt;params.default
+koi-utf                 nginx.conf          win-utf&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;启动之前先确保 80 端口没有被占用，执行 /usr/local/nginx/nginx 启动&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;netstat -an | grep 80&lt;/p&gt;
+
+&lt;p&gt;lsof -i | grep 80&lt;/p&gt;
+
+&lt;p&gt;netstat -tunpl | grep 80&lt;/p&gt;
+
+&lt;p&gt;/usr/local/nginx/nginx&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;fpm-php 安装(5.3.3之后默认自带 加上参数 --enable-fpm 开启)&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;tar -zxvf php-5.3.28.tar.gz&lt;/p&gt;
+
+&lt;p&gt;cd php-5.3.28&lt;/p&gt;
+
+&lt;p&gt;./configure --prefix=/usr/local/php  --enable-fpm &lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;更改nginx的配置文件 nginx.conf ，增加，并增加php-fpm的配置文件&lt;/p&gt;
+
+&lt;p&gt;location ~ .php$ {
+    root html;
+    fastcgi&lt;em&gt;pass 127.0.0.1:9000;
+    fastcgi&lt;/em&gt;index index.php;
+    fastcgi&lt;em&gt;param SCRIPT&lt;/em&gt;FILENAME $document&lt;em&gt;root$fastcgi&lt;/em&gt;script&lt;em&gt;name;
+    include fastcgi&lt;/em&gt;params;
+}&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;cd /usr/local/phpfpm/etc&lt;/p&gt;
+
+&lt;p&gt;cp php-fpm.conf.default php-fpm.conf&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;将 fpm-php 加入系统服务 (/usr/local/src/php-5.3.28/ )，并启动&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;cp ./sapi/fpm/init.d.php-fpm /etc/init.d/php-fpm&lt;/p&gt;
+
+&lt;p&gt;chmod +x /etc/init.d/php-fpm&lt;/p&gt;
+
+&lt;p&gt;chkconfig --add php-fpm&lt;/p&gt;
+
+&lt;p&gt;chkconfig php-fpm on&lt;/p&gt;
+
+&lt;p&gt;service php-fpm start&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;使用 phpinfo() 函数测试即可&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;附：
+I. 在编译安装时候可能遇到的一些问题
+    a. 编译pcre错误
+    libtool: compile: unrecognized option &lt;code&gt;-DHAVE_CONFIG_H&amp;#39;
+    libtool: compile: Try&lt;/code&gt;libtool --help&amp;#39; for more information.
+    make[1]: *** [pcrecpp.lo] Error 1
+    make[1]: Leaving directory `/usr/local/src/pcre-8.34&amp;#39;
+    make: *** [all] Error 2&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;解决方案：
+
+&amp;gt; yum install -y g++
+
+make 时候出错
+
+解决方案：
+&amp;gt; yum -y install openssl openssl-devel
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;II. nginx编译选项&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;a. configure命令是用来检测你的安装平台的目标特征的。它定义了系统的各个方面，包括nginx的被允许使用的连接处理的方法，比如它会检测你是不是有CC或GCC，并不是需要CC或GCC，它是个shell脚本，执行结束时，它会创建一个Makefile文件
+
+b. make是用来编译的，它从Makefile中读取指令，然后编译
+
+c. make install是用来安装的，它也从Makefile中读取指令，安装到指定的位置
+
+nginx的configure命令支持以下参数：
+
+    --prefix=PATH  定义一个安装目录，也就是nginx的安装目录。默认使用 /usr/local/nginx
+
+    --sbin-path=PATH 设置nginx的可执行文件的路径，默认为  prefix/sbin/nginx
+
+    --conf-path=PATH  设置在nginx.conf配置文件的路径。nginx允许使用不同的配置文件启动，通过命令行中的-c选项。默认为prefix/conf/nginx.conf
+
+    --pid-path=PATH  设置nginx.pid文件，将存储的主进程的进程号。安装完成后，可以随时改变的文件名 ， 在nginx.conf配置文件中使用 PID指令。默认情况下，文件名 为prefix/logs/nginx.pid
+
+    --error-log-path=PATH 设置主错误，警告，和诊断文件的名称。安装完成后，可以随时改变的文件名 ，在nginx.conf配置文件中 使用 的error_log指令。默认情况下，文件名 为prefix/logs/error.log
+
+    --http-log-path=PATH 设置主请求的HTTP服务器的日志文件的名称。安装完成后，可以随时改变的文件名 ，在nginx.conf配置文件中 使用 的access_log指令。默认情况下，文件名 为prefix/logs/access.log
+
+    --user=name 设置nginx工作进程的用户，默认的用户名是nobody
+
+    --group=name  设置nginx工作进程的用户组。安装完成后，可以随时更改的名称在nginx.conf配置文件中 使用的 user指令。默认的为非特权用户。
+
+    --with-select_module --without-select_module 启用或禁用构建一个模块来允许服务器使用select()方法。该模块将自动建立，如果平台不支持的kqueue，epoll，rtsig或/dev/poll
+
+    --with-poll_module --without-poll_module 启用或禁用构建一个模块来允许服务器使用poll()方法。该模块将自动建立，如果平台不支持的kqueue，epoll，rtsig或/dev/poll
+
+    --without-http_gzip_module 不编译压缩的HTTP服务器的响应模块。编译并运行此模块需要zlib库
+
+    --without-http_rewrite_module 不编译重写模块。编译并运行此模块需要PCRE库支持
+
+    --without-http_proxy_module 不编译http_proxy模块
+
+    --with-http_ssl_module  使用https协议模块。默认情况下，该模块没有被构建。建立并运行此模块的OpenSSL库是必需的
+
+    --with-pcre=PATH 设置PCRE库的源码路径。PCRE库的源码（版本4.4 - 8.30）需要从PCRE网站下载并解压。其余的工作是Nginx的./ configure和make来完成。正则表达式使用在location指令和 ngx_http_rewrite_module 模块中
+
+    --with-pcre-jit 编译PCRE包含just-in-time compilation”（1.1.12中， pcre_jit指令）
+
+    --with-zlib=PATH 设置的zlib库的源码路径。要下载从 zlib（版本1.1.3 - 1.2.5）的并解压。其余的工作是Nginx的./ configure和make完成。ngx_http_gzip_module模块需要使用zlib 
+
+    --with-cc-opt=parameters
+     设置额外的参数将被添加到CFLAGS变量。例如,当你在FreeBSD上使用PCRE库时需要使用:--with-cc-opt=&amp;quot;-I /usr/local/include。.如需要需要增加 select()支持的文件数量:--with-cc-opt=&amp;quot;-D FD_SETSIZE=2048&amp;quot;
+
+    --with-ld-opt=parameters 设置附加的参数，将用于在链接期间。例如，当在FreeBSD下使用该系统的PCRE库,应指定:--with-ld-opt=&amp;quot;-L /usr/local/lib&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Status API Training Shop Blog About Pricing
+© 2015 GitHub, Inc. Terms Privacy Security Contact Help&lt;/p&gt;
+</description>
+      </item>
+    
+      <item>
+        <title>linux 环境下 php 扩展安装通用方法</title>
+        <link>http://杨柳青一些事.中国/2015/02/20/linux-php.html</link>
+        <guid isPermaLink="true">http://杨柳青一些事.中国/2015/02/20/linux-php.html</guid>
+        <pubDate>Fri, 20 Feb 2015 00:00:00 +0800</pubDate>
+        <description>&lt;h1&gt;linux 环境下 php 扩展安装通用方法&lt;/h1&gt;
+
+&lt;p&gt;(本案例拿 php的mbstring 来做演示)
+1. 首先进入到php源码包中的 ext 目录下 &lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&amp;gt; /usr/local/src/php-5.3.28/ext/mbstring
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;在mbstring 目录下(/usr/local/src/php-5.3.28/ext/mbstring 目录下)产生configure文件，执行如下命令&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;/usr/local/php/bin/phpize&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;配置编译(/usr/local/src/php-5.3.28/ext/mbstring 目录下) &lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;./configure --with-php-config=/usr/local/php/bin/php-config &lt;/p&gt;
+
+&lt;p&gt;make &amp;amp;&amp;amp; make install &lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;在执行上面命令后会生成一个目录DIR(/usr/local/php/lib/php/extensions/no-debug-non-zts-20090626)，里面包含 mbstring.so 文件&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;配置 php.ini 文件中的extension_dir=DIR ，然后加入一行  extension=mbstring.so&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;extension_dir=&amp;quot;/usr/local/php/lib/php/extensions/no-debug-non-zts-20090626&amp;quot;&lt;/p&gt;
+
+&lt;p&gt;extension=mbstring.so&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;使用 phpinfo() 函数测试 &lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;注意：安装php的mcrypt时候出现问题？&lt;/p&gt;
+
+&lt;p&gt;问题描述：在php对mcrypt的扩展时候，出现mcrypt.h not found. Please reinstall libmcrypt&lt;/p&gt;
+
+&lt;p&gt;解决方案：
+- 使用第三方的yum源来解决&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;wget http://www.atomicorp.com/installers/atomic&lt;/p&gt;
+
+&lt;p&gt;sh ./atomic  &lt;/p&gt;
+
+&lt;p&gt;yum  install  php-mcrypt  libmcrypt  libmcrypt-devel&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;使用php mcrypt 前必须先安装libmcrypt&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;libmcrypt源码安装方法：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;cd /usr/local/src&lt;/p&gt;
+
+&lt;p&gt;wget http://softlayer.dl.sourceforge.net/sourceforge/mcrypt/libmcrypt-2.5.8.tar.gz&lt;/p&gt;
+
+&lt;p&gt;tar -zxvf libmcrypt-2.5.8.tar.gz&lt;/p&gt;
+
+&lt;p&gt;cd /usr/local/src/libmcrypt-2.5.8&lt;/p&gt;
+
+&lt;p&gt;./configure --prefix=/usr/local&lt;/p&gt;
+
+&lt;p&gt;make&lt;/p&gt;
+
+&lt;p&gt;make install&lt;/p&gt;
+&lt;/blockquote&gt;
 </description>
       </item>
     
@@ -1121,43 +2285,6 @@ session.gc_maxlifetime = 1440       #session文件的生命周期是24分钟
 
 &lt;p&gt;打完收工:p&lt;/p&gt;
 </description>
-      </item>
-    
-      <item>
-        <title>改变</title>
-        <link>http://杨柳青一些事.中国/2013/12/31/Change.html</link>
-        <guid isPermaLink="true">http://杨柳青一些事.中国/2013/12/31/Change.html</guid>
-        <pubDate>Tue, 31 Dec 2013 00:00:00 +0800</pubDate>
-        <description>&lt;blockquote&gt;
-&lt;p&gt;缺乏行动的人，都会有一个坏习惯：安于现状，厌弃改变。我认为这是一种极具欺骗性和自我毁灭性的坏习惯，因为‘盖将自其变者而观之，则天地曾不能以一瞬’，正如人会生死一样，没有恒定不变的事物。但因内心的恐惧——对未知的恐惧，很多人在抗拒改变，哪怕现状多么令他不满意，他都不会也不敢向前跨出一步。看看那些本该事业有成，却一事无成的人，你就知道不同情他们是件很难的事。 &lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;hr&gt;
-
-&lt;h2&gt;发生了一些事情&lt;/h2&gt;
-
-&lt;p&gt;近段时间发生了一些始料未及的事情,说实话,事情的进展过于迅速让我未能很好的处理,虽然对于结果很遗憾,但是,我觉得这可以影响到我的人生的遭遇既然已经发生,那么痛定思痛,是时候考虑到底是哪方面出现了问题,就我自身而言,宅在宿舍玩游戏明显并不是对我从小学习成绩优异的答复,对未来的无知与畏惧也让我必须做出点改变 =.=&lt;/p&gt;
-
-&lt;h2&gt;生活态度&lt;/h2&gt;
-
-&lt;ol&gt;
-&lt;li&gt;将时间花在毕业后亟需掌握的专业知识上.&lt;/li&gt;
-&lt;li&gt;运动的滋味很美妙,有时间多打打球,跑跑步.&lt;/li&gt;
-&lt;li&gt;大自然自然是散心的好去处.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2&gt;宣誓?&lt;/h2&gt;
-
-&lt;p&gt;实话说,以前我倾向于喜欢一成不变的生活,觉得未来我自己可以规划好,我喜欢这种感觉,然而当事情超出自己所能承受的变化时的那种未知的我为鱼肉人为刀殂的感觉让我心慌了,当然,对自己的自责也让我快速明白,只有不断强化自己,才能规划好未来,所以改变并不会让我感觉畏惧,反而,我期待改变,因为那意味着我又变强了.&lt;code&gt;好想说一句我还会回来的 =.=&lt;/code&gt;&lt;/p&gt;
-</description>
-      </item>
-    
-      <item>
-        <title>2010年阅读书单</title>
-        <link>http://杨柳青一些事.中国/2010/01/01/Book-List-2010.html</link>
-        <guid isPermaLink="true">http://杨柳青一些事.中国/2010/01/01/Book-List-2010.html</guid>
-        <pubDate>Fri, 01 Jan 2010 00:00:00 +0800</pubDate>
-        <description></description>
       </item>
     
   </channel>

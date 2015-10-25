@@ -1,7 +1,7 @@
 ---
 layout: post
 title: php递归遍历文件夹
-category: 技术
+category: php
 tags: php
 keywords: 
 description: 

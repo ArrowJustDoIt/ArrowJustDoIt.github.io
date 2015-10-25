@@ -1,7 +1,7 @@
 ---
 layout: post
 title: php文件上传
-category: 技术
+category: php
 tags: php
 keywords: 
 description: 

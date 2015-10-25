@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-<title>Cookie禁用了，Session还能用吗？ | fantaster | 杨柳青</title>
+<title>Linux 3：文件与目录管理 | fantaster | 杨柳青</title>
 <meta name="author" content="fantaster">
 
 
@@ -369,151 +369,150 @@
             <div class="row">
   <div class="col-md-13 aside3-title">
     <br>
-    <h2 id="#identifier">Cookie禁用了，Session还能用吗？</h2>
-    2014年06月07日
+    <h2 id="#identifier">Linux 3：文件与目录管理</h2>
+    2015年07月05日
   </div>
   <div class="col-md-13 aside3-content">
     <hr>
     <div id="content">
-      <p>很必要的一个问题,因为有一部分童鞋觉得cookie不安全,于是就禁用cookie,结果session就哭了-,-</p>
-
-<hr>
-
-<h3>session哭了</h3>
-
-<p>　　Cookie与 Session，一般认为是两个独立的东西，Session采用的是在服务器端保持状态的方案，而Cookie采用的是在客户端保持状态的方案。但为什么禁用Cookie就不能得到Session呢？因为Session是用<code>Session ID</code>来确定当前对话所对应的服务器Session，而<code>Session ID是通过Cookie来传递</code>的，禁用Cookie相当于失去了Session ID，也就得不到Session了。</p>
-
-<h3>session不哭,站起来撸</h3>
-
-<p>　　Session，储存于服务器端（默认以文件方式存储Session），<code>根据客户端提供的Session ID来得到用户的文件，取得变量的值</code>，Session ID可以使用客户端的Cookie或者Http1.1协议的Query_String（就是访问的URL的“?”后面的部分）来传送给服务器，然后服务器读取Session的目录……。也就是说，<code>Session ID是取得存储在服务上的Session变量的身份证</code>。</p>
-
-<p>　　当代码session<em>start();运行的时候，就在服务器上<code>产生了一个Session文件，随之也产生了与之唯一对应的一个Session ID</code>，定义Session变量以一定形式存储刚才产生的Session文件。通过Session ID，可以取出定义的变量。跨页后，为了使用Session，你必须又执行session</em>start();将<code>又会产生一个Session文件，与之对应产生相应的Session ID</code>，用这个session id是取不出前面提到的第一个Session文件中的变量的，因为这个Session ID不是打开它的“钥匙”。<code>如果在session_start();之前加代码session_id($session id);将不产生新的Session文件，直接读取与这个id对应的Session文件</code>。</p>
-
-<p>我们可以抛开Cookie使用Session，即假定用户关闭Cookie的情况下使用Session，其实现途径有以下几种：</p>
-
+      <h3>目录的相关操作</h3>
+<div class="highlight"><pre><code class="language-text" data-lang="text">.         # 代表此层目录
+..        # 代表上一层目录
+-         # 代表前一个工作目录
+~         # 代表『目前使用者身份』所在的家目录
+~account  # 代表 account 这个使用者的家目录(account是个帐号名称)
+</code></pre></div>
 <ul>
-<li>设置php.ini配置文件中的<code>session.use_trans_sid = 1</code>，或者编译时打开打开了<code>--enable-trans-sid</code>选项，让PHP自动跨页传递Session ID。</li>
+<li>在所有目录底下都会存在的两个目录，分别是<code>.</code>与<code>..</code></li>
+<li>根目录的上一层<code>(..)</code>与根目录自己<code>(.)</code>是同一个目录</li>
 </ul>
 
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="lineno"> 1</span> <span class="x">-------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno"> 2</span> <span class="x">       </span><span class="cp">&lt;?php</span>
-<span class="lineno"> 3</span>            <span class="c1">// s1.php</span>
-<span class="lineno"> 4</span>            <span class="nb">session_start</span><span class="p">();</span>
-<span class="lineno"> 5</span>            <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;lalala&#39;</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;papapa&quot;</span><span class="p">;</span>
-<span class="lineno"> 6</span>            <span class="nv">$url</span><span class="o">=</span><span class="s2">&quot;&lt;a href=&#39;s2.php&#39;&gt;下一页&lt;/a&gt;&quot;</span><span class="p">;</span>
-<span class="lineno"> 7</span>            <span class="k">echo</span> <span class="nv">$url</span><span class="p">;</span>
-<span class="lineno"> 8</span>        <span class="cp">?&gt;</span><span class="x"></span>
-<span class="lineno"> 9</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno">10</span> 
-<span class="lineno">11</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno">12</span> <span class="x">       </span><span class="cp">&lt;?php</span>
-<span class="lineno">13</span>            <span class="c1">// s2.php</span>
-<span class="lineno">14</span>            <span class="nb">session_start</span><span class="p">();</span>
-<span class="lineno">15</span>            <span class="k">echo</span> <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;lalala&#39;</span><span class="p">];</span>
-<span class="lineno">16</span>        <span class="cp">?&gt;</span><span class="x"></span>
-<span class="lineno">17</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span></code></pre></div>
-
-<p>运行以上代码，在客户端cookie正常的情况下，应该可以得到结果&quot;papapa&quot;。
-现在你手动关闭客户端的cookie，再运行，可能得不到结果了吧。如果得不到结果，再设置php.ini文件中的<code>session.use_trans_sid = 1</code>，或者编译时打开打开了<code>--enable-trans-sid选项</code>，又得到结果“papapa”。 </p>
+<h4>几个常见的处理目录的命令</h4>
 
 <ul>
-<li>手动通过URL传值、隐藏表单传递Session ID。</li>
+<li>cd：变换目录，cd是Change Directory的缩写</li>
+<li>pwd：显示目前的目录，pwd是Print Working Directory的缩写</li>
+<li>mkdir：创建一个新的目录</li>
+<li>rmdir：删除一个空的目录</li>
+<li>mv：移动文件</li>
 </ul>
-
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="lineno"> 1</span> <span class="x">-------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno"> 2</span> <span class="x">       </span><span class="cp">&lt;?php</span>
-<span class="lineno"> 3</span>            <span class="c1">// s1.php</span>
-<span class="lineno"> 4</span>            <span class="nb">session_start</span><span class="p">();</span>
-<span class="lineno"> 5</span>            <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;lalala&#39;</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;papapa&quot;</span><span class="p">;</span>
-<span class="lineno"> 6</span>            <span class="nv">$sn</span> <span class="o">=</span> <span class="nb">session_id</span><span class="p">();</span>
-<span class="lineno"> 7</span>            <span class="nv">$url</span><span class="o">=</span><span class="s2">&quot;&lt;a href=&#39;s2.php?sn=&quot;</span><span class="o">.</span><span class="nv">$sn</span><span class="o">.</span><span class="s2">&quot;&#39;&gt;下一页&lt;/a&gt;&quot;</span><span class="p">;</span>
-<span class="lineno"> 8</span>            <span class="k">echo</span> <span class="nv">$url</span><span class="p">;</span>
-<span class="lineno"> 9</span>        <span class="cp">?&gt;</span><span class="x"></span>
-<span class="lineno">10</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno">11</span> 
-<span class="lineno">12</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno">13</span> <span class="x">       </span><span class="cp">&lt;?php</span>
-<span class="lineno">14</span>            <span class="c1">// s2.php</span>
-<span class="lineno">15</span>            <span class="nb">session_id</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;sn&#39;</span><span class="p">]);</span>
-<span class="lineno">16</span>            <span class="nb">session_start</span><span class="p">();</span>
-<span class="lineno">17</span>            <span class="k">echo</span> <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;lalala&#39;</span><span class="p">];</span>
-<span class="lineno">18</span>        <span class="cp">?&gt;</span><span class="x"> </span>
-<span class="lineno">19</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span></code></pre></div>
+<div class="highlight"><pre><code class="language-text" data-lang="text">pwd -P                   # -P：代表显示正确的完整路径，而不是连接路径
+mkdir -m xxx             # -m：直接配置文件的权限
+mkdir -p test1/test2     # -p：直接将所需要的目录(包含上一级目录)递回创建起来！
+PATH=&quot;$PATH&quot;:/root       # 将/root路径加入PATH环境变量中
+</code></pre></div>
+<h3>文件与目录管理</h3>
 
 <ul>
-<li>用文件、数据库等形式保存Session ID，在跨页过程中手动调用。</li>
+<li>文件与目录的检视： ls</li>
+<li>复制、删除与移动： cp, rm, mv</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">cp -a        # 将文件的所有特性都一起复制过来
+cp -p        # 连同文件的属性一起复制过去，而非使用默认属性(备份常用)
+cp -r        # 可以复制目录，但是，文件与目录的权限可能会被改变
+rm -i        # 互动模式，在删除前会询问使用者是否动作
+rm -r        # 连目录下的东西一起删掉，并且不会询问，慎用
+mv -f        # force强制移动，如果目标文件已经存在，不会询问而直接覆盖
+mv -i        # 若目标文件 (destination) 已经存在时，就会询问是否覆盖
+</code></pre></div>
+<h3>文件内容查询</h3>
+
+<ul>
+<li>直接检视文件内容： cat, tac, nl （常用）</li>
+<li>可翻页检视： more, less （常用）</li>
+<li>数据撷取： head, tail</li>
+<li>非纯文字档： od</li>
+<li>修改文件时间与建置新档： touch</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">cat [-AbEnTv] filename # 由第一行开始显示文件内容。-b列出非空白行行号；-n列出所有行号。
+tac                    # 从最后一行开始显示文件内容，tac就是cat倒着写！
+nl                     # 显示文件内容，顺便输出行号
+more                   # 一页一页地显示文件内容
+less                   # 与more类似，但可以往前翻页
+head [-n number]       # 只看文件头几行，默认是10行，number是自定义行数
+tail                   # 只看文件尾几行，文件很大的时候常用
+od                     # 以二进制方式读取文件内容
+</code></pre></div>
+<h3>文件与目录的默认权限与隐藏权限</h3>
+
+<ul>
+<li>文件默认权限：umask</li>
+<li>文件隐藏属性： chattr, lsattr</li>
+<li>文件特殊权限：SUID, SGID, SBIT, 权限配置</li>
+<li>观察文件类型：file</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">umask           # 后三位数是被拿走的权限分数，比如0022，u没有被拿走权限，g和o被拿走了w权限
+umask -S        # 以符号类型来显示权限
+umask number    # 配置自己需要的权限
+</code></pre></div>
+<p>在默认的情况中，root的umask会拿掉比较多的属性，root的umask默认是<code>022</code>， 这是基於安全的考量啦～至於一般身份使用者，通常他们的 umask 为<code>002</code> ，亦即保留同群组的写入权力。</p>
+
+<ul>
+<li>特殊权限<code>s</code>和<code>t</code></li>
+<li>Set UID，简称SUID，当s标志在文件拥有者的x项目为SUID，对目录无效</li>
+<li>Set GID，简称SGID，当s标志在群组的x项目为SGID，对目录有效</li>
+<li>Sticky Bit, 简称SBIT，目前只针对目录有效，对於文件已经没有效果了</li>
 </ul>
 
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="lineno"> 1</span> <span class="x">-------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno"> 2</span> <span class="x">       login.html</span>
-<span class="lineno"> 3</span> <span class="x">       &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt; </span>
-<span class="lineno"> 4</span> <span class="x">       &lt;html&gt; </span>
-<span class="lineno"> 5</span> <span class="x">       &lt;head&gt; </span>
-<span class="lineno"> 6</span> <span class="x">       &lt;title&gt;Login&lt;/title&gt; </span>
-<span class="lineno"> 7</span> <span class="x">       &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=gb2312&quot;&gt;</span>
-<span class="lineno"> 8</span> <span class="x">       &lt;/head&gt; </span>
-<span class="lineno"> 9</span> <span class="x">       &lt;body&gt; </span>
-<span class="lineno">10</span> <span class="x">       请登录： </span>
-<span class="lineno">11</span> <span class="x">       &lt;form name=&quot;login&quot; method=&quot;post&quot; action=&quot;mylogin1.php&quot;&gt; </span>
-<span class="lineno">12</span> <span class="x">       用户名:&lt;input type=&quot;text&quot; name=&quot;name&quot;&gt;&lt;br&gt; </span>
-<span class="lineno">13</span> <span class="x">       口　令:&lt;input type=&quot;password&quot; name=&quot;pass&quot;&gt;&lt;br&gt; </span>
-<span class="lineno">14</span> <span class="x">       &lt;input type=&quot;submit&quot; value=&quot;登录&quot;&gt; </span>
-<span class="lineno">15</span> <span class="x">       &lt;/form&gt; </span>
-<span class="lineno">16</span> <span class="x">       &lt;/body&gt; </span>
-<span class="lineno">17</span> <span class="x">       &lt;/html&gt; </span>
-<span class="lineno">18</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno">19</span> 
-<span class="lineno">20</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno">21</span> <span class="x">       mylogin1.php</span>
-<span class="lineno">22</span> <span class="x">       </span><span class="cp">&lt;?php</span>
-<span class="lineno">23</span>        <span class="nv">$name</span><span class="o">=</span><span class="nv">$_POST</span><span class="p">[</span><span class="nx">’name’</span><span class="p">];</span>
-<span class="lineno">24</span>        <span class="nv">$pass</span><span class="o">=</span><span class="nv">$_POST</span><span class="p">[</span><span class="nx">’pass’</span><span class="p">];</span>
-<span class="lineno">25</span>        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nv">$name</span> <span class="o">||</span> <span class="o">!</span><span class="nv">$pass</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno">26</span>            <span class="k">echo</span> <span class="s2">&quot;用户名或密码为空，请&lt;a href=&#39;login.html&#39;&gt;重新登录&lt;/a&gt;&quot;</span><span class="p">;</span>
-<span class="lineno">27</span>            <span class="k">die</span><span class="p">();</span>
-<span class="lineno">28</span>        <span class="p">}</span>
-<span class="lineno">29</span>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="nv">$name</span><span class="o">==</span><span class="s2">&quot;lalala&quot;</span> <span class="o">&amp;&amp;</span> <span class="nv">$pass</span><span class="o">==</span><span class="s2">&quot;papapa&quot;</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno">30</span>            <span class="k">echo</span> <span class="s2">&quot;用户名或密码不正确，请&lt;a href=&#39;login.html&#39;&gt;重新登录&lt;/a&gt;&quot;</span><span class="p">;</span> <span class="c1">#随便测试写,不要注意这些细节-,-</span>
-<span class="lineno">31</span>            <span class="k">die</span><span class="p">();</span>
-<span class="lineno">32</span>        <span class="p">}</span>
-<span class="lineno">33</span>        <span class="c1">//注册用户</span>
-<span class="lineno">34</span>        <span class="nb">ob_start</span><span class="p">();</span>                                <span class="c1">#ob缓存</span>
-<span class="lineno">35</span>        <span class="nb">session_start</span><span class="p">();</span>                           <span class="c1">#session开启</span>
-<span class="lineno">36</span>        <span class="nv">$_SESSION</span><span class="p">[</span><span class="nx">’user’</span><span class="p">]</span><span class="o">=</span> <span class="nv">$name</span><span class="p">;</span>             <span class="c1">#设置session</span>
-<span class="lineno">37</span>        <span class="nv">$psid</span><span class="o">=</span><span class="nb">session_id</span><span class="p">();</span>                     <span class="c1">#保存session id</span>
-<span class="lineno">38</span>        <span class="nv">$fp</span><span class="o">=</span><span class="nb">fopen</span><span class="p">(</span><span class="s2">&quot;D:</span><span class="se">\t</span><span class="s2">mp\phpsid.txt&quot;</span><span class="p">,</span><span class="s2">&quot;w+&quot;</span><span class="p">);</span>      <span class="c1">#打开文件</span>
-<span class="lineno">39</span>        <span class="nb">fwrite</span><span class="p">(</span><span class="nv">$fp</span><span class="p">,</span><span class="nv">$psid</span><span class="p">);</span>                       <span class="c1">#把session id写入文件</span>
-<span class="lineno">40</span>        <span class="nb">fclose</span><span class="p">(</span><span class="nv">$fp</span><span class="p">);</span>                                <span class="c1">#关闭文件</span>
-<span class="lineno">41</span>        <span class="c1">//身份验证成功，进行相关操作</span>
-<span class="lineno">42</span>        <span class="k">echo</span> <span class="s2">&quot;已登录&lt;br&gt;&quot;</span><span class="p">;</span>
-<span class="lineno">43</span>        <span class="k">echo</span> <span class="s2">&quot;&lt;a href=&#39;mylogin2.php&#39;&gt;下一页&lt;/a&gt;&quot;</span><span class="p">;</span>
-<span class="lineno">44</span>        <span class="cp">?&gt;</span><span class="x"></span>
-<span class="lineno">45</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno">46</span> 
-<span class="lineno">47</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno">48</span> <span class="x">       mylogin2.php</span>
-<span class="lineno">49</span> <span class="x">       </span><span class="cp">&lt;?php</span>
-<span class="lineno">50</span>        <span class="nv">$fp</span><span class="o">=</span><span class="nb">fopen</span><span class="p">(</span><span class="s2">&quot;D:</span><span class="se">\t</span><span class="s2">mp\phpsid.txt&quot;</span><span class="p">,</span><span class="s2">&quot;r&quot;</span><span class="p">);</span>       <span class="c1">#打开文件</span>
-<span class="lineno">51</span>        <span class="nv">$sid</span><span class="o">=</span><span class="nb">fread</span><span class="p">(</span><span class="nv">$fp</span><span class="p">,</span><span class="mi">1024</span><span class="p">);</span>                 <span class="c1">#取出session id</span>
-<span class="lineno">52</span>        <span class="nb">fclose</span><span class="p">(</span><span class="nv">$fp</span><span class="p">);</span>                                <span class="c1">#关闭文件</span>
-<span class="lineno">53</span>        <span class="nb">session_id</span><span class="p">(</span><span class="nv">$sid</span><span class="p">);</span>                       <span class="c1">#设置session id</span>
-<span class="lineno">54</span>        <span class="nb">session_start</span><span class="p">();</span>                           <span class="c1">#开启session</span>
-<span class="lineno">55</span>        <span class="k">if</span><span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_SESSION</span><span class="p">[</span><span class="nx">’user’</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="nv">$_SESSION</span><span class="p">[</span><span class="nx">’user’</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;laigw&quot;</span> <span class="p">{</span>
-<span class="lineno">56</span>            <span class="k">echo</span> <span class="s2">&quot;已登录!&quot;</span><span class="p">;</span>
-<span class="lineno">57</span>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-<span class="lineno">58</span>            <span class="c1">//成功登录进行相关操作</span>
-<span class="lineno">59</span>            <span class="k">echo</span> <span class="s2">&quot;未登录，无权访问&quot;</span><span class="p">;</span>
-<span class="lineno">60</span>            <span class="k">echo</span> <span class="s2">&quot;请&lt;a href=&quot;</span><span class="nx">login</span><span class="o">.</span><span class="nx">html</span><span class="s2">&quot;&gt;登录&lt;/a&gt;后浏览&quot;</span><span class="p">;</span>
-<span class="lineno">61</span>            <span class="k">die</span><span class="p">();</span>
-<span class="lineno">62</span>        <span class="p">}</span>
-<span class="lineno">63</span>        <span class="cp">?&gt;</span><span class="x"></span>
-<span class="lineno">64</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span></code></pre></div>
+<h3>配置SUID,SGID,SBIT权限</h3>
 
-<p>同样请关闭Cookie测试，用户名：lalala；密码：lalala；这是通过文件保存Session ID的，文件是：D:/tmp/phpsid.txt，请根据自己的系统决定文件名或路径。 </p>
+<p>在原有的权限数字前面加上需要配置的权限数字。
+比如<code>755</code>-&gt;<code>4755</code> ，就意味着<code>-rwxr-xr-x</code>变为了<code>-rwsr-xr-x</code>。</p>
 
-<p>总结一下，上面的方法有一个共同点，就是在前一页取得Session ID，然后想办法传递到下一页，在下一页的session_start();代码之前加代码Session ID(传过来的Session ID)。</p>
+<ul>
+<li>4 为 SUID</li>
+<li>2 为 SGID</li>
+<li>1 为 SBIT</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">chmod 4755 filename
+chmod u=rwxs,go=x test; ls -l test      # 配置权限为-rws--x--x的模样
+chmod g+s,o+t test; ls -l test          # 配置权限为-rws--s--t，即加入SGID,SBIT权限
+</code></pre></div>
+<h3>命令与文件的搜寻</h3>
 
-<p>打完收工:p</p>
+<ul>
+<li>命令档名的搜寻：which</li>
+<li>文件档名的搜寻：whereis, locate, find</li>
+</ul>
+
+<h3>权限与命令的关系</h3>
+
+<h4>一、让使用者能进入某目录成为『可工作目录』的基本权限为何：</h4>
+
+<ul>
+<li>可使用的命令：例如 cd 等变换工作目录的命令；</li>
+<li>目录所需权限：使用者对这个目录至少需要具有 x 的权限</li>
+<li>额外需求：如果使用者想要在这个目录内利用 ls 查阅档名，则使用者对此目录还需要 r 的权限。</li>
+</ul>
+
+<h4>二、使用者在某个目录内读取一个文件的基本权限为何？</h4>
+
+<ul>
+<li>可使用的命令：例如本章谈到的 cat, more, less等等</li>
+<li>目录所需权限：使用者对这个目录至少需要具有 x 权限；</li>
+<li>文件所需权限：使用者对文件至少需要具有 r 的权限才行！</li>
+</ul>
+
+<h4>三、让使用者可以修改一个文件的基本权限为何？</h4>
+
+<ul>
+<li>可使用的命令：例如 nano 或未来要介绍的 vi 编辑器等；</li>
+<li>目录所需权限：使用者在该文件所在的目录至少要有 x 权限；</li>
+<li>文件所需权限：使用者对该文件至少要有 r, w 权限</li>
+</ul>
+
+<h4>四、让一个使用者可以创建一个文件的基本权限为何？</h4>
+
+<ul>
+<li>目录所需权限：使用者在该目录要具有 w,x 的权限，重点在 w 啦！</li>
+</ul>
+
+<h4>五、让使用者进入某目录并运行该目录下的某个命令之基本权限为何？</h4>
+
+<ul>
+<li>目录所需权限：使用者在该目录至少要有 x 的权限；</li>
+<li>文件所需权限：使用者在该文件至少需要有 x 的权限</li>
+</ul>
 
     </div>
     <hr>

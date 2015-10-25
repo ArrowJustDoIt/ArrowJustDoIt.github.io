@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-<title>Cookie禁用了，Session还能用吗？ | fantaster | 杨柳青</title>
+<title>大型网站提速方案 | fantaster | 杨柳青</title>
 <meta name="author" content="fantaster">
 
 
@@ -369,152 +369,89 @@
             <div class="row">
   <div class="col-md-13 aside3-title">
     <br>
-    <h2 id="#identifier">Cookie禁用了，Session还能用吗？</h2>
-    2014年06月07日
+    <h2 id="#identifier">大型网站提速方案</h2>
+    2015年08月01日
   </div>
   <div class="col-md-13 aside3-content">
     <hr>
     <div id="content">
-      <p>很必要的一个问题,因为有一部分童鞋觉得cookie不安全,于是就禁用cookie,结果session就哭了-,-</p>
+      <h2>如何判定一个网站是大型网站</h2>
 
-<hr>
-
-<h3>session哭了</h3>
-
-<p>　　Cookie与 Session，一般认为是两个独立的东西，Session采用的是在服务器端保持状态的方案，而Cookie采用的是在客户端保持状态的方案。但为什么禁用Cookie就不能得到Session呢？因为Session是用<code>Session ID</code>来确定当前对话所对应的服务器Session，而<code>Session ID是通过Cookie来传递</code>的，禁用Cookie相当于失去了Session ID，也就得不到Session了。</p>
-
-<h3>session不哭,站起来撸</h3>
-
-<p>　　Session，储存于服务器端（默认以文件方式存储Session），<code>根据客户端提供的Session ID来得到用户的文件，取得变量的值</code>，Session ID可以使用客户端的Cookie或者Http1.1协议的Query_String（就是访问的URL的“?”后面的部分）来传送给服务器，然后服务器读取Session的目录……。也就是说，<code>Session ID是取得存储在服务上的Session变量的身份证</code>。</p>
-
-<p>　　当代码session<em>start();运行的时候，就在服务器上<code>产生了一个Session文件，随之也产生了与之唯一对应的一个Session ID</code>，定义Session变量以一定形式存储刚才产生的Session文件。通过Session ID，可以取出定义的变量。跨页后，为了使用Session，你必须又执行session</em>start();将<code>又会产生一个Session文件，与之对应产生相应的Session ID</code>，用这个session id是取不出前面提到的第一个Session文件中的变量的，因为这个Session ID不是打开它的“钥匙”。<code>如果在session_start();之前加代码session_id($session id);将不产生新的Session文件，直接读取与这个id对应的Session文件</code>。</p>
-
-<p>我们可以抛开Cookie使用Session，即假定用户关闭Cookie的情况下使用Session，其实现途径有以下几种：</p>
+<p><strong>高访问就是大网站？还是大流量是大型网站？</strong>
+可以通过如下工具网站来查看一个网站的一些参数情况
+<a href="http://www.aizhan.com/">爱站</a>   <a href="http://tool.chinaz.com/">站长工具</a> <a href="https://www.hao123.com">高访问网站</a></p>
 
 <ul>
-<li>设置php.ini配置文件中的<code>session.use_trans_sid = 1</code>，或者编译时打开打开了<code>--enable-trans-sid</code>选项，让PHP自动跨页传递Session ID。</li>
+<li><p>通过几个参数来判定一个大型网站</p></li>
+<li><p>PV(page views) ：一个网站内所有页面，24小时内访问次数的总和。一般在100w，1000w以上</p></li>
+<li><p>UV(unique visitor)：一个网站24小时内的独立访问用户。一般几十万以上</p></li>
+<li><p>IP(独立IP)：一个网站24小时内访问的IP数，在考虑校园网、局域网的时候，UV数一般略大于IP数(局域网通过一个网关上网，多个用户只会记录一个独立IP)</p></li>
 </ul>
 
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="lineno"> 1</span> <span class="x">-------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno"> 2</span> <span class="x">       </span><span class="cp">&lt;?php</span>
-<span class="lineno"> 3</span>            <span class="c1">// s1.php</span>
-<span class="lineno"> 4</span>            <span class="nb">session_start</span><span class="p">();</span>
-<span class="lineno"> 5</span>            <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;lalala&#39;</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;papapa&quot;</span><span class="p">;</span>
-<span class="lineno"> 6</span>            <span class="nv">$url</span><span class="o">=</span><span class="s2">&quot;&lt;a href=&#39;s2.php&#39;&gt;下一页&lt;/a&gt;&quot;</span><span class="p">;</span>
-<span class="lineno"> 7</span>            <span class="k">echo</span> <span class="nv">$url</span><span class="p">;</span>
-<span class="lineno"> 8</span>        <span class="cp">?&gt;</span><span class="x"></span>
-<span class="lineno"> 9</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno">10</span> 
-<span class="lineno">11</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno">12</span> <span class="x">       </span><span class="cp">&lt;?php</span>
-<span class="lineno">13</span>            <span class="c1">// s2.php</span>
-<span class="lineno">14</span>            <span class="nb">session_start</span><span class="p">();</span>
-<span class="lineno">15</span>            <span class="k">echo</span> <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;lalala&#39;</span><span class="p">];</span>
-<span class="lineno">16</span>        <span class="cp">?&gt;</span><span class="x"></span>
-<span class="lineno">17</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span></code></pre></div>
+<p>总结：PV UV IP</p>
 
-<p>运行以上代码，在客户端cookie正常的情况下，应该可以得到结果&quot;papapa&quot;。
-现在你手动关闭客户端的cookie，再运行，可能得不到结果了吧。如果得不到结果，再设置php.ini文件中的<code>session.use_trans_sid = 1</code>，或者编译时打开打开了<code>--enable-trans-sid选项</code>，又得到结果“papapa”。 </p>
+<h2>大型网站带来的问题</h2>
 
 <ul>
-<li>手动通过URL传值、隐藏表单传递Session ID。</li>
+<li><p>高并发：一般是1s内同时访问一个网站的数量</p></li>
+<li><p>大流量：大量的用户访问网站，流量会变得很大</p></li>
+<li><p>大数据：在访问量巨大的同时，带来的就是大量数据（G、T级别）的检索问题，如何在众多数据中检索出需要的数据</p></li>
 </ul>
 
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="lineno"> 1</span> <span class="x">-------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno"> 2</span> <span class="x">       </span><span class="cp">&lt;?php</span>
-<span class="lineno"> 3</span>            <span class="c1">// s1.php</span>
-<span class="lineno"> 4</span>            <span class="nb">session_start</span><span class="p">();</span>
-<span class="lineno"> 5</span>            <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;lalala&#39;</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;papapa&quot;</span><span class="p">;</span>
-<span class="lineno"> 6</span>            <span class="nv">$sn</span> <span class="o">=</span> <span class="nb">session_id</span><span class="p">();</span>
-<span class="lineno"> 7</span>            <span class="nv">$url</span><span class="o">=</span><span class="s2">&quot;&lt;a href=&#39;s2.php?sn=&quot;</span><span class="o">.</span><span class="nv">$sn</span><span class="o">.</span><span class="s2">&quot;&#39;&gt;下一页&lt;/a&gt;&quot;</span><span class="p">;</span>
-<span class="lineno"> 8</span>            <span class="k">echo</span> <span class="nv">$url</span><span class="p">;</span>
-<span class="lineno"> 9</span>        <span class="cp">?&gt;</span><span class="x"></span>
-<span class="lineno">10</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno">11</span> 
-<span class="lineno">12</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno">13</span> <span class="x">       </span><span class="cp">&lt;?php</span>
-<span class="lineno">14</span>            <span class="c1">// s2.php</span>
-<span class="lineno">15</span>            <span class="nb">session_id</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;sn&#39;</span><span class="p">]);</span>
-<span class="lineno">16</span>            <span class="nb">session_start</span><span class="p">();</span>
-<span class="lineno">17</span>            <span class="k">echo</span> <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;lalala&#39;</span><span class="p">];</span>
-<span class="lineno">18</span>        <span class="cp">?&gt;</span><span class="x"> </span>
-<span class="lineno">19</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span></code></pre></div>
+<h3>解决方案</h3>
 
 <ul>
-<li>用文件、数据库等形式保存Session ID，在跨页过程中手动调用。</li>
+<li><strong>高并发可以使用 分层来解决(负载均衡)</strong>
+&gt; 硬件：f5（优点：立竿见影；缺点：价格昂贵，20w左右）
+&gt; 软件：nginx(web服务器，负载均衡器),lvs
+nginx: http://www.nginx.cn/   http://tengine.taobao.org/   http://nginx.org/
+lvs（章文嵩）: http://zh.linuxvirtualserver.org/
+&gt; 负载均衡的策略：1. 轮询  2. NAT  3. 智能DNS</li>
 </ul>
 
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="lineno"> 1</span> <span class="x">-------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno"> 2</span> <span class="x">       login.html</span>
-<span class="lineno"> 3</span> <span class="x">       &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt; </span>
-<span class="lineno"> 4</span> <span class="x">       &lt;html&gt; </span>
-<span class="lineno"> 5</span> <span class="x">       &lt;head&gt; </span>
-<span class="lineno"> 6</span> <span class="x">       &lt;title&gt;Login&lt;/title&gt; </span>
-<span class="lineno"> 7</span> <span class="x">       &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=gb2312&quot;&gt;</span>
-<span class="lineno"> 8</span> <span class="x">       &lt;/head&gt; </span>
-<span class="lineno"> 9</span> <span class="x">       &lt;body&gt; </span>
-<span class="lineno">10</span> <span class="x">       请登录： </span>
-<span class="lineno">11</span> <span class="x">       &lt;form name=&quot;login&quot; method=&quot;post&quot; action=&quot;mylogin1.php&quot;&gt; </span>
-<span class="lineno">12</span> <span class="x">       用户名:&lt;input type=&quot;text&quot; name=&quot;name&quot;&gt;&lt;br&gt; </span>
-<span class="lineno">13</span> <span class="x">       口　令:&lt;input type=&quot;password&quot; name=&quot;pass&quot;&gt;&lt;br&gt; </span>
-<span class="lineno">14</span> <span class="x">       &lt;input type=&quot;submit&quot; value=&quot;登录&quot;&gt; </span>
-<span class="lineno">15</span> <span class="x">       &lt;/form&gt; </span>
-<span class="lineno">16</span> <span class="x">       &lt;/body&gt; </span>
-<span class="lineno">17</span> <span class="x">       &lt;/html&gt; </span>
-<span class="lineno">18</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno">19</span> 
-<span class="lineno">20</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno">21</span> <span class="x">       mylogin1.php</span>
-<span class="lineno">22</span> <span class="x">       </span><span class="cp">&lt;?php</span>
-<span class="lineno">23</span>        <span class="nv">$name</span><span class="o">=</span><span class="nv">$_POST</span><span class="p">[</span><span class="nx">’name’</span><span class="p">];</span>
-<span class="lineno">24</span>        <span class="nv">$pass</span><span class="o">=</span><span class="nv">$_POST</span><span class="p">[</span><span class="nx">’pass’</span><span class="p">];</span>
-<span class="lineno">25</span>        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nv">$name</span> <span class="o">||</span> <span class="o">!</span><span class="nv">$pass</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno">26</span>            <span class="k">echo</span> <span class="s2">&quot;用户名或密码为空，请&lt;a href=&#39;login.html&#39;&gt;重新登录&lt;/a&gt;&quot;</span><span class="p">;</span>
-<span class="lineno">27</span>            <span class="k">die</span><span class="p">();</span>
-<span class="lineno">28</span>        <span class="p">}</span>
-<span class="lineno">29</span>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="nv">$name</span><span class="o">==</span><span class="s2">&quot;lalala&quot;</span> <span class="o">&amp;&amp;</span> <span class="nv">$pass</span><span class="o">==</span><span class="s2">&quot;papapa&quot;</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno">30</span>            <span class="k">echo</span> <span class="s2">&quot;用户名或密码不正确，请&lt;a href=&#39;login.html&#39;&gt;重新登录&lt;/a&gt;&quot;</span><span class="p">;</span> <span class="c1">#随便测试写,不要注意这些细节-,-</span>
-<span class="lineno">31</span>            <span class="k">die</span><span class="p">();</span>
-<span class="lineno">32</span>        <span class="p">}</span>
-<span class="lineno">33</span>        <span class="c1">//注册用户</span>
-<span class="lineno">34</span>        <span class="nb">ob_start</span><span class="p">();</span>                                <span class="c1">#ob缓存</span>
-<span class="lineno">35</span>        <span class="nb">session_start</span><span class="p">();</span>                           <span class="c1">#session开启</span>
-<span class="lineno">36</span>        <span class="nv">$_SESSION</span><span class="p">[</span><span class="nx">’user’</span><span class="p">]</span><span class="o">=</span> <span class="nv">$name</span><span class="p">;</span>             <span class="c1">#设置session</span>
-<span class="lineno">37</span>        <span class="nv">$psid</span><span class="o">=</span><span class="nb">session_id</span><span class="p">();</span>                     <span class="c1">#保存session id</span>
-<span class="lineno">38</span>        <span class="nv">$fp</span><span class="o">=</span><span class="nb">fopen</span><span class="p">(</span><span class="s2">&quot;D:</span><span class="se">\t</span><span class="s2">mp\phpsid.txt&quot;</span><span class="p">,</span><span class="s2">&quot;w+&quot;</span><span class="p">);</span>      <span class="c1">#打开文件</span>
-<span class="lineno">39</span>        <span class="nb">fwrite</span><span class="p">(</span><span class="nv">$fp</span><span class="p">,</span><span class="nv">$psid</span><span class="p">);</span>                       <span class="c1">#把session id写入文件</span>
-<span class="lineno">40</span>        <span class="nb">fclose</span><span class="p">(</span><span class="nv">$fp</span><span class="p">);</span>                                <span class="c1">#关闭文件</span>
-<span class="lineno">41</span>        <span class="c1">//身份验证成功，进行相关操作</span>
-<span class="lineno">42</span>        <span class="k">echo</span> <span class="s2">&quot;已登录&lt;br&gt;&quot;</span><span class="p">;</span>
-<span class="lineno">43</span>        <span class="k">echo</span> <span class="s2">&quot;&lt;a href=&#39;mylogin2.php&#39;&gt;下一页&lt;/a&gt;&quot;</span><span class="p">;</span>
-<span class="lineno">44</span>        <span class="cp">?&gt;</span><span class="x"></span>
-<span class="lineno">45</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno">46</span> 
-<span class="lineno">47</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno">48</span> <span class="x">       mylogin2.php</span>
-<span class="lineno">49</span> <span class="x">       </span><span class="cp">&lt;?php</span>
-<span class="lineno">50</span>        <span class="nv">$fp</span><span class="o">=</span><span class="nb">fopen</span><span class="p">(</span><span class="s2">&quot;D:</span><span class="se">\t</span><span class="s2">mp\phpsid.txt&quot;</span><span class="p">,</span><span class="s2">&quot;r&quot;</span><span class="p">);</span>       <span class="c1">#打开文件</span>
-<span class="lineno">51</span>        <span class="nv">$sid</span><span class="o">=</span><span class="nb">fread</span><span class="p">(</span><span class="nv">$fp</span><span class="p">,</span><span class="mi">1024</span><span class="p">);</span>                 <span class="c1">#取出session id</span>
-<span class="lineno">52</span>        <span class="nb">fclose</span><span class="p">(</span><span class="nv">$fp</span><span class="p">);</span>                                <span class="c1">#关闭文件</span>
-<span class="lineno">53</span>        <span class="nb">session_id</span><span class="p">(</span><span class="nv">$sid</span><span class="p">);</span>                       <span class="c1">#设置session id</span>
-<span class="lineno">54</span>        <span class="nb">session_start</span><span class="p">();</span>                           <span class="c1">#开启session</span>
-<span class="lineno">55</span>        <span class="k">if</span><span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_SESSION</span><span class="p">[</span><span class="nx">’user’</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="nv">$_SESSION</span><span class="p">[</span><span class="nx">’user’</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;laigw&quot;</span> <span class="p">{</span>
-<span class="lineno">56</span>            <span class="k">echo</span> <span class="s2">&quot;已登录!&quot;</span><span class="p">;</span>
-<span class="lineno">57</span>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-<span class="lineno">58</span>            <span class="c1">//成功登录进行相关操作</span>
-<span class="lineno">59</span>            <span class="k">echo</span> <span class="s2">&quot;未登录，无权访问&quot;</span><span class="p">;</span>
-<span class="lineno">60</span>            <span class="k">echo</span> <span class="s2">&quot;请&lt;a href=&quot;</span><span class="nx">login</span><span class="o">.</span><span class="nx">html</span><span class="s2">&quot;&gt;登录&lt;/a&gt;后浏览&quot;</span><span class="p">;</span>
-<span class="lineno">61</span>            <span class="k">die</span><span class="p">();</span>
-<span class="lineno">62</span>        <span class="p">}</span>
-<span class="lineno">63</span>        <span class="cp">?&gt;</span><span class="x"></span>
-<span class="lineno">64</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span></code></pre></div>
+<p><strong>注意：对Apache实现了分流，但对Mysql，如何解决？同时，如何保证Apache，负载均衡器的高可用？</strong>
+高可用可以使用冗余技术实现，添加一个监控服务器软件：<strong>keepalive</strong></p>
 
-<p>同样请关闭Cookie测试，用户名：lalala；密码：lalala；这是通过文件保存Session ID的，文件是：D:/tmp/phpsid.txt，请根据自己的系统决定文件名或路径。 </p>
+<ul>
+<li><strong>大流量可以使用如下方案解决</strong></li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">1. 代码压缩 查看HTTP请求，Apache对主体数据进行压缩，开启Apache的deflate模块
+    &gt; http://blog.csdn.net/cctv_hu/article/details/6018942
+    &gt; http://www.webkaka.com/tutorial/server/2015/021013/
 
-<p>总结一下，上面的方法有一个共同点，就是在前一页取得Session ID，然后想办法传递到下一页，在下一页的session_start();代码之前加代码Session ID(传过来的Session ID)。</p>
+2. 合并文件，减少HTTP请求（js、 css），css图片背景的图片精灵(减少请求)
+    &gt; 合并工具： http://tool.oschina.net/jscompress?type=3
 
-<p>打完收工:p</p>
+3. 使用CDN技术加载静态资源
+    &gt; 加速CDN服务： http://www.bootcdn.cn/
 
+4. 将服务分散，图片服务器，电脑模块。将不同的模块部署到不同的服务器上面 (上传插件配置上传服务器地址)
+    &gt; PHP FTP 函数：http://www.w3school.com.cn/php/php_ref_ftp.asp
+
+5. 升级带宽(100M带宽一年40w左右)
+</code></pre></div>
+<ul>
+<li><strong>大数据可以使用缓存技术实现</strong></li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">1. 磁盘缓存（静态化）：
+    &gt; 1. 真静态：在效率上，生成真实的html文件，将数据从数据库取出之后，生成的静态html保存到磁盘上面，直接访问静态页面就好。不用访问数据库，减轻数据库的压力
+    &gt; 2. 伪静态：在形式上，利用Apache的重写模块来实现 动态的url 转换成静态的url，便于seo（搜索引擎优化），可以防止sql注入
+    例如：
+    动态网站：`http://www.php.com?new.php&amp;type=sport&amp;id=12`
+    对应的静态网站：`http://www.php.com?new-sport-id12.html`
+
+2. 内存缓存（Nosql技术，memcache、redis、mongodb）：将Mysql取出的数据保存在内存服务器里面，下次请求的时候直接访问内存服务器
+
+3. 数据库优化：
+
+    1. 设计上满足三范式 
+    2. 字段上使用合适的属性 
+    3. 合适的使用索引 
+    4. 分区和分表
+    5. 主从复制(读写分离)
+    6. 硬件升级（scale up、还有scale out）
+    7. sphinx存储引擎的使用
+</code></pre></div>
     </div>
     <hr>
     <div id="disqus_thread">

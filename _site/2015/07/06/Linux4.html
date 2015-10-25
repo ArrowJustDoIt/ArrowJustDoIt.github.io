@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-<title>Cookie禁用了，Session还能用吗？ | fantaster | 杨柳青</title>
+<title>Linux 4：磁盘与文件系统管理 | fantaster | 杨柳青</title>
 <meta name="author" content="fantaster">
 
 
@@ -369,151 +369,82 @@
             <div class="row">
   <div class="col-md-13 aside3-title">
     <br>
-    <h2 id="#identifier">Cookie禁用了，Session还能用吗？</h2>
-    2014年06月07日
+    <h2 id="#identifier">Linux 4：磁盘与文件系统管理</h2>
+    2015年07月06日
   </div>
   <div class="col-md-13 aside3-content">
     <hr>
     <div id="content">
-      <p>很必要的一个问题,因为有一部分童鞋觉得cookie不安全,于是就禁用cookie,结果session就哭了-,-</p>
+      <h3>认识EXT2文件系统</h3>
 
-<hr>
+<p>每种操作系统能够使用的文件系统并不相同。 举例来说，windows 98以前的微软操作系统主要利用的文件系统是<code>FAT(或FAT16)</code>，windows 2000以后的版本有所谓的<code>NTFS</code>文件系统，至于Linux的正统文件系统则为<code>Ext2</code>(Linux second extended file system, ext2fs)这一个。此外，在默认的情况下，windows操作系统是不会认识Linux的Ext2的。</p>
 
-<h3>session哭了</h3>
+<p>那么文件系统是如何运行的呢？这与操作系统的文件数据有关。较新的操作系统的文件数据除了文件实际内容外，通常含有非常多的属性，例如Linux操作系统的文件权限(rwx)与文件属性(拥有者、群组、时间参数等)。 文件系统通常会将这两部份的数据分别存放在不同的区块，权限与属性放置到<code>inode</code>中，至于实际数据则放置到<code>data block</code>区块中。 另外，还有一个超级区块(<code>superblock</code>)会记录整个文件系统的整体信息，包括inode与block的总量、使用量、剩余量等。</p>
 
-<p>　　Cookie与 Session，一般认为是两个独立的东西，Session采用的是在服务器端保持状态的方案，而Cookie采用的是在客户端保持状态的方案。但为什么禁用Cookie就不能得到Session呢？因为Session是用<code>Session ID</code>来确定当前对话所对应的服务器Session，而<code>Session ID是通过Cookie来传递</code>的，禁用Cookie相当于失去了Session ID，也就得不到Session了。</p>
+<h3>文件系统的简单操作</h3>
 
-<h3>session不哭,站起来撸</h3>
-
-<p>　　Session，储存于服务器端（默认以文件方式存储Session），<code>根据客户端提供的Session ID来得到用户的文件，取得变量的值</code>，Session ID可以使用客户端的Cookie或者Http1.1协议的Query_String（就是访问的URL的“?”后面的部分）来传送给服务器，然后服务器读取Session的目录……。也就是说，<code>Session ID是取得存储在服务上的Session变量的身份证</code>。</p>
-
-<p>　　当代码session<em>start();运行的时候，就在服务器上<code>产生了一个Session文件，随之也产生了与之唯一对应的一个Session ID</code>，定义Session变量以一定形式存储刚才产生的Session文件。通过Session ID，可以取出定义的变量。跨页后，为了使用Session，你必须又执行session</em>start();将<code>又会产生一个Session文件，与之对应产生相应的Session ID</code>，用这个session id是取不出前面提到的第一个Session文件中的变量的，因为这个Session ID不是打开它的“钥匙”。<code>如果在session_start();之前加代码session_id($session id);将不产生新的Session文件，直接读取与这个id对应的Session文件</code>。</p>
-
-<p>我们可以抛开Cookie使用Session，即假定用户关闭Cookie的情况下使用Session，其实现途径有以下几种：</p>
+<h3>磁盘的分割、格式化、检验与挂载</h3>
 
 <ul>
-<li>设置php.ini配置文件中的<code>session.use_trans_sid = 1</code>，或者编译时打开打开了<code>--enable-trans-sid</code>选项，让PHP自动跨页传递Session ID。</li>
+<li>磁盘分区： fdisk, partprobe</li>
+<li>磁盘格式化： mkfs, mke2fs</li>
+<li>磁盘检验： fsck, badblocks</li>
+<li>磁盘挂载与卸除： mount, umount</li>
+<li>磁盘参数修订： mknod, e2label, tune2fs, hdparm</li>
 </ul>
 
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="lineno"> 1</span> <span class="x">-------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno"> 2</span> <span class="x">       </span><span class="cp">&lt;?php</span>
-<span class="lineno"> 3</span>            <span class="c1">// s1.php</span>
-<span class="lineno"> 4</span>            <span class="nb">session_start</span><span class="p">();</span>
-<span class="lineno"> 5</span>            <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;lalala&#39;</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;papapa&quot;</span><span class="p">;</span>
-<span class="lineno"> 6</span>            <span class="nv">$url</span><span class="o">=</span><span class="s2">&quot;&lt;a href=&#39;s2.php&#39;&gt;下一页&lt;/a&gt;&quot;</span><span class="p">;</span>
-<span class="lineno"> 7</span>            <span class="k">echo</span> <span class="nv">$url</span><span class="p">;</span>
-<span class="lineno"> 8</span>        <span class="cp">?&gt;</span><span class="x"></span>
-<span class="lineno"> 9</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno">10</span> 
-<span class="lineno">11</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno">12</span> <span class="x">       </span><span class="cp">&lt;?php</span>
-<span class="lineno">13</span>            <span class="c1">// s2.php</span>
-<span class="lineno">14</span>            <span class="nb">session_start</span><span class="p">();</span>
-<span class="lineno">15</span>            <span class="k">echo</span> <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;lalala&#39;</span><span class="p">];</span>
-<span class="lineno">16</span>        <span class="cp">?&gt;</span><span class="x"></span>
-<span class="lineno">17</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span></code></pre></div>
-
-<p>运行以上代码，在客户端cookie正常的情况下，应该可以得到结果&quot;papapa&quot;。
-现在你手动关闭客户端的cookie，再运行，可能得不到结果了吧。如果得不到结果，再设置php.ini文件中的<code>session.use_trans_sid = 1</code>，或者编译时打开打开了<code>--enable-trans-sid选项</code>，又得到结果“papapa”。 </p>
+<h3>配置启动挂载</h3>
 
 <ul>
-<li>手动通过URL传值、隐藏表单传递Session ID。</li>
+<li>启动挂载 /etc/fstab 及 /etc/mtab</li>
+<li>特殊装置 loop 挂载(映象档不刻录就挂载使用)</li>
 </ul>
 
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="lineno"> 1</span> <span class="x">-------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno"> 2</span> <span class="x">       </span><span class="cp">&lt;?php</span>
-<span class="lineno"> 3</span>            <span class="c1">// s1.php</span>
-<span class="lineno"> 4</span>            <span class="nb">session_start</span><span class="p">();</span>
-<span class="lineno"> 5</span>            <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;lalala&#39;</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;papapa&quot;</span><span class="p">;</span>
-<span class="lineno"> 6</span>            <span class="nv">$sn</span> <span class="o">=</span> <span class="nb">session_id</span><span class="p">();</span>
-<span class="lineno"> 7</span>            <span class="nv">$url</span><span class="o">=</span><span class="s2">&quot;&lt;a href=&#39;s2.php?sn=&quot;</span><span class="o">.</span><span class="nv">$sn</span><span class="o">.</span><span class="s2">&quot;&#39;&gt;下一页&lt;/a&gt;&quot;</span><span class="p">;</span>
-<span class="lineno"> 8</span>            <span class="k">echo</span> <span class="nv">$url</span><span class="p">;</span>
-<span class="lineno"> 9</span>        <span class="cp">?&gt;</span><span class="x"></span>
-<span class="lineno">10</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno">11</span> 
-<span class="lineno">12</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno">13</span> <span class="x">       </span><span class="cp">&lt;?php</span>
-<span class="lineno">14</span>            <span class="c1">// s2.php</span>
-<span class="lineno">15</span>            <span class="nb">session_id</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;sn&#39;</span><span class="p">]);</span>
-<span class="lineno">16</span>            <span class="nb">session_start</span><span class="p">();</span>
-<span class="lineno">17</span>            <span class="k">echo</span> <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;lalala&#39;</span><span class="p">];</span>
-<span class="lineno">18</span>        <span class="cp">?&gt;</span><span class="x"> </span>
-<span class="lineno">19</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span></code></pre></div>
+<h3>内存置换空间(swap)之建置</h3>
 
 <ul>
-<li>用文件、数据库等形式保存Session ID，在跨页过程中手动调用。</li>
+<li>使用实体分割槽建置swap</li>
+<li>使用文件建置swap</li>
+<li>swap使用上的限制</li>
 </ul>
 
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="lineno"> 1</span> <span class="x">-------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno"> 2</span> <span class="x">       login.html</span>
-<span class="lineno"> 3</span> <span class="x">       &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt; </span>
-<span class="lineno"> 4</span> <span class="x">       &lt;html&gt; </span>
-<span class="lineno"> 5</span> <span class="x">       &lt;head&gt; </span>
-<span class="lineno"> 6</span> <span class="x">       &lt;title&gt;Login&lt;/title&gt; </span>
-<span class="lineno"> 7</span> <span class="x">       &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=gb2312&quot;&gt;</span>
-<span class="lineno"> 8</span> <span class="x">       &lt;/head&gt; </span>
-<span class="lineno"> 9</span> <span class="x">       &lt;body&gt; </span>
-<span class="lineno">10</span> <span class="x">       请登录： </span>
-<span class="lineno">11</span> <span class="x">       &lt;form name=&quot;login&quot; method=&quot;post&quot; action=&quot;mylogin1.php&quot;&gt; </span>
-<span class="lineno">12</span> <span class="x">       用户名:&lt;input type=&quot;text&quot; name=&quot;name&quot;&gt;&lt;br&gt; </span>
-<span class="lineno">13</span> <span class="x">       口　令:&lt;input type=&quot;password&quot; name=&quot;pass&quot;&gt;&lt;br&gt; </span>
-<span class="lineno">14</span> <span class="x">       &lt;input type=&quot;submit&quot; value=&quot;登录&quot;&gt; </span>
-<span class="lineno">15</span> <span class="x">       &lt;/form&gt; </span>
-<span class="lineno">16</span> <span class="x">       &lt;/body&gt; </span>
-<span class="lineno">17</span> <span class="x">       &lt;/html&gt; </span>
-<span class="lineno">18</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno">19</span> 
-<span class="lineno">20</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno">21</span> <span class="x">       mylogin1.php</span>
-<span class="lineno">22</span> <span class="x">       </span><span class="cp">&lt;?php</span>
-<span class="lineno">23</span>        <span class="nv">$name</span><span class="o">=</span><span class="nv">$_POST</span><span class="p">[</span><span class="nx">’name’</span><span class="p">];</span>
-<span class="lineno">24</span>        <span class="nv">$pass</span><span class="o">=</span><span class="nv">$_POST</span><span class="p">[</span><span class="nx">’pass’</span><span class="p">];</span>
-<span class="lineno">25</span>        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nv">$name</span> <span class="o">||</span> <span class="o">!</span><span class="nv">$pass</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno">26</span>            <span class="k">echo</span> <span class="s2">&quot;用户名或密码为空，请&lt;a href=&#39;login.html&#39;&gt;重新登录&lt;/a&gt;&quot;</span><span class="p">;</span>
-<span class="lineno">27</span>            <span class="k">die</span><span class="p">();</span>
-<span class="lineno">28</span>        <span class="p">}</span>
-<span class="lineno">29</span>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="nv">$name</span><span class="o">==</span><span class="s2">&quot;lalala&quot;</span> <span class="o">&amp;&amp;</span> <span class="nv">$pass</span><span class="o">==</span><span class="s2">&quot;papapa&quot;</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno">30</span>            <span class="k">echo</span> <span class="s2">&quot;用户名或密码不正确，请&lt;a href=&#39;login.html&#39;&gt;重新登录&lt;/a&gt;&quot;</span><span class="p">;</span> <span class="c1">#随便测试写,不要注意这些细节-,-</span>
-<span class="lineno">31</span>            <span class="k">die</span><span class="p">();</span>
-<span class="lineno">32</span>        <span class="p">}</span>
-<span class="lineno">33</span>        <span class="c1">//注册用户</span>
-<span class="lineno">34</span>        <span class="nb">ob_start</span><span class="p">();</span>                                <span class="c1">#ob缓存</span>
-<span class="lineno">35</span>        <span class="nb">session_start</span><span class="p">();</span>                           <span class="c1">#session开启</span>
-<span class="lineno">36</span>        <span class="nv">$_SESSION</span><span class="p">[</span><span class="nx">’user’</span><span class="p">]</span><span class="o">=</span> <span class="nv">$name</span><span class="p">;</span>             <span class="c1">#设置session</span>
-<span class="lineno">37</span>        <span class="nv">$psid</span><span class="o">=</span><span class="nb">session_id</span><span class="p">();</span>                     <span class="c1">#保存session id</span>
-<span class="lineno">38</span>        <span class="nv">$fp</span><span class="o">=</span><span class="nb">fopen</span><span class="p">(</span><span class="s2">&quot;D:</span><span class="se">\t</span><span class="s2">mp\phpsid.txt&quot;</span><span class="p">,</span><span class="s2">&quot;w+&quot;</span><span class="p">);</span>      <span class="c1">#打开文件</span>
-<span class="lineno">39</span>        <span class="nb">fwrite</span><span class="p">(</span><span class="nv">$fp</span><span class="p">,</span><span class="nv">$psid</span><span class="p">);</span>                       <span class="c1">#把session id写入文件</span>
-<span class="lineno">40</span>        <span class="nb">fclose</span><span class="p">(</span><span class="nv">$fp</span><span class="p">);</span>                                <span class="c1">#关闭文件</span>
-<span class="lineno">41</span>        <span class="c1">//身份验证成功，进行相关操作</span>
-<span class="lineno">42</span>        <span class="k">echo</span> <span class="s2">&quot;已登录&lt;br&gt;&quot;</span><span class="p">;</span>
-<span class="lineno">43</span>        <span class="k">echo</span> <span class="s2">&quot;&lt;a href=&#39;mylogin2.php&#39;&gt;下一页&lt;/a&gt;&quot;</span><span class="p">;</span>
-<span class="lineno">44</span>        <span class="cp">?&gt;</span><span class="x"></span>
-<span class="lineno">45</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno">46</span> 
-<span class="lineno">47</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span>
-<span class="lineno">48</span> <span class="x">       mylogin2.php</span>
-<span class="lineno">49</span> <span class="x">       </span><span class="cp">&lt;?php</span>
-<span class="lineno">50</span>        <span class="nv">$fp</span><span class="o">=</span><span class="nb">fopen</span><span class="p">(</span><span class="s2">&quot;D:</span><span class="se">\t</span><span class="s2">mp\phpsid.txt&quot;</span><span class="p">,</span><span class="s2">&quot;r&quot;</span><span class="p">);</span>       <span class="c1">#打开文件</span>
-<span class="lineno">51</span>        <span class="nv">$sid</span><span class="o">=</span><span class="nb">fread</span><span class="p">(</span><span class="nv">$fp</span><span class="p">,</span><span class="mi">1024</span><span class="p">);</span>                 <span class="c1">#取出session id</span>
-<span class="lineno">52</span>        <span class="nb">fclose</span><span class="p">(</span><span class="nv">$fp</span><span class="p">);</span>                                <span class="c1">#关闭文件</span>
-<span class="lineno">53</span>        <span class="nb">session_id</span><span class="p">(</span><span class="nv">$sid</span><span class="p">);</span>                       <span class="c1">#设置session id</span>
-<span class="lineno">54</span>        <span class="nb">session_start</span><span class="p">();</span>                           <span class="c1">#开启session</span>
-<span class="lineno">55</span>        <span class="k">if</span><span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_SESSION</span><span class="p">[</span><span class="nx">’user’</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="nv">$_SESSION</span><span class="p">[</span><span class="nx">’user’</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;laigw&quot;</span> <span class="p">{</span>
-<span class="lineno">56</span>            <span class="k">echo</span> <span class="s2">&quot;已登录!&quot;</span><span class="p">;</span>
-<span class="lineno">57</span>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-<span class="lineno">58</span>            <span class="c1">//成功登录进行相关操作</span>
-<span class="lineno">59</span>            <span class="k">echo</span> <span class="s2">&quot;未登录，无权访问&quot;</span><span class="p">;</span>
-<span class="lineno">60</span>            <span class="k">echo</span> <span class="s2">&quot;请&lt;a href=&quot;</span><span class="nx">login</span><span class="o">.</span><span class="nx">html</span><span class="s2">&quot;&gt;登录&lt;/a&gt;后浏览&quot;</span><span class="p">;</span>
-<span class="lineno">61</span>            <span class="k">die</span><span class="p">();</span>
-<span class="lineno">62</span>        <span class="p">}</span>
-<span class="lineno">63</span>        <span class="cp">?&gt;</span><span class="x"></span>
-<span class="lineno">64</span> <span class="x">       -------------------------------------------------------------------------------------------------------------------</span></code></pre></div>
+<h3>文件系统的特殊观察与操作</h3>
 
-<p>同样请关闭Cookie测试，用户名：lalala；密码：lalala；这是通过文件保存Session ID的，文件是：D:/tmp/phpsid.txt，请根据自己的系统决定文件名或路径。 </p>
+<ul>
+<li>boot sector 与 superblock 的关系</li>
+<li>磁盘空间之浪费问题</li>
+<li>利用 GNU 的 parted 进行分割行为</li>
+</ul>
 
-<p>总结一下，上面的方法有一个共同点，就是在前一页取得Session ID，然后想办法传递到下一页，在下一页的session_start();代码之前加代码Session ID(传过来的Session ID)。</p>
+<h3>重点回顾</h3>
 
-<p>打完收工:p</p>
+<ul>
+<li><p>基本上 Linux 的正统文件系统为 Ext2 ，该文件系统内的信息主要有：</p>
+
+<ul>
+<li>superblock：记录此 filesystem 的整体信息，包括inode/block的总量、使用量、剩余量， 以及文件系统的格式与相关信息等；</li>
+<li>inode：记录文件的属性，一个文件占用一个inode，同时记录此文件的数据所在的 block 号码；</li>
+<li>block：实际记录文件的内容，若文件太大时，会占用多个 block 。</li>
+</ul></li>
+<li><p>Ext2 文件系统的数据存取为索引式文件系统(indexed allocation)</p></li>
+<li><p>需要碎片整理的原因就是文件写入的 block 太过于离散了，此时文件读取的效能将会变的很差所致。 这个时候可以透过碎片整理将同一个文件所属的 blocks 汇整在一起。</p></li>
+<li><p>Ext2文件系统主要有：boot sector, superblock, inode bitmap, block bitmap, inode table, data block 等六大部分。</p></li>
+<li><p>data block 是用来放置文件内容数据地方，在 Ext2 文件系统中所支持的 block 大小有 1K, 2K 及 4K 三种而已</p></li>
+<li><p>inode 记录文件的属性/权限等数据，其他重要项目为： 每个 inode 大小均固定为 128 bytes； 每个文件都仅会占用一个 inode 而已； 因此文件系统能够创建的文件数量与 inode 的数量有关；</p></li>
+<li><p>文件的 block 在记录文件的实际数据，目录的 block 则在记录该目录底下文件名与其 inode 号码的对照表；</p></li>
+<li><p>日志式文件系统 (journal) 会多出一块记录区，随时记载文件系统的主要活动，可加快系统复原时间；</p></li>
+<li><p>Linux 文件系统为添加效能，会让主存储器作为大量的磁盘高速缓存；</p></li>
+<li><p>实体链接只是多了一个文件名对该 inode 号码的链接而已；</p></li>
+<li><p>符号链接就类似Windows的快捷方式功能。</p></li>
+<li><p>磁盘的使用必需要经过：分割、格式化与挂载，分别惯用的命令为：fdisk, mkfs, mount三个命令</p></li>
+<li><p>启动自动挂载可参考/etc/fstab之配置，配置完毕务必使用 mount -a 测试语法正确否；</p></li>
+</ul>
+
+<h3>参考资料</h3>
+
+<ul>
+<li><a href="http://vbird.dic.ksu.edu.tw/linux_basic/0230filesystem.php#harddisk">鸟哥的Linux私房菜 第八章</a></li>
+</ul>
 
     </div>
     <hr>

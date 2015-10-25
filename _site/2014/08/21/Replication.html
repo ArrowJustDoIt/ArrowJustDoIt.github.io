@@ -25,13 +25,13 @@
       <br><br><br><br>
       <ul class="nav nav-pills nav-stacked">
              <!-- 这里是aside1的读书、生活、科研、技术、绘画-->
-         <li><a href="#读书" data-toggle="tab">读书</a></li>
-             <!-- 这里是aside1的读书、生活、科研、技术、绘画-->
          <li><a href="#生活" data-toggle="tab">生活</a></li>
+             <!-- 这里是aside1的读书、生活、科研、技术、绘画-->
+         <li><a href="#php" data-toggle="tab">php</a></li>
              <!-- 这里是aside1的读书、生活、科研、技术、绘画-->
          <li><a href="#技术" data-toggle="tab">技术</a></li>
              <!-- 这里是aside1的读书、生活、科研、技术、绘画-->
-         <li><a href="#游记" data-toggle="tab">游记</a></li>
+         <li><a href="#linux" data-toggle="tab">linux</a></li>
         
         <li><a href="#tags" data-toggle="tab">标签</a></li>  
         <li><a class="pjaxlink" href="/pages/archive.html">归档</a></li>
@@ -45,7 +45,7 @@
         <table class="table table-condensed">
           <tr>
             <td><a href="/pages/atom.xml" target="_blank"><i class="fa fa-rss fa-lg" style="color:#fff;"></i></a></td>
-            <td><a href="mailto:arrowylq@foxmail.com"><i class="fa fa-envelope-o fa-lg" style="color:#fff;"></i></a></td>
+            <td><a href="mailto:arrowylq@outlook.com"><i class="fa fa-envelope-o fa-lg" style="color:#fff;"></i></a></td>
           </tr>
         </table>
       </div>
@@ -54,20 +54,24 @@
       <div class="row">
         <div class="tab-content"> 
            
-            <div class="tab-pane" id="读书">
-              <div class="list-group">
-                <!--<h2 class="center">读书</h2>-->     <!--原来aside2上面的大标题-->
-                
-                  <a href="/2010/01/01/Book-List-2010.html" class="list-group-item-lay pjaxlink">2010年阅读书单</a>
-                
-              </div>
-            </div>
-           
             <div class="tab-pane" id="生活">
               <div class="list-group">
                 <!--<h2 class="center">生活</h2>-->     <!--原来aside2上面的大标题-->
                 
                   <a href="/2013/12/31/Change.html" class="list-group-item-lay pjaxlink">改变</a>
+                
+              </div>
+            </div>
+           
+            <div class="tab-pane" id="php">
+              <div class="list-group">
+                <!--<h2 class="center">php</h2>-->     <!--原来aside2上面的大标题-->
+                
+                  <a href="/2015/08/01/http.html" class="list-group-item-lay pjaxlink">大型网站提速方案</a>
+                
+                  <a href="/2014/05/01/files-upload.html" class="list-group-item-lay pjaxlink">php文件上传</a>
+                
+                  <a href="/2014/04/22/Recursive-Traversal.html" class="list-group-item-lay pjaxlink">php递归遍历文件夹</a>
                 
               </div>
             </div>
@@ -90,18 +94,32 @@
                 
                   <a href="/2014/05/25/Cookie-and-Session.html" class="list-group-item-lay pjaxlink">Cookie与Session</a>
                 
-                  <a href="/2014/05/01/files-upload.html" class="list-group-item-lay pjaxlink">php文件上传</a>
-                
-                  <a href="/2014/04/22/Recursive-Traversal.html" class="list-group-item-lay pjaxlink">php递归遍历文件夹</a>
-                
               </div>
             </div>
            
-            <div class="tab-pane" id="游记">
+            <div class="tab-pane" id="linux">
               <div class="list-group">
-                <!--<h2 class="center">游记</h2>-->     <!--原来aside2上面的大标题-->
+                <!--<h2 class="center">linux</h2>-->     <!--原来aside2上面的大标题-->
                 
-                  <a href="/2015/10/01/foushan.html" class="list-group-item-lay pjaxlink">佛山</a>
+                  <a href="/2015/08/16/Linux%20-%20memcache.html" class="list-group-item-lay pjaxlink">memcache实现高可用方案</a>
+                
+                  <a href="/2015/07/06/Linux4.html" class="list-group-item-lay pjaxlink">Linux 4：磁盘与文件系统管理</a>
+                
+                  <a href="/2015/07/05/Linux3.html" class="list-group-item-lay pjaxlink">Linux 3：文件与目录管理</a>
+                
+                  <a href="/2015/07/04/Linux2.html" class="list-group-item-lay pjaxlink">Linux 2：文件权限与目录配置</a>
+                
+                  <a href="/2015/07/03/Linux.html" class="list-group-item-lay pjaxlink">Linux 1：登陆与在线求助man page</a>
+                
+                  <a href="/2015/07/02/Linux-Problems.html" class="list-group-item-lay pjaxlink">Linux 0：实际问题</a>
+                
+                  <a href="/2015/05/16/linux-redis.html" class="list-group-item-lay pjaxlink">Linux环境下redis的搭建</a>
+                
+                  <a href="/2015/03/25/linux-lamp.html" class="list-group-item-lay pjaxlink">lamp环境的搭建</a>
+                
+                  <a href="/2015/03/11/Lnmp.html" class="list-group-item-lay pjaxlink">Linux下 nginx安装 + php-fpm安装</a>
+                
+                  <a href="/2015/02/20/linux-php.html" class="list-group-item-lay pjaxlink">linux 环境下 php 扩展安装通用方法</a>
                 
               </div>
             </div>
@@ -209,6 +227,58 @@
                 <div class="panel panel-info">
                   <div class="panel-heading">
                     <h4 class="panel-title">
+                      <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#Linux、PHP">Linux、PHP</a>
+                      <span class="badge pull-right">1</span>
+                    </h4>
+                  </div>
+                  <div id="Linux、PHP" class="panel-collapse collapse">
+                    
+                      <a  href='/2015/02/20/linux-php.html' class="list-group-item pjaxlink">
+                        linux 环境下 php 扩展安装通用方法
+                      </a>
+                    
+                  </div>
+                </div>
+               
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#Linux">Linux</a>
+                      <span class="badge pull-right">6</span>
+                    </h4>
+                  </div>
+                  <div id="Linux" class="panel-collapse collapse">
+                    
+                      <a  href='/2015/07/06/Linux4.html' class="list-group-item pjaxlink">
+                        Linux 4：磁盘与文件系统管理
+                      </a>
+                    
+                      <a  href='/2015/07/05/Linux3.html' class="list-group-item pjaxlink">
+                        Linux 3：文件与目录管理
+                      </a>
+                    
+                      <a  href='/2015/07/04/Linux2.html' class="list-group-item pjaxlink">
+                        Linux 2：文件权限与目录配置
+                      </a>
+                    
+                      <a  href='/2015/07/03/Linux.html' class="list-group-item pjaxlink">
+                        Linux 1：登陆与在线求助man page
+                      </a>
+                    
+                      <a  href='/2015/07/02/Linux-Problems.html' class="list-group-item pjaxlink">
+                        Linux 0：实际问题
+                      </a>
+                    
+                      <a  href='/2015/03/11/Lnmp.html' class="list-group-item pjaxlink">
+                        Linux下 nginx安装 + php-fpm安装
+                      </a>
+                    
+                  </div>
+                </div>
+               
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
                       <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#前端">前端</a>
                       <span class="badge pull-right">1</span>
                     </h4>
@@ -225,14 +295,62 @@
                 <div class="panel panel-info">
                   <div class="panel-heading">
                     <h4 class="panel-title">
-                      <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#游记">游记</a>
+                      <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#Lamp">Lamp</a>
                       <span class="badge pull-right">1</span>
                     </h4>
                   </div>
-                  <div id="游记" class="panel-collapse collapse">
+                  <div id="Lamp" class="panel-collapse collapse">
                     
-                      <a  href='/2015/10/01/foushan.html' class="list-group-item pjaxlink">
-                        佛山
+                      <a  href='/2015/03/25/linux-lamp.html' class="list-group-item pjaxlink">
+                        lamp环境的搭建
+                      </a>
+                    
+                  </div>
+                </div>
+               
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#linux">linux</a>
+                      <span class="badge pull-right">1</span>
+                    </h4>
+                  </div>
+                  <div id="linux" class="panel-collapse collapse">
+                    
+                      <a  href='/2015/05/16/linux-redis.html' class="list-group-item pjaxlink">
+                        Linux环境下redis的搭建
+                      </a>
+                    
+                  </div>
+                </div>
+               
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#大型网站">大型网站</a>
+                      <span class="badge pull-right">1</span>
+                    </h4>
+                  </div>
+                  <div id="大型网站" class="panel-collapse collapse">
+                    
+                      <a  href='/2015/08/01/http.html' class="list-group-item pjaxlink">
+                        大型网站提速方案
+                      </a>
+                    
+                  </div>
+                </div>
+               
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#memcache">memcache</a>
+                      <span class="badge pull-right">1</span>
+                    </h4>
+                  </div>
+                  <div id="memcache" class="panel-collapse collapse">
+                    
+                      <a  href='/2015/08/16/Linux%20-%20memcache.html' class="list-group-item pjaxlink">
+                        memcache实现高可用方案
                       </a>
                     
                   </div>
@@ -436,7 +554,7 @@ server-id=2         #每台服务器id不能一样
 <script src="/public/js/jquery.scrollUp.js"></script>
 -->
 <script>
-    $('a[href="#技术"]').tab('show');
+    $('a[href="#linux"]').tab('show');
 </script>
 
 
