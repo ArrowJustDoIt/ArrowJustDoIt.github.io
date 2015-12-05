@@ -44,3 +44,7 @@ if($now - $time < 60){
 	$passtime = floor($sec / 3600) . '小时前';
 }
 {% endhighlight %}
+
+打完收工:P
+
+话说今天日子有点66666666666
