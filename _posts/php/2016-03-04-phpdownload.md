@@ -30,7 +30,7 @@ description:
     header("X-Sendfile: $file");
 {% endhighlight %}
 
-原文作者考虑到下载文件有可能有中文名,为了解决这个问题首先用`$_SERVER["HTTP_USER_AGENT"]`获取用户浏览器信息,然后用正则判断是ie还是火狐还是其他,并分别做处理,最后没有用`fread()`或者`file_get_contents()`是考虑到了:
+原文作者考虑到下载文件有可能有中文名,为了解决这个问题首先用`$_SERVER["HTTP_USER_AGENT"]`获取用户浏览器信息,再将中文名转码,然后用正则判断是ie还是火狐还是其他,并分别做处理,最后没有用`fread()`或者`file_get_contents()`是考虑到了:
 
 
 `输出的时候, 如果是Apache + PHP mod, 那么还需要发送到Apache的输出缓冲区. 最后才发送给用户. 而对于Nginx + fpm如果他们分开部署的话, 那还会带来额外的网络IO.
