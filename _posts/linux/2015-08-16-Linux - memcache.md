@@ -1,7 +1,7 @@
 ---
 layout: post
 title: memcache实现高可用方案
-category: linux
+category: Linux
 tags: memcache
 keywords: 
 description: 
