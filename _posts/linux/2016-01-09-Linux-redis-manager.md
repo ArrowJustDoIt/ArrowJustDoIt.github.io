@@ -30,10 +30,15 @@ description:
 ###安装redisdesktopmanager
 
 [redisdesktopmanager](http://redisdesktop.com/download)下载并安装运行,点击左下角connect to redis server,参数如下
+
 name:随意
+
 host:服务器的ip地址
+
 port:redis默认6379端口
+
 auth:刚才我们设置的密码
+
 点击ok就可以操控我们的redis数据库
 
 ###测试
