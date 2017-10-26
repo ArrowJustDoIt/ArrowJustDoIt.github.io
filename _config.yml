@@ -7,16 +7,17 @@ pygments: true
 author: 
   name: fantaster
   email: arrowylq@outlook.com
-  link: http://杨柳青一些事.中国
+  link: http://www.leesins.xyz/
   weibo: http://weibo.com/
   github: http://github.com/
   music: http://site.douban.com/
   linkedin: https://www.linkedin.com/
 
 # 站点信息
-title: fantaster | 杨柳青
+# title: fantaster | 杨柳青
+title: Arrow的代码之路
 description: My personal blog
-url: http://杨柳青一些事.中国
+url: http://www.leesins.xyz/
 rss_url: /pages/atom.xml
 
 # gavatar头像及Favicon
